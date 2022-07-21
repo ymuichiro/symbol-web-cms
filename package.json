@@ -1,0 +1,9 @@
+{
+  "name": "symbol-web",
+  "version": "0.0.1",
+  "description": "web site of symbol by community",
+  "main": "index.js",
+  "author": "yuichiro - frinker <47295014+ymuichiro@users.noreply.github.com>",
+  "license": "MIT",
+  "private": true
+}
