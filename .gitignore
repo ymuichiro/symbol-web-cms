@@ -12,8 +12,11 @@ node_modules
 /coverage
 
 # next.js
-/.next/
+.next
 /out/
+sw.js
+sw.js.map
+workbox-*
 
 # production
 /build
