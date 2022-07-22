@@ -21,11 +21,11 @@ function MyApp({ Component, pageProps }: AppProps) {
   return (
     <React.Fragment>
       <StyledEngineProvider injectFirst>
-        <CssBaseline>
-          <ThemeProvider theme={theme}>
+        <ThemeProvider theme={theme}>
+          <CssBaseline>
             <Component {...pageProps} />
-          </ThemeProvider>
-        </CssBaseline>
+          </CssBaseline>
+        </ThemeProvider>
       </StyledEngineProvider>
     </React.Fragment>
   );

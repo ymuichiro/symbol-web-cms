@@ -1,6 +1,7 @@
 import React from "react";
 import Document, { Html, Head, Main, NextScript } from "next/document";
 import { ServerStyleSheets } from "@mui/styles";
+import CssBaseline from "@mui/material/CssBaseline";
 
 export default class MyDocument extends Document {
   render() {
