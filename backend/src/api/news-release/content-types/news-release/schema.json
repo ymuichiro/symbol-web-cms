@@ -1,0 +1,21 @@
+{
+  "kind": "collectionType",
+  "collectionName": "news_releases",
+  "info": {
+    "singularName": "news-release",
+    "pluralName": "news-releases",
+    "displayName": "News release"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "title": {
+      "type": "string"
+    },
+    "body": {
+      "type": "richtext"
+    }
+  }
+}

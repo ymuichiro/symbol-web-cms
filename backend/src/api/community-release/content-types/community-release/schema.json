@@ -1,0 +1,21 @@
+{
+  "kind": "collectionType",
+  "collectionName": "community_releases",
+  "info": {
+    "singularName": "community-release",
+    "pluralName": "community-releases",
+    "displayName": "Community Release"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "title": {
+      "type": "string"
+    },
+    "body": {
+      "type": "richtext"
+    }
+  }
+}
