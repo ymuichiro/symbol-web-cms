@@ -110,9 +110,9 @@ export default function Header() {
               <IconButton
                 size="large"
                 edge="start"
-                color="inherit"
                 aria-label="menu"
                 onClick={() => setOpen(!open)}
+                style={{ color: "black" }}
               >
                 <MenuIcon />
               </IconButton>

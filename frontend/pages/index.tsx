@@ -21,7 +21,11 @@ const Home: NextPage = () => {
       <Header />
       <div
         style={{
-          backgroundColor: theme.palette.grey["900"],
+          backgroundImage: "url('/assets/img/header-background.png')",
+          backgroundRepeat: "no-repeat",
+          backgroundSize: "cover",
+          WebkitMaskImage:
+            "linear-gradient(rgb(0,0,0),rgb(0,0,0),rgb(0,0,0),rgba(0,0,0,0))",
         }}
       >
         <Toolbar />
@@ -32,7 +36,7 @@ const Home: NextPage = () => {
               xs={12}
               md={6}
               style={{
-                height: matches ? "30vh" : "60vh",
+                height: matches ? "30vh" : "70vh",
                 display: "flex",
                 alignItems: matches ? "flex-end" : "center",
               }}
@@ -40,20 +44,21 @@ const Home: NextPage = () => {
               <div style={{ width: "100%" }}>
                 <Typography
                   color="white"
-                  variant="body1"
-                  align={matches ? "center" : "left"}
-                >
-                  NPO法人 NEM技術普及推進会
-                </Typography>
-                <br />
-                <Typography
-                  color="white"
                   variant="h1"
                   fontWeight={"bold"}
                   align={matches ? "center" : "left"}
                   style={{ fontSize: "2em" }}
                 >
-                  NEMTUS
+                  Welcom to Symbol & NEM
+                </Typography>
+                <br />
+                <Typography
+                  color="white"
+                  variant="body1"
+                  fontWeight={"bold"}
+                  align={matches ? "center" : "left"}
+                >
+                  個人に力を与える、Symbolブロックチェーン
                 </Typography>
               </div>
             </Grid>
@@ -69,101 +74,16 @@ const Home: NextPage = () => {
                 paddingBottom: "100px",
               }}
             >
-              <img src={"/vercel.svg"} height="200px" width="200px" />
+              <img
+                src={"/assets/img/symbol-logo-white.png"}
+                height="200px"
+                width="200px"
+              />
             </Grid>
           </Grid>
         </Container>
       </div>
-      <Container maxWidth="md" style={{ position: "relative", top: "-50px" }}>
-        <Card
-          style={{
-            backgroundColor: "rgba(255,255,255,0.8)",
-            backdropFilter: "saturate(200%) blur(30px)",
-          }}
-        >
-          <CardContent>
-            <Typography
-              color="primary"
-              align="center"
-              variant="h4"
-              fontWeight="bold"
-              textAlign="left"
-              style={{ paddingTop: "50px", paddingBottom: "50px" }}
-            >
-              Message 1
-            </Typography>
-            <Container maxWidth="sm">
-              <Typography align="left" style={{ paddingBottom: "50px" }}>
-                message message
-              </Typography>
-            </Container>
-          </CardContent>
-          <CardContent>
-            <Typography
-              color="primary"
-              align="center"
-              variant="h4"
-              fontWeight="bold"
-              textAlign="center"
-              style={{ paddingTop: "50px", paddingBottom: "50px" }}
-            >
-              What's New
-            </Typography>
-          </CardContent>
-          <CardContent>
-            <Grid container spacing={5}>
-              {[
-                {
-                  title:
-                    "「NEMTUS Hackathon Hack+2022 受賞式 in XYMCity」開催のお知らせ",
-                  image: "/vercel.svg",
-                  desc: "「NEMTUS Hackathon Hack+2022」のアフターイベント開催が決定したのでお知らせします。会場はオンライン、Cluster × Discordでライブ配信します！",
-                },
-                {
-                  title:
-                    "「NEMTUS Hackathon Hack+2022 受賞式 in XYMCity」開催のお知らせ",
-                  image: "/vercel.svg",
-                  desc: "「NEMTUS Hackathon Hack+2022」のアフターイベント開催が決定したのでお知らせします。会場はオンライン、Cluster × Discordでライブ配信します！",
-                },
-                {
-                  title:
-                    "「NEMTUS Hackathon Hack+2022 受賞式 in XYMCity」開催のお知らせ",
-                  image: "/vercel.svg",
-                  desc: "「NEMTUS Hackathon Hack+2022」のアフターイベント開催が決定したのでお知らせします。会場はオンライン、Cluster × Discordでライブ配信します！",
-                },
-                {
-                  title:
-                    "「NEMTUS Hackathon Hack+2022 受賞式 in XYMCity」開催のお知らせ",
-                  image: "/vercel.svg",
-                  desc: "「NEMTUS Hackathon Hack+2022」のアフターイベント開催が決定したのでお知らせします。会場はオンライン、Cluster × Discordでライブ配信します！",
-                },
-              ].map((item, index) => (
-                <Grid item key={index} xs={12} sm={12} md={6}>
-                  <Card>
-                    <CardMedia
-                      component="img"
-                      height="280"
-                      image={item.image}
-                    />
-                    <CardContent>
-                      <Typography gutterBottom variant="h5" component="div">
-                        {item.title}
-                      </Typography>
-                      <Typography variant="body2" color="text.secondary">
-                        {item.desc}
-                      </Typography>
-                    </CardContent>
-                    <CardActions>
-                      <Button size="small">Share</Button>
-                      <Button size="small">Learn More</Button>
-                    </CardActions>
-                  </Card>
-                </Grid>
-              ))}
-            </Grid>
-          </CardContent>
-        </Card>
-      </Container>
+      <Container maxWidth="md">{/* contents */}</Container>
     </div>
   );
 };
