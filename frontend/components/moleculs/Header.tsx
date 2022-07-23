@@ -24,101 +24,101 @@ export default function Header() {
       <div
         style={{
           width: "100%",
-          position: "fixed",
+          position: "sticky",
           display: "flex",
           justifyContent: "center",
-          paddingTop: "20px",
           zIndex: theme.zIndex.appBar,
+          top: "20px",
         }}
       >
-        <Container
+        {/* <Container
           maxWidth="md"
           style={{
             position: "absolute",
           }}
+        > */}
+        <AppBar
+          position="absolute"
+          style={{
+            backgroundColor: "rgba(255,255,255,0.8)",
+            color: theme.palette.text.primary,
+            borderRadius: "10px",
+            width: "calc(100% - 48px)",
+            left: 0,
+            right: 0,
+            margin: "auto",
+          }}
         >
-          <AppBar
-            position="absolute"
-            style={{
-              backgroundColor: "rgba(255,255,255,0.8)",
-              color: theme.palette.text.primary,
-              borderRadius: "10px",
-              width: "calc(100% - 48px)",
-              left: 0,
-              right: 0,
-              margin: "auto",
-            }}
-          >
-            <Toolbar>
-              <div style={{ flexGrow: 1 }}>
-                <Image
-                  src={SymbolLogo}
-                  height={35}
-                  width={155}
-                  alt="Symbol-Logo"
-                />
-              </div>
-              {matches || (
-                <div
+          <Toolbar>
+            <div style={{ flexGrow: 1 }}>
+              <Image
+                src={SymbolLogo}
+                height={35}
+                width={155}
+                alt="Symbol-Logo"
+              />
+            </div>
+            {matches || (
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                  gap: "20px",
+                  marginRight: "40px",
+                }}
+              >
+                <Button
+                  variant="text"
                   style={{
-                    display: "flex",
-                    flexDirection: "row",
-                    justifyContent: "space-between",
-                    gap: "20px",
-                    marginRight: "40px",
+                    color: "black",
+                    fontWeight: "bold",
                   }}
                 >
-                  <Button
-                    variant="text"
-                    style={{
-                      color: "black",
-                      fontWeight: "bold",
-                    }}
-                  >
-                    TOP
-                  </Button>
-                  <Button
-                    variant="text"
-                    style={{
-                      color: "black",
-                      fontWeight: "bold",
-                    }}
-                  >
-                    NEWS
-                  </Button>
-                  <Button
-                    variant="text"
-                    style={{
-                      color: "black",
-                      fontWeight: "bold",
-                    }}
-                  >
-                    Community
-                  </Button>
-                  <Button
-                    variant="text"
-                    style={{
-                      color: "black",
-                      fontWeight: "bold",
-                    }}
-                  >
-                    Docs
-                  </Button>
-                </div>
-              )}
+                  TOP
+                </Button>
+                <Button
+                  variant="text"
+                  style={{
+                    color: "black",
+                    fontWeight: "bold",
+                  }}
+                >
+                  NEWS
+                </Button>
+                <Button
+                  variant="text"
+                  style={{
+                    color: "black",
+                    fontWeight: "bold",
+                  }}
+                >
+                  Community
+                </Button>
+                <Button
+                  variant="text"
+                  style={{
+                    color: "black",
+                    fontWeight: "bold",
+                  }}
+                >
+                  Docs
+                </Button>
+              </div>
+            )}
 
-              <IconButton
-                size="large"
-                edge="start"
-                aria-label="menu"
-                onClick={() => setOpen(!open)}
-                style={{ color: "black" }}
-              >
-                <MenuIcon />
-              </IconButton>
-            </Toolbar>
-          </AppBar>
-        </Container>
+            <IconButton
+              size="large"
+              edge="start"
+              aria-label="menu"
+              onClick={() => setOpen(!open)}
+              style={{ color: "black" }}
+            >
+              <MenuIcon />
+            </IconButton>
+          </Toolbar>
+        </AppBar>
+        {/* </Container> */}
       </div>
       <Drawer anchor={"left"} open={open} onClose={() => setOpen(!open)}>
         <List>
