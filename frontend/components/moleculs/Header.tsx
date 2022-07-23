@@ -1,78 +1,63 @@
-import React from "react";
-import AppBar from "@mui/material/AppBar";
-import Toolbar from "@mui/material/Toolbar";
-import IconButton from "@mui/material/IconButton";
-import List from "@mui/material/List";
-import ListItemButton from "@mui/material/ListItemButton";
-import ListItemText from "@mui/material/ListItemText";
-import MenuIcon from "@mui/icons-material/Menu";
-import { useTheme } from "@mui/material/styles";
-import Drawer from "@mui/material/Drawer";
-import Container from "@mui/material/Container";
-import Button from "@mui/material/Button";
-import useMediaQuery from "@mui/material/useMediaQuery";
-import Image from "next/image";
-import SymbolLogo from "../../public/assets/img/symbol-logo-with-dark-text.png";
+import React from 'react';
+import AppBar from '@mui/material/AppBar';
+import Toolbar from '@mui/material/Toolbar';
+import IconButton from '@mui/material/IconButton';
+import List from '@mui/material/List';
+import ListItemButton from '@mui/material/ListItemButton';
+import ListItemText from '@mui/material/ListItemText';
+import MenuIcon from '@mui/icons-material/Menu';
+import { useTheme } from '@mui/material/styles';
+import Drawer from '@mui/material/Drawer';
+import Container from '@mui/material/Container';
+import Button from '@mui/material/Button';
+import useMediaQuery from '@mui/material/useMediaQuery';
+import Image from 'next/image';
+import SymbolLogo from '../../public/assets/img/symbol-logo-with-dark-text.png';
 
 export default function Header() {
   const theme = useTheme();
   const [open, setOpen] = React.useState<boolean>(false);
-  const matches = useMediaQuery(theme.breakpoints.between("xs", "md"));
+  const matches = useMediaQuery(theme.breakpoints.between('xs', 'md'));
 
   return (
     <React.Fragment>
       <div
         style={{
-          width: "100%",
-          position: "sticky",
-          display: "flex",
-          justifyContent: "center",
+          width: '100%',
+          position: 'sticky',
+          display: 'flex',
+          justifyContent: 'center',
           zIndex: theme.zIndex.appBar,
-          top: "20px",
+          top: '20px',
         }}
       >
-        {/* <Container
-          maxWidth="md"
-          style={{
-            position: "absolute",
-          }}
-        > */}
         <AppBar
           position="absolute"
           style={{
-            backgroundColor: "rgba(255,255,255,0.8)",
+            backgroundColor: 'rgba(255,255,255,0.8)',
             color: theme.palette.text.primary,
-            borderRadius: "10px",
-            width: "calc(100% - 48px)",
-            left: 0,
-            right: 0,
-            margin: "auto",
+            borderRadius: '10px',
           }}
         >
           <Toolbar>
             <div style={{ flexGrow: 1 }}>
-              <Image
-                src={SymbolLogo}
-                height={35}
-                width={155}
-                alt="Symbol-Logo"
-              />
+              <Image src={SymbolLogo} height={35} width={155} alt="Symbol-Logo" />
             </div>
             {matches || (
               <div
                 style={{
-                  display: "flex",
-                  flexDirection: "row",
-                  justifyContent: "space-between",
-                  gap: "20px",
-                  marginRight: "40px",
+                  display: 'flex',
+                  flexDirection: 'row',
+                  justifyContent: 'space-between',
+                  gap: '20px',
+                  marginRight: '40px',
                 }}
               >
                 <Button
                   variant="text"
                   style={{
-                    color: "black",
-                    fontWeight: "bold",
+                    color: 'black',
+                    fontWeight: 'bold',
                   }}
                 >
                   TOP
@@ -80,8 +65,8 @@ export default function Header() {
                 <Button
                   variant="text"
                   style={{
-                    color: "black",
-                    fontWeight: "bold",
+                    color: 'black',
+                    fontWeight: 'bold',
                   }}
                 >
                   NEWS
@@ -89,8 +74,8 @@ export default function Header() {
                 <Button
                   variant="text"
                   style={{
-                    color: "black",
-                    fontWeight: "bold",
+                    color: 'black',
+                    fontWeight: 'bold',
                   }}
                 >
                   Community
@@ -98,8 +83,8 @@ export default function Header() {
                 <Button
                   variant="text"
                   style={{
-                    color: "black",
-                    fontWeight: "bold",
+                    color: 'black',
+                    fontWeight: 'bold',
                   }}
                 >
                   Docs
@@ -112,22 +97,17 @@ export default function Header() {
               edge="start"
               aria-label="menu"
               onClick={() => setOpen(!open)}
-              style={{ color: "black" }}
+              style={{ color: 'black' }}
             >
               <MenuIcon />
             </IconButton>
           </Toolbar>
         </AppBar>
-        {/* </Container> */}
       </div>
-      <Drawer anchor={"left"} open={open} onClose={() => setOpen(!open)}>
+      <Drawer anchor={'left'} open={open} onClose={() => setOpen(!open)}>
         <List>
-          {["Home", "News", "Community", "Documents"].map((item, index) => (
-            <ListItemButton
-              key={index}
-              divider
-              style={{ width: "70vh", maxWidth: "300px" }}
-            >
+          {['Home', 'News', 'Community', 'Documents'].map((item, index) => (
+            <ListItemButton key={index} divider style={{ width: '70vh', maxWidth: '300px' }}>
               <ListItemText primary={item} />
             </ListItemButton>
           ))}
