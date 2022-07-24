@@ -11,7 +11,9 @@ import Typography from '@mui/material/Typography';
 import MediaCardWide from '../components/moleculs/MediaCardWide';
 import MediaCard from '../components/moleculs/MediaCard';
 import strapi from '../service/StrapiService';
-import Card from '@mui/material/Card';
+import Footer from '../components/moleculs/Footer';
+import Image from 'next/image';
+import SymbolExplorerImage from '../public/assets/img/symbol-explorer.png';
 
 const Home: NextPage = () => {
   const theme = useTheme();
@@ -29,8 +31,8 @@ const Home: NextPage = () => {
   }, []);
 
   return (
-    <div style={{ marginBottom: '20vh' }}>
-      <Container maxWidth="md" style={{ height: '100%' }}>
+    <div style={{ marginBottom: '5vh' }}>
+      <Container maxWidth="lg" style={{ height: '100%' }}>
         <Header />
         {/* ヘッダーセクション */}
         <section>
@@ -171,13 +173,29 @@ const Home: NextPage = () => {
               <Typography variant="h5" align="center" fontWeight="bold">
                 Symbol Explorer
               </Typography>
+              <Typography variant="body1" align="center">
+                Transactionを確認する
+              </Typography>
             </Grid>
             <Grid item xs={12} md={9} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-              <img src={'/assets/img/symbol-logo-white.png'} height="200px" width="200px" />
+              <Image
+                src={SymbolExplorerImage}
+                height={677}
+                width={1200}
+                alt="Symbol-Explorer"
+                style={{
+                  borderRadius: '10px',
+                  marginTop: '5px',
+                  filter: 'brightness(150%) contrast(110%)',
+                }}
+              />
             </Grid>
           </Grid>
         </section>
-        {/* TODO:Footer */}
+        {/* Footer */}
+        <section>
+          <Footer />
+        </section>
       </Container>
     </div>
   );
