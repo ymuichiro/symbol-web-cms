@@ -14,6 +14,7 @@ import strapi from '../service/StrapiService';
 import Footer from '../components/moleculs/Footer';
 import Image from 'next/image';
 import SymbolExplorerImage from '../public/assets/img/symbol-explorer.png';
+import SymbolLogoWhiteImagee from '../public/assets/img/symbol-logo-white.png';
 
 const Home: NextPage = () => {
   const theme = useTheme();
@@ -82,7 +83,7 @@ const Home: NextPage = () => {
                 </Typography>
               </Grid>
               <Grid item xs={12} md={6} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                <img src={'/assets/img/symbol-logo-white.png'} height="200px" width="200px" />
+                <Image src={SymbolLogoWhiteImagee} alt="Symbol-Logo-White" height="200px" width="200px" />
               </Grid>
             </Grid>
           </div>
@@ -112,13 +113,12 @@ const Home: NextPage = () => {
           <Grid container spacing={5}>
             {news.map((n, i) => {
               return (
-                <Grid item xs={12} sm={6}>
+                <Grid item xs={12} sm={6} key={i}>
                   <MediaCard
                     title={n.attributes.title}
                     description={n.attributes.body}
                     date={n.attributes.publishedAt}
                     image="/assets/img/symbol-logo-white.png"
-                    key={i}
                   />
                 </Grid>
               );
@@ -134,7 +134,7 @@ const Home: NextPage = () => {
               </Typography>
             </Grid>
             <Grid item xs={12} md={6} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-              <img src={'/assets/img/symbol-logo-white.png'} height="200px" width="200px" />
+              <Image src={SymbolLogoWhiteImagee} alt="Symbol-Logo-White" height="200px" width="200px" />
             </Grid>
             <Grid item xs={12}>
               <div style={{ height: '10px' }} />
