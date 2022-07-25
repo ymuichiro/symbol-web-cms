@@ -12,11 +12,20 @@ import Button from '@mui/material/Button';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import Image from 'next/image';
 import SymbolLogo from '../../public/assets/img/symbol-logo-with-dark-text.png';
+import { useRouter } from 'next/router';
+
+const SITELINKS = [
+  { title: 'Top', link: '/' },
+  { title: 'News', link: '/news' },
+  { title: 'Community', link: '/community' },
+  { title: 'Docs', link: '/docs' },
+];
 
 export default function Header() {
   const theme = useTheme();
   const [open, setOpen] = React.useState<boolean>(false);
   const matches = useMediaQuery(theme.breakpoints.between('xs', 'md'));
+  const router = useRouter();
 
   return (
     <React.Fragment>
@@ -39,8 +48,8 @@ export default function Header() {
           }}
         >
           <Toolbar>
-            <div style={{ flexGrow: 1 }}>
-              <Image src={SymbolLogo} height={35} width={155} alt="Symbol-Logo" />
+            <div style={{ flexGrow: 1, display: 'flex', justifyContent: 'flex-start', alignItems: 'center' }}>
+              <Image src={SymbolLogo} height={35} width={155} alt="Symbol-Logo" onClick={() => router.push('/')} />
             </div>
             {matches || (
               <div
@@ -52,42 +61,19 @@ export default function Header() {
                   marginRight: '40px',
                 }}
               >
-                <Button
-                  variant="text"
-                  style={{
-                    color: 'black',
-                    fontWeight: 'bold',
-                  }}
-                >
-                  TOP
-                </Button>
-                <Button
-                  variant="text"
-                  style={{
-                    color: 'black',
-                    fontWeight: 'bold',
-                  }}
-                >
-                  NEWS
-                </Button>
-                <Button
-                  variant="text"
-                  style={{
-                    color: 'black',
-                    fontWeight: 'bold',
-                  }}
-                >
-                  Community
-                </Button>
-                <Button
-                  variant="text"
-                  style={{
-                    color: 'black',
-                    fontWeight: 'bold',
-                  }}
-                >
-                  Docs
-                </Button>
+                {SITELINKS.map((item, index) => (
+                  <Button
+                    variant="text"
+                    key={index}
+                    onClick={() => router.push(item.link)}
+                    style={{
+                      color: 'black',
+                      fontWeight: 'bold',
+                    }}
+                  >
+                    {item.title}
+                  </Button>
+                ))}
               </div>
             )}
 
@@ -105,9 +91,14 @@ export default function Header() {
       </div>
       <Drawer anchor={'left'} open={open} onClose={() => setOpen(!open)}>
         <List>
-          {['Home', 'News', 'Community', 'Documents'].map((item, index) => (
-            <ListItemButton key={index} divider style={{ width: '70vh', maxWidth: '300px' }}>
-              <ListItemText primary={item} />
+          {SITELINKS.map((item, index) => (
+            <ListItemButton
+              key={index}
+              divider
+              style={{ width: '70vh', maxWidth: '300px' }}
+              onClick={() => router.push(item.link)}
+            >
+              <ListItemText primary={item.title} />
             </ListItemButton>
           ))}
         </List>

@@ -1,5 +1,4 @@
 import type { NextPage } from 'next';
-import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { useTheme } from '@mui/material/styles';
 import { NewsReleaseFindResponse } from '../model/StrapiMode';
@@ -20,7 +19,6 @@ const Home: NextPage = () => {
   const theme = useTheme();
   const matches = useMediaQuery(theme.breakpoints.between('xs', 'md'));
   const [news, setNews] = useState<NewsReleaseFindResponse['data']>([]);
-  // const router = useRouter();
 
   // ページの起動時にニュースを取得する
   useEffect(() => {
