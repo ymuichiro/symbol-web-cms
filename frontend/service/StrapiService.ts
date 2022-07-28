@@ -9,6 +9,7 @@ import {
   CommunityReleaseFindResponse,
   DocumentFindOneResponse,
   DocumentFindResponse,
+  LocalesResponse,
   NewsReleaseFindOneResponse,
   NewsReleaseFindResponse,
 } from '../model/StrapiMode';
@@ -23,6 +24,13 @@ function generateEndpoint(...path: string[]) {
 // TODO: フィルター処理の実装をそのうち
 
 export default class StrapiService {
+  static async getLocales(): Promise<LocalesResponse[]> {
+    const ep = generateEndpoint('api', 'i18n', 'locales');
+    const response = await fetch(ep, { method: 'GET' });
+    const json = await response.json();
+    return json;
+  }
+
   static async findNewsRelease(): Promise<NewsReleaseFindResponse> {
     const ep = generateEndpoint('api', 'news-releases');
     const response = await fetch(ep, { method: 'GET' });
