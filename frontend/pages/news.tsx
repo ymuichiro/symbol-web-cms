@@ -5,17 +5,18 @@
 */
 import type { NextPage } from 'next';
 import { useTheme } from '@mui/material/styles';
-import Header from '../components/moleculs/Header';
-import Footer from '../components/moleculs/Footer';
-import Container from '@mui/material/Container';
 import { Toolbar } from '../components/atom/Toolbar';
 import { Select } from '../components/atom/Select';
 import { useEffect, useState } from 'react';
-import strapi from '../service/StrapiService';
 import { PageTitle } from '../components/atom/Titles';
+import { NewsReleaseFindResponse } from '../model/StrapiMode';
+import Header from '../components/moleculs/Header';
+import Footer from '../components/moleculs/Footer';
+import Container from '@mui/material/Container';
+import strapi from '../service/StrapiService';
 import MediaCard from '../components/moleculs/MediaCard';
 import Grid from '@mui/material/Grid';
-import { NewsReleaseFindResponse } from '../model/StrapiMode';
+import { useRouter } from 'next/router';
 
 const YEAR = ['2022年'];
 
@@ -23,6 +24,7 @@ const News: NextPage = () => {
   const theme = useTheme();
   const [year, setYear] = useState<string>(`${new Date().getFullYear().toString()}年`);
   const [news, setNews] = useState<NewsReleaseFindResponse['data']>([]);
+  const router = useRouter();
 
   // ページの起動時にニュースを取得する
   useEffect(() => {
@@ -63,6 +65,7 @@ const News: NextPage = () => {
                 description={item.attributes.body}
                 date={item.attributes.publishedAt}
                 image="/assets/img/symbol-logo-white.png"
+                onClickLink={() => router.push('/news/' + item.id)}
               />
             </Grid>
           ))}
