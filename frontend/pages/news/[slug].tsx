@@ -14,18 +14,15 @@ import { NewsReleaseFindOneResponse } from '../../model/StrapiMode';
 import { Toolbar } from '../../components/atom/Toolbar';
 import Container from '@mui/material/Container';
 import { PageTitle } from '../../components/atom/Titles';
-import Grid from '@mui/material/Grid';
 import { useRouter } from 'next/router';
 import Typography from '@mui/material/Typography';
-import Image from 'next/image';
-import Link from 'next/link';
-import CodeBlock from '../../components/atom/CodeBlock';
 import UtilService from '../../service/UtilService';
 import MarkdownParser from '../../components/moleculs/MarkdownParser';
 
+// TODO: 日本語/英語を判定して取得する記事を変更する事。 Strapi 側 DB の構成も各言語版をまとめて、該当言語が空の場合は英語版を返す仕様へ
+
 const NewsArticle: NextPage = (args: any) => {
   const theme = useTheme();
-  const matches = useMediaQuery(theme.breakpoints.between('xs', 'md'));
   const [news, setNews] = useState<NewsReleaseFindOneResponse['data'] | null>(null);
   const router = useRouter();
   const query = router.query;
