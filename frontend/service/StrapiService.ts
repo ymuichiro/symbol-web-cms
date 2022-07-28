@@ -12,7 +12,7 @@ import {
   LocalesResponse,
   NewsReleaseFindOneResponse,
   NewsReleaseFindResponse,
-} from '../model/StrapiMode';
+} from '../model/StrapiModel';
 
 function generateEndpoint(...path: string[]) {
   const u = new URL(location.origin);

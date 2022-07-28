@@ -8,9 +8,9 @@ import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import Header from '../../components/moleculs/Header';
 import Footer from '../../components/moleculs/Footer';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import strapi from '../../service/StrapiService';
-import { NewsReleaseFindOneResponse } from '../../model/StrapiMode';
+import { NewsReleaseFindOneResponse } from '../../model/StrapiModel';
 import { Toolbar } from '../../components/atom/Toolbar';
 import Container from '@mui/material/Container';
 import { PageTitle } from '../../components/atom/Titles';
@@ -18,6 +18,7 @@ import { useRouter } from 'next/router';
 import Typography from '@mui/material/Typography';
 import UtilService from '../../service/UtilService';
 import MarkdownParser from '../../components/moleculs/MarkdownParser';
+import { SystemContext } from '../../context';
 
 // TODO: 日本語/英語を判定して取得する記事を変更する事。 Strapi 側 DB の構成も各言語版をまとめて、該当言語が空の場合は英語版を返す仕様へ
 
@@ -26,6 +27,7 @@ const NewsArticle: NextPage = (args: any) => {
   const [news, setNews] = useState<NewsReleaseFindOneResponse['data'] | null>(null);
   const router = useRouter();
   const query = router.query;
+  const { contextState, updateContext } = useContext(SystemContext);
 
   // ページの起動時にニュースを取得する
   useEffect(() => {
