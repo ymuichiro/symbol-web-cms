@@ -34,6 +34,13 @@ https://www.figma.com/file/yQ4fCXp5obc6VEIeWrZsGw/Symbol?node-id=2%3A6
 https://drive.google.com/file/d/1QyNH4YZ6i5VzqRCJkSkDgM0JjYMy0C2c/view?usp=sharing
 ※ ドメインは今後要検討。SEO的にないと厳しそうであればハーベスト報酬より購入する
 
+課題
+Herokuで複数ポートを開けるにはどうしたら良いか
+開けられない場合の代案
+
+- Nextjs を ssg として ビルドし、Strapi下に置いてみる
+- Nextjs を ssg として ビルドし、Github Pagesに置いてみる
+
 ## Branch Strategy
 
 各自作業を行う際には future/{作業名} にて行って下さい
