@@ -1,7 +1,7 @@
 import type { NextPage } from 'next';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { useTheme } from '@mui/material/styles';
-import { NewsReleaseFindResponse } from '../model/StrapiMode';
+import { NewsReleaseFindResponse } from '../model/StrapiModel';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import Header from '../components/moleculs/Header';
 import Container from '@mui/material/Container';
@@ -14,14 +14,17 @@ import Footer from '../components/moleculs/Footer';
 import Image from 'next/image';
 import SymbolExplorerImage from '../public/assets/img/symbol-explorer.png';
 import SymbolLogoWhiteImagee from '../public/assets/img/symbol-logo-white.png';
+import { SystemContext } from '../context';
 
 const Home: NextPage = () => {
   const theme = useTheme();
   const matches = useMediaQuery(theme.breakpoints.between('xs', 'md'));
   const [news, setNews] = useState<NewsReleaseFindResponse['data']>([]);
+  const { contextState, updateContext } = useContext(SystemContext);
 
   // ページの起動時にニュースを取得する
   useEffect(() => {
+
     if (typeof window === 'object') {
       strapi.findNewsRelease().then((e) => {
         setNews([...e.data]);
