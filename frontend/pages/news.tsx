@@ -7,9 +7,9 @@ import type { NextPage } from 'next';
 import { useTheme } from '@mui/material/styles';
 import { Toolbar } from '../components/atom/Toolbar';
 import { Select } from '../components/atom/Select';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { PageTitle } from '../components/atom/Titles';
-import { NewsReleaseFindResponse } from '../model/StrapiMode';
+import { NewsReleaseFindResponse } from '../model/StrapiModel';
 import Header from '../components/moleculs/Header';
 import Footer from '../components/moleculs/Footer';
 import Container from '@mui/material/Container';
@@ -17,6 +17,7 @@ import strapi from '../service/StrapiService';
 import MediaCard from '../components/moleculs/MediaCard';
 import Grid from '@mui/material/Grid';
 import { useRouter } from 'next/router';
+import { SystemContext } from '../context';
 
 const YEAR = ['2022年'];
 
@@ -25,6 +26,7 @@ const News: NextPage = () => {
   const [year, setYear] = useState<string>(`${new Date().getFullYear().toString()}年`);
   const [news, setNews] = useState<NewsReleaseFindResponse['data']>([]);
   const router = useRouter();
+  const { contextState, updateContext } = useContext(SystemContext);
 
   // ページの起動時にニュースを取得する
   useEffect(() => {
