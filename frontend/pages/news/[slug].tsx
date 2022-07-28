@@ -16,7 +16,6 @@ import Container from '@mui/material/Container';
 import { PageTitle } from '../../components/atom/Titles';
 import Grid from '@mui/material/Grid';
 import { useRouter } from 'next/router';
-import Markdown from 'react-markdown';
 import Typography from '@mui/material/Typography';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -49,6 +48,22 @@ const NewsArticle: NextPage = (args: any) => {
       <Container maxWidth="lg" style={{ height: '100%' }}>
         <Header />
         <Toolbar />
+        <div
+          style={{ marginTop: '10px', display: 'flex', flexWrap: 'nowrap', justifyContent: 'flex-start', gap: '10px' }}
+        >
+          <Typography color="text.secondary">作者</Typography>
+          <Typography color="text.secondary">{'Symbol address'}</Typography>
+        </div>
+        <div style={{ display: 'flex', flexWrap: 'nowrap', justifyContent: 'flex-start', gap: '10px' }}>
+          <Typography color="text.secondary">作成</Typography>
+          <Typography color="text.secondary">
+            {UtilService.formatDate(new Date(news.attributes.publishedAt), 'yyyy/MM/dd')}
+          </Typography>
+          <Typography color="text.secondary">更新</Typography>
+          <Typography color="text.secondary">
+            {UtilService.formatDate(new Date(news.attributes.updatedAt), 'yyyy/MM/dd')}
+          </Typography>
+        </div>
         <PageTitle>{news.attributes.title}</PageTitle>
         <MarkdownParser markdown={news.attributes.body} />
         <div style={{ height: '10vh' }} />
