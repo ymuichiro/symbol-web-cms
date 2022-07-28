@@ -27,3 +27,12 @@ export interface DocumentFindResponse extends BaseFindResponse {}
 export interface NewsReleaseFindOneResponse extends BaseFindOneResponse {}
 export interface CommunityReleaseFindOneResponse extends BaseFindOneResponse {}
 export interface DocumentFindOneResponse extends BaseFindOneResponse {}
+
+export interface LocalesResponse {
+  id: number;
+  name: string;
+  code: string;
+  createdAt: string;
+  updatedAt: string;
+  isDefault: boolean;
+}
