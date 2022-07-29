@@ -1,7 +1,14 @@
 interface BaseFindResponse {
   data: {
     id: number;
-    attributes: { title: string; body: string; createdAt: string; updatedAt: string; publishedAt: string };
+    attributes: {
+      title: string;
+      body: string;
+      description: string;
+      createdAt: string;
+      updatedAt: string;
+      publishedAt: string;
+    };
   }[];
   meta: {
     pagination: {

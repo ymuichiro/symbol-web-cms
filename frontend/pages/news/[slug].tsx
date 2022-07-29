@@ -18,7 +18,7 @@ import { useRouter } from 'next/router';
 import Typography from '@mui/material/Typography';
 import UtilService from '../../service/UtilService';
 import MarkdownParser from '../../components/moleculs/MarkdownParser';
-import { SystemContext } from '../../context';
+import { useLocale } from '../../hooks/useLocale';
 
 // TODO: 日本語/英語を判定して取得する記事を変更する事。 Strapi 側 DB の構成も各言語版をまとめて、該当言語が空の場合は英語版を返す仕様へ
 
@@ -27,12 +27,13 @@ const NewsArticle: NextPage = (args: any) => {
   const [news, setNews] = useState<NewsReleaseFindOneResponse['data'] | null>(null);
   const router = useRouter();
   const query = router.query;
-  const { contextState, updateContext } = useContext(SystemContext);
+  const { t, locale } = useLocale();
 
   // ページの起動時にニュースを取得する
   useEffect(() => {
     if (typeof window === 'object' && query !== undefined && query.slug !== undefined) {
-      strapi.findOneNewsRelease((query as { slug: string }).slug).then((e) => {
+      console.log(locale);
+      strapi.findOneNewsRelease(locale, (query as { slug: string }).slug).then((e) => {
         setNews({ ...e.data });
       });
     }
