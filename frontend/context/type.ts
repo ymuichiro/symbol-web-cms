@@ -1,8 +1,4 @@
-import { LangsCode } from '../model/SystemModel';
-
-export interface ContextState {
-  lang: LangsCode;
-}
+export interface ContextState {}
 
 export interface ContextStore {
   contextState: ContextState;

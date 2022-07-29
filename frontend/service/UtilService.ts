@@ -21,19 +21,4 @@ export default class UtilService {
       return path;
     }
   }
-
-  /**
-   * get lang setting of user browser
-   */
-  static getBrowserLang(): LangsCode {
-    if (navigator && navigator.language) {
-      switch (navigator.language) {
-        case 'ja':
-          return 'ja-JP';
-        case 'en':
-          return 'en';
-      }
-    }
-    return 'en';
-  }
 }
