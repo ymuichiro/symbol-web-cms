@@ -14,6 +14,7 @@ interface Args {
   description: string;
   date?: string;
   style?: CSSProperties;
+  onClickLink?: () => void;
 }
 
 export default function MediaCard(props: Args): JSX.Element {
@@ -37,7 +38,9 @@ export default function MediaCard(props: Args): JSX.Element {
       </CardContent>
       <CardActions>
         <Button size="small">Share</Button>
-        <Button size="small">Learn More</Button>
+        <Button size="small" onClick={props.onClickLink}>
+          Learn More
+        </Button>
       </CardActions>
     </Card>
   );
