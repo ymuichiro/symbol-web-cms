@@ -1,0 +1,37 @@
+{
+  "kind": "collectionType",
+  "collectionName": "rewards",
+  "info": {
+    "singularName": "reward",
+    "pluralName": "rewards",
+    "displayName": "Reward",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "issueTitle": {
+      "type": "string"
+    },
+    "issueUrl": {
+      "type": "string"
+    },
+    "symbolAddress": {
+      "type": "string"
+    },
+    "githubId": {
+      "type": "string"
+    },
+    "rewardType": {
+      "type": "integer"
+    },
+    "rewardAmount": {
+      "type": "integer"
+    },
+    "issueNumber": {
+      "type": "integer"
+    }
+  }
+}
