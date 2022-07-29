@@ -8,13 +8,12 @@ import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import Header from '../components/moleculs/Header';
 import Footer from '../components/moleculs/Footer';
-import { useContext } from 'react';
-import { SystemContext } from '../context';
+import { useLocale } from '../hooks/useLocale';
 
 const Community: NextPage = () => {
   const theme = useTheme();
   const matches = useMediaQuery(theme.breakpoints.between('xs', 'md'));
-  const { contextState, updateContext } = useContext(SystemContext);
+  const { t, locale } = useLocale();
 
   return (
     <div style={{ marginBottom: '5vh' }}>
