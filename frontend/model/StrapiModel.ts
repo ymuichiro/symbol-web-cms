@@ -1,7 +1,14 @@
 interface BaseFindResponse {
   data: {
     id: number;
-    attributes: { title: string; body: string; createdAt: string; updatedAt: string; publishedAt: string };
+    attributes: {
+      title: string;
+      body: string;
+      description: string;
+      createdAt: string;
+      updatedAt: string;
+      publishedAt: string;
+    };
   }[];
   meta: {
     pagination: {
@@ -27,3 +34,12 @@ export interface DocumentFindResponse extends BaseFindResponse {}
 export interface NewsReleaseFindOneResponse extends BaseFindOneResponse {}
 export interface CommunityReleaseFindOneResponse extends BaseFindOneResponse {}
 export interface DocumentFindOneResponse extends BaseFindOneResponse {}
+
+export interface LocalesResponse {
+  id: number;
+  name: string;
+  code: string;
+  createdAt: string;
+  updatedAt: string;
+  isDefault: boolean;
+}

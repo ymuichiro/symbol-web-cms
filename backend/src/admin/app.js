@@ -1,3 +1,6 @@
+import MenuLogo from './extensions/logo-one.png';
+import AuthLogo from './extensions/logo.png';
+
 export default {
   config: {
     locales: [
@@ -10,7 +13,7 @@ export default {
       // 'he',
       // 'id',
       // 'it',
-      // 'ja',
+      'ja',
       // 'ko',
       // 'ms',
       // 'nl',
@@ -28,7 +31,14 @@ export default {
       // 'zh-Hans',
       // 'zh',
     ],
+    auth: {
+      logo: AuthLogo,
+    },
+    menu: {
+      logo: MenuLogo,
+    },
   },
+
   bootstrap(app) {
     console.log(app);
   },
