@@ -4,11 +4,9 @@
 
 */
 import type { NextPage } from 'next';
-import { useTheme } from '@mui/material/styles';
-import useMediaQuery from '@mui/material/useMediaQuery';
 import Header from '../../components/moleculs/Header';
 import Footer from '../../components/moleculs/Footer';
-import { useContext, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import strapi from '../../service/StrapiService';
 import { NewsReleaseFindOneResponse } from '../../model/StrapiModel';
 import { Toolbar } from '../../components/atom/Toolbar';
@@ -20,20 +18,16 @@ import UtilService from '../../service/UtilService';
 import MarkdownParser from '../../components/moleculs/MarkdownParser';
 import { useLocale } from '../../hooks/useLocale';
 
-// TODO: 日本語/英語を判定して取得する記事を変更する事。 Strapi 側 DB の構成も各言語版をまとめて、該当言語が空の場合は英語版を返す仕様へ
-
-const NewsArticle: NextPage = (args: any) => {
-  const theme = useTheme();
+const NewsArticle: NextPage = () => {
   const [news, setNews] = useState<NewsReleaseFindOneResponse['data'] | null>(null);
   const router = useRouter();
   const query = router.query;
-  const { t, locale } = useLocale();
+  const { locale } = useLocale();
 
   // ページの起動時にニュースを取得する
   useEffect(() => {
     if (typeof window === 'object' && query !== undefined && query.slug !== undefined) {
-      console.log(locale);
-      strapi.findOneNewsRelease(locale, (query as { slug: string }).slug).then((e) => {
+      strapi.findOneNewsRelease((query as { slug: string }).slug).then((e) => {
         setNews({ ...e.data });
       });
     }

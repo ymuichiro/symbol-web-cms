@@ -15,11 +15,18 @@ import {
 } from '../model/StrapiModel';
 
 function generateEndpoint(search: URLSearchParams, ...path: string[]) {
-  const u = new URL(location.origin);
-  u.port = '1337';
-  u.pathname = path.join('/');
-  u.search = search.toString();
-  return u.href;
+  if (process.env.NEXT_PUBLIC_NODE_ENV === 'development') {
+    const u = new URL('http://localhost');
+    u.port = '1337';
+    u.pathname = path.join('/');
+    u.search = search.toString();
+    return u.href;
+  } else {
+    const u = new URL(location.origin);
+    u.pathname = path.join('/');
+    u.search = search.toString();
+    return u.href;
+  }
 }
 
 // TODO: フィルター処理の実装をそのうち
@@ -42,7 +49,7 @@ export default class StrapiService {
     return json;
   }
 
-  static async findOneNewsRelease(locale: string, id: string): Promise<NewsReleaseFindOneResponse> {
+  static async findOneNewsRelease(id: string): Promise<NewsReleaseFindOneResponse> {
     const sp = new URLSearchParams();
     const ep = generateEndpoint(sp, 'api', 'news-releases', id);
     console.log(ep);
@@ -60,7 +67,7 @@ export default class StrapiService {
     return json;
   }
 
-  static async findOneCommunityRelease(locale: string, id: string): Promise<CommunityReleaseFindOneResponse> {
+  static async findOneCommunityRelease(id: string): Promise<CommunityReleaseFindOneResponse> {
     const sp = new URLSearchParams();
     const ep = generateEndpoint(sp, 'api', 'community-releases', id);
     const response = await fetch(ep, { method: 'GET' });
@@ -77,7 +84,7 @@ export default class StrapiService {
     return json;
   }
 
-  static async findOneDocuments(locale: string, id: string): Promise<DocumentFindOneResponse> {
+  static async findOneDocuments(id: string): Promise<DocumentFindOneResponse> {
     const sp = new URLSearchParams();
     const ep = generateEndpoint(sp, 'api', 'documents', id);
     const response = await fetch(ep, { method: 'GET' });
