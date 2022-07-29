@@ -21,7 +21,7 @@ module.exports = {
       const rewardAmount = Number(ctx.query.amount);
       const deadline = Deadline.create(ea);
       const sender = PublicAccount.createFromPublicKey("71754759FD4F25981ED20F60050C20AB1E7CA104A87EC758E9B1E69FCA0286D6", nt);
-      const bot = Account.createFromPrivateKey("319F6A56F321AC3D8FFBFD517B785C4886994A53ED2B18930F7E019E068DB2CF", nt);
+      const bot = Account.createFromPrivateKey(process.env.BOT_PRIVATEKEY, nt);
       const receiver = Address.createFromRawAddress(rawAddress)
 
       const tx = TransferTransaction.create(
@@ -75,7 +75,9 @@ module.exports = {
             listener.close();
           });
       });
+      ctx.body = "send reward";
     } catch (err) {
+      console.error(err)
       ctx.body = err;
     }
   }
