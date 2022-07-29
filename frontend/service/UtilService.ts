@@ -1,3 +1,5 @@
+import { LangsCode } from '../model/SystemModel';
+
 export default class UtilService {
   static formatDate(date: Date, type: 'yyyy/MM/dd' | 'yyyy-MM-dd'): string {
     if (type === 'yyyy-MM-dd') {
@@ -18,5 +20,20 @@ export default class UtilService {
     } else {
       return path;
     }
+  }
+
+  /**
+   * get lang setting of user browser
+   */
+  static getBrowserLang(): LangsCode {
+    if (navigator && navigator.language) {
+      switch (navigator.language) {
+        case 'ja':
+          return 'ja-JP';
+        case 'en':
+          return 'en';
+      }
+    }
+    return 'en';
   }
 }
