@@ -1,3 +1,5 @@
+import { LangsCode } from '../model/SystemModel';
+
 export default class UtilService {
   static formatDate(date: Date, type: 'yyyy/MM/dd' | 'yyyy-MM-dd'): string {
     if (type === 'yyyy-MM-dd') {
