@@ -4,10 +4,9 @@
 
 */
 import type { NextPage } from 'next';
-import { useTheme } from '@mui/material/styles';
 import { Toolbar } from '../components/atom/Toolbar';
 import { Select } from '../components/atom/Select';
-import { useContext, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { PageTitle } from '../components/atom/Titles';
 import { NewsReleaseFindResponse } from '../model/StrapiModel';
 import Header from '../components/moleculs/Header';
@@ -18,21 +17,21 @@ import MediaCard from '../components/moleculs/MediaCard';
 import Grid from '@mui/material/Grid';
 import { useRouter } from 'next/router';
 import { useLocale } from '../hooks/useLocale';
+import Typography from '@mui/material/Typography';
 
 const YEAR = ['2022年'];
 
 const News: NextPage = () => {
-  const theme = useTheme();
   const [year, setYear] = useState<string>(`${new Date().getFullYear().toString()}年`);
-  const [news, setNews] = useState<NewsReleaseFindResponse['data']>([]);
+  const [release, setRelease] = useState<NewsReleaseFindResponse['data']>([]);
   const router = useRouter();
-  const { t, locale } = useLocale();
+  const { locale } = useLocale();
 
   // ページの起動時にニュースを取得する
   useEffect(() => {
     if (typeof window === 'object') {
       strapi.findNewsRelease(locale).then((e) => {
-        setNews([...e.data]);
+        setRelease([...e.data]);
       });
     }
   }, []);
@@ -59,12 +58,17 @@ const News: NextPage = () => {
             />
           </Grid>
         </Grid>
-        <Grid container spacing={5} style={{ marginTop: '5vh', marginBottom: '10vh' }}>
-          {news.map((item, index) => (
+        <Grid container spacing={5} style={{ marginTop: '5vh' }}>
+          {release.length === 0 && (
+            <Grid item xs={12}>
+              <Typography align="left">記事はありません</Typography>
+            </Grid>
+          )}
+          {release.map((item, index) => (
             <Grid item key={index} xs={12} sm={6} md={4}>
               <MediaCard
                 title={item.attributes.title}
-                description={item.attributes.body}
+                description={item.attributes.description}
                 date={item.attributes.publishedAt}
                 image="/assets/img/symbol-logo-white.png"
                 onClickLink={() => router.push('/news/' + item.id)}
@@ -72,7 +76,9 @@ const News: NextPage = () => {
             </Grid>
           ))}
         </Grid>
-        <Footer />
+        <section style={{ marginTop: '10vh' }}>
+          <Footer />
+        </section>
       </Container>
     </div>
   );

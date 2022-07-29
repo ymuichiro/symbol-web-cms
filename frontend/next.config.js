@@ -6,7 +6,7 @@ if (process.env.NODE_ENV === 'development') {
   nextConfig = {
     i18n: {
       locales: ['en', 'ja'],
-      defaultLocale: 'ja',
+      defaultLocale: 'en',
     },
     reactStrictMode: true,
     swcMinify: true,
