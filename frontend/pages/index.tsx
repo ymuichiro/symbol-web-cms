@@ -1,7 +1,7 @@
 import type { NextPage } from 'next';
 import { useEffect, useState } from 'react';
 import { useTheme } from '@mui/material/styles';
-import { NewsReleaseFindResponse } from '../model/StrapiMode';
+import { NewsReleaseFindResponse } from '../model/StrapiModel';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import Header from '../components/moleculs/Header';
 import Container from '@mui/material/Container';
@@ -14,18 +14,20 @@ import Footer from '../components/moleculs/Footer';
 import Image from 'next/image';
 import SymbolExplorerImage from '../public/assets/img/symbol-explorer.png';
 import SymbolLogoWhiteImagee from '../public/assets/img/symbol-logo-white.png';
+import { useLocale } from '../hooks/useLocale';
+import { useRouter } from 'next/router';
 
 const Home: NextPage = () => {
   const theme = useTheme();
   const matches = useMediaQuery(theme.breakpoints.between('xs', 'md'));
   const [news, setNews] = useState<NewsReleaseFindResponse['data']>([]);
+  const { t, locale } = useLocale();
+  const router = useRouter();
 
-  // ページの起動時にニュースを取得する
+  // ページの起動時の処理群
   useEffect(() => {
     if (typeof window === 'object') {
-      strapi.findNewsRelease().then((e) => {
-        setNews([...e.data]);
-      });
+      strapi.findNewsRelease(locale).then((e) => setNews([...e.data]));
     }
   }, []);
 
@@ -77,7 +79,7 @@ const Home: NextPage = () => {
                   align={matches ? 'center' : 'left'}
                   style={{ paddingLeft: '20px' }}
                 >
-                  個人に力を与える、Symbolブロックチェーン
+                  {t.SUBTITLE}
                 </Typography>
               </Grid>
               <Grid item xs={12} md={6} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
@@ -114,9 +116,10 @@ const Home: NextPage = () => {
                 <Grid item xs={12} sm={6} key={i}>
                   <MediaCard
                     title={n.attributes.title}
-                    description={n.attributes.body}
+                    description={n.attributes.description}
                     date={n.attributes.publishedAt}
                     image="/assets/img/symbol-logo-white.png"
+                    onClickLink={() => router.push('/news/' + n.id)}
                   />
                 </Grid>
               );
