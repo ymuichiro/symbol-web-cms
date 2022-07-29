@@ -15,22 +15,28 @@ import Image from 'next/image';
 import SymbolExplorerImage from '../public/assets/img/symbol-explorer.png';
 import SymbolLogoWhiteImagee from '../public/assets/img/symbol-logo-white.png';
 import { SystemContext } from '../context';
+import { useIndexLangs } from '../langs/indexLangs';
 
 const Home: NextPage = () => {
   const theme = useTheme();
   const matches = useMediaQuery(theme.breakpoints.between('xs', 'md'));
   const [news, setNews] = useState<NewsReleaseFindResponse['data']>([]);
   const { contextState, updateContext } = useContext(SystemContext);
+  const lang = useIndexLangs(contextState.lang);
 
-  // ページの起動時にニュースを取得する
+  // ページの起動時の処理群
   useEffect(() => {
-
     if (typeof window === 'object') {
-      strapi.findNewsRelease().then((e) => {
-        setNews([...e.data]);
-      });
+      strapi.findNewsRelease().then((e) => setNews([...e.data]));
     }
   }, []);
+
+  // 言語変更時に再度実行する処理群
+  useEffect(() => {
+    if (typeof window === 'object') {
+      strapi.findNewsRelease().then((e) => setNews([...e.data]));
+    }
+  }, [contextState.lang]);
 
   return (
     <div style={{ marginBottom: '5vh' }}>
@@ -80,7 +86,7 @@ const Home: NextPage = () => {
                   align={matches ? 'center' : 'left'}
                   style={{ paddingLeft: '20px' }}
                 >
-                  個人に力を与える、Symbolブロックチェーン
+                  {lang.get('sub_title')}
                 </Typography>
               </Grid>
               <Grid item xs={12} md={6} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>

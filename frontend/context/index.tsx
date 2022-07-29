@@ -1,9 +1,10 @@
 import React, { useReducer } from 'react';
 import { LangsCode } from '../model/SystemModel';
+import UtilService from '../service/UtilService';
 import { ContextAction, ContextState, ContextStore } from './type';
 
 const initialState: ContextState = {
-  lang: 'en',
+  lang: UtilService.getBrowserLang(),
 };
 
 export const SystemContext = React.createContext<ContextStore>({
