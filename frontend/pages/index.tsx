@@ -24,6 +24,8 @@ const Home: NextPage = () => {
   const { t, locale } = useLocale();
   const router = useRouter();
 
+  console.log(router);
+
   // ページの起動時の処理群
   useEffect(() => {
     if (typeof window === 'object') {
