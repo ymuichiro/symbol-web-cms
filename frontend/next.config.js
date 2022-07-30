@@ -21,7 +21,11 @@ if (process.env.NODE_ENV === 'development') {
     pwa: {
       dest: 'public',
     },
-    images: {},
+    experimental: {
+      images: {
+        unoptimized: true,
+      },
+    },
   });
 }
 
