@@ -24,8 +24,6 @@ const Home: NextPage = () => {
   const { t, locale } = useLocale();
   const router = useRouter();
 
-  console.log(router);
-
   // ページの起動時の処理群
   useEffect(() => {
     if (typeof window === 'object') {
@@ -46,7 +44,7 @@ const Home: NextPage = () => {
               left: 0,
               width: '100vw',
               height: '80vh',
-              backgroundImage: "url('/assets/img/header-background.png')",
+              backgroundImage: `url(${router.basePath}/assets/img/header-background.png)`,
               backgroundRepeat: 'no-repeat',
               backgroundSize: 'cover',
               zIndex: -1,
@@ -151,7 +149,7 @@ const Home: NextPage = () => {
                         display: 'flex',
                         justifyContent: 'center',
                         alignItems: 'center',
-                        backgroundImage: "url('/assets/img/symbol-logo-white.png')",
+                        backgroundImage: `url(${router.basePath}/assets/img/symbol-logo-white.png)`,
                         backgroundRepeat: 'no-repeat',
                         backgroundSize: 'cover',
                         height: '30vh',
