@@ -1,0 +1,5 @@
+name: 'Task Completed'
+description: 'Task Completed'
+runs:
+  using: 'node16'
+  main: 'dist/index.js'

@@ -1,0 +1,59 @@
+name: Issue Opend
+on:
+  issues:
+    types: opened
+
+jobs:
+  issue_opend:
+    runs-on: ubuntu-latest
+    env:
+      ISSUE_TITLE: ${{ github.event.issue.title }}
+      GITHUB_TOKEN: ${{ secrets.ACTIONS_TOKEN }}
+      ISSUE_NUM: ${{ github.event.issue.number }}
+    permissions:
+      id-token: write
+      issues: write
+      contents: write
+      pull-requests: write
+    steps:
+      - name: Get open linked PR
+        id: get_open_linked_pr
+        run: |
+          open_linked_pr_length=$(\
+            gh pr list \
+              --repo $REPO \
+              --state open \
+              --search "close #$ISSUE_NUM in:body" \
+              --json number | jq '. | length'\
+          )
+          echo "::set-output name=open_linked_pr_length::$open_linked_pr_length"
+      - name: Check open linked pr length
+        if: steps.get_open_linked_pr.outputs.open_linked_pr_length != 0
+        run: |
+          echo "Unclosed pull request is existing."
+          exit 1
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Issue Opend
+        uses: ./actions/issue_opend
+        env:
+          BOT_ID: ${{ secrets.BOT_ID }}
+          BOT_PASSWORD: ${{ secrets.BOT_PASSWORD }}
+      - name: Create files
+        run: |
+          echo -e "branch name is ${{ github.event.issue.title }}\n" \
+            >> ./README.md
+      - name: Create branch
+        uses: EndBug/add-and-commit@v9
+        with:
+          new_branch: ${{ github.event.issue.title }}
+      - name: Create PR
+        run: |
+          gh pr create \
+            --head $NEW_BRANCH_NAME \
+            --base $BASE_BRANCH_NAME \
+            --title "$ISSUE_TITLE" \
+            --body "close #${ISSUE_NUM}"
+        env:
+          NEW_BRANCH_NAME: ${{ github.event.issue.title }}
+          BASE_BRANCH_NAME: ${{ github.event.repository.default_branch }}
