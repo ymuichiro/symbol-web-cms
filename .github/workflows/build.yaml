@@ -1,0 +1,24 @@
+name: deploy to github pages
+on:
+  push:
+    branches:
+      - 13-rethink-deployment-environment
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2.1.0
+        with:
+          node-version: 16.x
+      - name: install
+        run: yarn --cwd frontend install
+      - name: build
+        run: |
+          yarn --cwd frontend run build
+          touch out/.nojekyll
+      - name: deploy
+        uses: peaceiris/actions-gh-pages@v3.6.4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./frontend/out

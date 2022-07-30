@@ -9,12 +9,9 @@
     "url": "https://github.com/ymuichiro/symbol-web"
   },
   "scripts": {
-    "install": "yarn --cwd backend install && yarn --cwd frontend install",
+    "install": "yarn --cwd backend install",
     "dev": "yarn --cwd backend run develop & yarn --cwd frontend run dev",
-    "build": "yarn --cwd backend run build && yarn --cwd frontend run build",
-    "start": "yarn --cwd backend run start & yarn --cwd frontend run start"
-  },
-  "dependencies": {
-    "markdown-to-jsx": "^7.1.7"
+    "build": "yarn --cwd backend run build",
+    "start": "yarn --cwd backend run start"
   }
 }
