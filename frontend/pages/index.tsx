@@ -95,7 +95,7 @@ const Home: NextPage = () => {
               <MediaCardWide
                 title="About Symbol"
                 description={new Array(10).fill('Symbolの特徴を示す説明を募集致します').join(' ')}
-                imageUrl="/assets/img/symbol-logo-white.png"
+                imageUrl={`${router.basePath}/assets/img/symbol-logo-white.png`}
                 isShowMore={true}
                 showMoreLink={'/'}
                 imageHeight={'50vh'}
@@ -118,7 +118,7 @@ const Home: NextPage = () => {
                     title={n.attributes.title}
                     description={n.attributes.description}
                     date={n.attributes.publishedAt}
-                    image="/assets/img/symbol-logo-white.png"
+                    image={`${router.basePath}/assets/img/symbol-logo-white.png`}
                     onClickLink={() => router.push('/news/' + n.id)}
                   />
                 </Grid>
