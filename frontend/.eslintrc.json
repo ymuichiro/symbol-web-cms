@@ -1,5 +1,8 @@
 {
-  "extends": "next/core-web-vitals",
+  "extends": [
+    "next/core-web-vitals",
+    "next/babel"
+  ],
   "rules": {
     "react-hooks/exhaustive-deps": 0
   }
