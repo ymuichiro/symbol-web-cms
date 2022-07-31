@@ -77,11 +77,10 @@ var __webpack_exports__ = {};
 const core = __nccwpck_require__(325);
 const github = __nccwpck_require__(994);
 const axios = __nccwpck_require__(296);
-const api_url = __nccwpck_require__(478);
+const { api_url } = __nccwpck_require__(478);
 
 try {
     const branchName = github.context.payload.pull_request.head.ref;
-    const issueNumber = github.context.payload.pull_request.number
     const assigneeId = github.context.payload.sender.login;
 
     axios
@@ -99,8 +98,7 @@ try {
                 })
                 .then((resRewards) => {
                     const rewards = resRewards.data.data;
-                    const reward = rewards.find((d) => d.attributes.issueNumber === issueNumber);
-                    if (reward == undefined) throw new Error("該当のIssueが存在しません")
+                    const reward = rewards.find((d) => d.attributes.branchName === branchName);
                     if (reward.attributes.githubId !== assigneeId) throw new Error("GithubIdが違います")
                     if (reward.attributes.branchName !== branchName) throw new Error("Branch名が違います")
                     const address = reward.attributes.symbolAddress;
