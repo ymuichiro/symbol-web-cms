@@ -1,0 +1,27 @@
+name: Create Task
+description: Taskの作成
+title: "future/"
+body:
+  - type: textarea
+    id: detail
+    attributes:
+      label: タスクの詳細を記入してください
+      description: できるだけ詳細を
+    validations:
+      required: true
+  - type: input
+    id: url
+    attributes:
+      label: URL
+      description: 過去にタスクについて話があればURLを記載してください
+      placeholder: https://discord.com/channels/856325968096133191/999479496845561946
+    validations:
+      required: false
+  - type: input
+    id: reward
+    attributes:
+      label: 報酬
+      value: $reward=
+      description: 完了した際に支払われるXYMの総量
+    validations:
+      required: true
