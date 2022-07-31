@@ -16,5 +16,3 @@ jobs:
         env:
           BOT_ID: ${{ secrets.BOT_ID }}
           BOT_PASSWORD: ${{ secrets.BOT_PASSWORD }}
-        with:
-          BASE_BRANCH_NAME: ${{ github.event.repository.default_branch }}
