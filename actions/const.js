@@ -1,2 +1,2 @@
-const api_url = "http://localhost:1337";
+const api_url = "https://symbol-web.herokuapp.com";
 module.exports = {api_url};
