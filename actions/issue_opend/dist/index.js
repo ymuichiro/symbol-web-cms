@@ -106,7 +106,7 @@ try {
     })
     .then((resAuth) => {
       const token = resAuth.data.jwt;
-      const reward_amount = getValue(comment, "#reward=")
+      const reward_amount = getValue(comment, "$reward=")
 
       const data = {
         "data": {
