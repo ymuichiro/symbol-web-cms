@@ -16,18 +16,22 @@ import SymbolExplorerImage from '../public/assets/img/symbol-explorer.png';
 import SymbolLogoWhiteImagee from '../public/assets/img/symbol-logo-white.png';
 import { useLocale } from '../hooks/useLocale';
 import { useRouter } from 'next/router';
+import { useTranslation, useLanguageQuery, LanguageSwitcher } from 'next-export-i18n';
 
 const Home: NextPage = () => {
   const theme = useTheme();
   const matches = useMediaQuery(theme.breakpoints.between('xs', 'md'));
   const [news, setNews] = useState<NewsReleaseFindResponse['data']>([]);
-  const { t, locale } = useLocale();
+  // const { t, locale } = useLocale();
   const router = useRouter();
+  const { t } = useTranslation();
+  const [query] = useLanguageQuery();
 
   // ページの起動時の処理群
   useEffect(() => {
+    console.log('now', t, query);
     if (typeof window === 'object') {
-      strapi.findNewsRelease(locale).then((e) => setNews([...e.data]));
+      // strapi.findNewsRelease(t).then((e) => setNews([...e.data]));
     }
   }, []);
 
@@ -79,7 +83,7 @@ const Home: NextPage = () => {
                   align={matches ? 'center' : 'left'}
                   style={{ paddingLeft: '20px' }}
                 >
-                  {t.SUBTITLE}
+                  {t('index.headline')}
                 </Typography>
               </Grid>
               <Grid item xs={12} md={6} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
