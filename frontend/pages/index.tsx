@@ -40,6 +40,12 @@ const Home: NextPage = () => {
       <Container maxWidth="lg" style={{ height: '100%' }}>
         <Header />
         {/* ヘッダーセクション */}
+
+        {/* 次ここから： これをDrawerへ移植しておく。またページが跨った時の処理を追加 */}
+
+        <LanguageSwitcher lang="en">en</LanguageSwitcher>
+        <LanguageSwitcher lang="ja">ja</LanguageSwitcher>
+
         <section>
           <div
             style={{
