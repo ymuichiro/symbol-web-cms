@@ -16,13 +16,16 @@ import {
 
 function generateEndpoint(search: URLSearchParams, ...path: string[]) {
   if (process.env.NEXT_PUBLIC_NODE_ENV === 'development') {
-    const u = new URL('http://localhost');
+    const u = new URL(process.env.NEXT_API_SERVER_URL || 'http://localhost');
     u.port = '1337';
     u.pathname = path.join('/');
     u.search = search.toString();
     return u.href;
   } else {
-    const u = new URL(location.origin);
+    if (process.env.NEXT_API_SERVER_URL === undefined) {
+      throw new Error('api server uri is not defined');
+    }
+    const u = new URL(process.env.NEXT_API_SERVER_URL);
     u.pathname = path.join('/');
     u.search = search.toString();
     return u.href;

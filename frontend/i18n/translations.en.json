@@ -1,0 +1,16 @@
+{
+  "i18n": {
+    "ui": {
+      "languageSwitcher": "Choose Language: "
+    },
+    "nav": {
+      "index": {
+        "text": "Got To Paris",
+        "route": "/"
+      }
+    },
+    "index": {
+      "headline": "Hello"
+    }
+  }
+}
