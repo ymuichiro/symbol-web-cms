@@ -4,10 +4,6 @@ let nextConfig = undefined;
 
 if (process.env.NODE_ENV === 'development') {
   nextConfig = {
-    i18n: {
-      locales: ['en', 'ja'],
-      defaultLocale: 'en',
-    },
     reactStrictMode: true,
     swcMinify: true,
     images: {
@@ -18,10 +14,15 @@ if (process.env.NODE_ENV === 'development') {
   nextConfig = withPWA({
     reactStrictMode: true,
     swcMinify: true,
+    // basePath: '/symbol-web',
     pwa: {
       dest: 'public',
     },
-    images: {},
+    experimental: {
+      images: {
+        unoptimized: true,
+      },
+    },
   });
 }
 

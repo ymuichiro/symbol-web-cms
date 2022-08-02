@@ -16,18 +16,22 @@ import SymbolExplorerImage from '../public/assets/img/symbol-explorer.png';
 import SymbolLogoWhiteImagee from '../public/assets/img/symbol-logo-white.png';
 import { useLocale } from '../hooks/useLocale';
 import { useRouter } from 'next/router';
+import { useTranslation, useLanguageQuery, LanguageSwitcher } from 'next-export-i18n';
 
 const Home: NextPage = () => {
   const theme = useTheme();
   const matches = useMediaQuery(theme.breakpoints.between('xs', 'md'));
   const [news, setNews] = useState<NewsReleaseFindResponse['data']>([]);
-  const { t, locale } = useLocale();
+  // const { t, locale } = useLocale();
   const router = useRouter();
+  const { t } = useTranslation();
+  const [query] = useLanguageQuery();
 
   // ページの起動時の処理群
   useEffect(() => {
+    console.log('now', t, query);
     if (typeof window === 'object') {
-      strapi.findNewsRelease(locale).then((e) => setNews([...e.data]));
+      // strapi.findNewsRelease(t).then((e) => setNews([...e.data]));
     }
   }, []);
 
@@ -36,6 +40,12 @@ const Home: NextPage = () => {
       <Container maxWidth="lg" style={{ height: '100%' }}>
         <Header />
         {/* ヘッダーセクション */}
+
+        {/* 次ここから： これをDrawerへ移植しておく。またページが跨った時の処理を追加 */}
+
+        <LanguageSwitcher lang="en">en</LanguageSwitcher>
+        <LanguageSwitcher lang="ja">ja</LanguageSwitcher>
+
         <section>
           <div
             style={{
@@ -44,7 +54,7 @@ const Home: NextPage = () => {
               left: 0,
               width: '100vw',
               height: '80vh',
-              backgroundImage: "url('/assets/img/header-background.png')",
+              backgroundImage: `url(${router.basePath}/assets/img/header-background.png)`,
               backgroundRepeat: 'no-repeat',
               backgroundSize: 'cover',
               zIndex: -1,
@@ -79,7 +89,7 @@ const Home: NextPage = () => {
                   align={matches ? 'center' : 'left'}
                   style={{ paddingLeft: '20px' }}
                 >
-                  {t.SUBTITLE}
+                  {t('index.headline')}
                 </Typography>
               </Grid>
               <Grid item xs={12} md={6} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
@@ -95,7 +105,7 @@ const Home: NextPage = () => {
               <MediaCardWide
                 title="About Symbol"
                 description={new Array(10).fill('Symbolの特徴を示す説明を募集致します').join(' ')}
-                imageUrl="/assets/img/symbol-logo-white.png"
+                imageUrl={`${router.basePath}/assets/img/symbol-logo-white.png`}
                 isShowMore={true}
                 showMoreLink={'/'}
                 imageHeight={'50vh'}
@@ -118,7 +128,7 @@ const Home: NextPage = () => {
                     title={n.attributes.title}
                     description={n.attributes.description}
                     date={n.attributes.publishedAt}
-                    image="/assets/img/symbol-logo-white.png"
+                    image={`${router.basePath}/assets/img/symbol-logo-white.png`}
                     onClickLink={() => router.push('/news/' + n.id)}
                   />
                 </Grid>
@@ -149,7 +159,7 @@ const Home: NextPage = () => {
                         display: 'flex',
                         justifyContent: 'center',
                         alignItems: 'center',
-                        backgroundImage: "url('/assets/img/symbol-logo-white.png')",
+                        backgroundImage: `url(${router.basePath}/assets/img/symbol-logo-white.png)`,
                         backgroundRepeat: 'no-repeat',
                         backgroundSize: 'cover',
                         height: '30vh',
