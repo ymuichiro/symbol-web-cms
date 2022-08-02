@@ -15,7 +15,7 @@
     "@strapi/strapi": "4.2.3",
     "better-sqlite3": "7.4.6",
     "pg": "^8.7.3",
-    "pg-connection-string": "^2.5.0"
+    "pg-connection-string": "^2.5.0",
     "symbol-sdk": "^2.0.0"
   },
   "author": {
