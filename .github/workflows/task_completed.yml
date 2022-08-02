@@ -1,0 +1,18 @@
+on:
+  pull_request:
+    branches:
+      - develop
+    types: [closed]
+
+jobs:
+  task_completed:
+    runs-on: ubuntu-latest
+    name: Task completed
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Task completed
+        uses: ./actions/task_completed
+        env:
+          BOT_ID: ${{ secrets.BOT_ID }}
+          BOT_PASSWORD: ${{ secrets.BOT_PASSWORD }}
