@@ -1,9 +1,10 @@
 name: deploy to github pages
 
 on:
-  push:
-    branches:
-      - 13-rethink-deployment-environment
+  # push:
+  #   branches:
+  #     - 13-rethink-deployment-environment
+  workflow_dispatch:
 
 jobs:
   deploy:
