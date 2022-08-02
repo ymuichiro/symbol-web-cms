@@ -1,17 +1,13 @@
-import React from "react";
-import Document, { Html, Head, Main, NextScript } from "next/document";
-import { ServerStyleSheets } from "@mui/styles";
-import CssBaseline from "@mui/material/CssBaseline";
+import React from 'react';
+import Document, { Html, Head, Main, NextScript } from 'next/document';
+import { ServerStyleSheets } from '@mui/styles';
 
 export default class MyDocument extends Document {
   render() {
     return (
       <Html lang="en">
         <Head>
-          <meta
-            name="description"
-            content={process.env.NEXT_PUBLIC_SITE_DESCRIPTION}
-          />
+          <meta name="description" content={process.env.NEXT_PUBLIC_SITE_DESCRIPTION} />
           <meta charSet="utf-8" />
           <meta name="theme-color" content="#01579b" />
           <meta name="description" content="" />
@@ -41,9 +37,6 @@ MyDocument.getInitialProps = async (ctx) => {
 
   return {
     ...initialProps,
-    styles: [
-      ...React.Children.toArray(initialProps.styles),
-      sheets.getStyleElement(),
-    ],
+    styles: [...React.Children.toArray(initialProps.styles), sheets.getStyleElement()],
   };
 };

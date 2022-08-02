@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React from 'react';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
@@ -13,8 +13,6 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 import Image from 'next/image';
 import SymbolLogo from '../../public/assets/img/symbol-logo-with-dark-text.png';
 import { useRouter } from 'next/router';
-import { SystemContext } from '../../context';
-import { Select } from '../atom/Select';
 
 const SITELINKS = [
   { title: 'Top', link: '/' },
@@ -28,7 +26,6 @@ export default function Header() {
   const [open, setOpen] = React.useState<boolean>(false);
   const matches = useMediaQuery(theme.breakpoints.between('xs', 'md'));
   const router = useRouter();
-  const { contextState, updateContext } = useContext(SystemContext);
 
   return (
     <React.Fragment>
@@ -51,44 +48,46 @@ export default function Header() {
           }}
         >
           <Toolbar>
-            <div style={{ flexGrow: 1, display: 'flex', justifyContent: 'flex-start', alignItems: 'center' }}>
-              <Image src={SymbolLogo} height={35} width={155} alt="Symbol-Logo" onClick={() => router.push('/')} />
-            </div>
-            {matches || (
-              <div
-                style={{
-                  display: 'flex',
-                  flexDirection: 'row',
-                  justifyContent: 'space-between',
-                  gap: '20px',
-                  marginRight: '40px',
-                }}
-              >
-                {SITELINKS.map((item, index) => (
-                  <Button
-                    variant="text"
-                    key={index}
-                    onClick={() => router.push(item.link)}
-                    style={{
-                      color: 'black',
-                      fontWeight: 'bold',
-                    }}
-                  >
-                    {item.title}
-                  </Button>
-                ))}
+            <>
+              <div style={{ flexGrow: 1, display: 'flex', justifyContent: 'flex-start', alignItems: 'center' }}>
+                <Image src={SymbolLogo} height={35} width={155} alt="Symbol-Logo" onClick={() => router.push('/')} />
               </div>
-            )}
+              {matches || (
+                <div
+                  style={{
+                    display: 'flex',
+                    flexDirection: 'row',
+                    justifyContent: 'space-between',
+                    gap: '20px',
+                    marginRight: '40px',
+                  }}
+                >
+                  {SITELINKS.map((item, index) => (
+                    <Button
+                      variant="text"
+                      key={index}
+                      onClick={() => router.push(item.link)}
+                      style={{
+                        color: 'black',
+                        fontWeight: 'bold',
+                      }}
+                    >
+                      {item.title}
+                    </Button>
+                  ))}
+                </div>
+              )}
 
-            <IconButton
-              size="large"
-              edge="start"
-              aria-label="menu"
-              onClick={() => setOpen(!open)}
-              style={{ color: 'black' }}
-            >
-              <MenuIcon />
-            </IconButton>
+              <IconButton
+                size="large"
+                edge="start"
+                aria-label="menu"
+                onClick={() => setOpen(!open)}
+                style={{ color: 'black' }}
+              >
+                <MenuIcon />
+              </IconButton>
+            </>
           </Toolbar>
         </AppBar>
       </div>
@@ -105,19 +104,6 @@ export default function Header() {
             </ListItemButton>
           ))}
         </List>
-        {/* <div style={{ height: '3rem', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-          <Select
-            id="language_select_in_drawer"
-            state={lang}
-            setState={setLang}
-            label="language"
-            variant="outlined"
-            data={Object.keys(LangsList).map((e) => ({
-              key: LangsList[e as keyof typeof LangsList],
-              value: e,
-            }))}
-          />
-        </div> */}
       </Drawer>
     </React.Fragment>
   );
