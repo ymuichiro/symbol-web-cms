@@ -16,7 +16,6 @@ import strapi from '../service/StrapiService';
 import MediaCard from '../components/moleculs/MediaCard';
 import Grid from '@mui/material/Grid';
 import { useRouter } from 'next/router';
-import { useLocale } from '../hooks/useLocale';
 import Typography from '@mui/material/Typography';
 
 const YEAR = ['2022年'];
@@ -25,14 +24,13 @@ const News: NextPage = () => {
   const [year, setYear] = useState<string>(`${new Date().getFullYear().toString()}年`);
   const [release, setRelease] = useState<NewsReleaseFindResponse['data']>([]);
   const router = useRouter();
-  const { locale } = useLocale();
 
   // ページの起動時にニュースを取得する
   useEffect(() => {
     if (typeof window === 'object') {
-      strapi.findNewsRelease(locale).then((e) => {
-        setRelease([...e.data]);
-      });
+      // strapi.findNewsRelease(locale).then((e) => {
+      //   setRelease([...e.data]);
+      // });
     }
   }, []);
 

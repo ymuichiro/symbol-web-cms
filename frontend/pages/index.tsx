@@ -2,6 +2,9 @@ import type { NextPage } from 'next';
 import { useEffect, useState } from 'react';
 import { useTheme } from '@mui/material/styles';
 import { NewsReleaseFindResponse } from '../model/StrapiModel';
+import { useRouter } from 'next/router';
+import { useTranslation } from 'next-export-i18n';
+import { isLanguageByQuery } from '../i18n/isLanguageByQuery';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import Header from '../components/moleculs/Header';
 import Container from '@mui/material/Container';
@@ -14,38 +17,31 @@ import Footer from '../components/moleculs/Footer';
 import Image from 'next/image';
 import SymbolExplorerImage from '../public/assets/img/symbol-explorer.png';
 import SymbolLogoWhiteImagee from '../public/assets/img/symbol-logo-white.png';
-import { useLocale } from '../hooks/useLocale';
-import { useRouter } from 'next/router';
-import { useTranslation, useLanguageQuery, LanguageSwitcher } from 'next-export-i18n';
 
 const Home: NextPage = () => {
   const theme = useTheme();
   const matches = useMediaQuery(theme.breakpoints.between('xs', 'md'));
   const [news, setNews] = useState<NewsReleaseFindResponse['data']>([]);
-  // const { t, locale } = useLocale();
   const router = useRouter();
   const { t } = useTranslation();
-  const [query] = useLanguageQuery();
+
+  useEffect(() => {
+    // 次ここから 改善した useRouter 側 の query の値を正として Strapi には fetch する
+    // translations.en.json 等にSchemaを適用する
+  }, []);
 
   // ページの起動時の処理群
   useEffect(() => {
-    console.log('now', t, query);
-    if (typeof window === 'object') {
-      // strapi.findNewsRelease(t).then((e) => setNews([...e.data]));
+    if (typeof window === 'object' && router.isReady) {
+      strapi.findNewsRelease(isLanguageByQuery(router.query.lang)).then((e) => setNews([...e.data]));
     }
-  }, []);
+  }, [router.query]);
 
   return (
     <div style={{ marginBottom: '5vh' }}>
       <Container maxWidth="lg" style={{ height: '100%' }}>
         <Header />
         {/* ヘッダーセクション */}
-
-        {/* 次ここから： これをDrawerへ移植しておく。またページが跨った時の処理を追加 */}
-
-        <LanguageSwitcher lang="en">en</LanguageSwitcher>
-        <LanguageSwitcher lang="ja">ja</LanguageSwitcher>
-
         <section>
           <div
             style={{

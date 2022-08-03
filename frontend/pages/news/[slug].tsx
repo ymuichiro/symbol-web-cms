@@ -16,13 +16,11 @@ import { useRouter } from 'next/router';
 import Typography from '@mui/material/Typography';
 import UtilService from '../../service/UtilService';
 import MarkdownParser from '../../components/moleculs/MarkdownParser';
-import { useLocale } from '../../hooks/useLocale';
 
 const NewsArticle: NextPage = () => {
   const [news, setNews] = useState<NewsReleaseFindOneResponse['data'] | null>(null);
   const router = useRouter();
   const query = router.query;
-  const { locale } = useLocale();
 
   // ページの起動時にニュースを取得する
   useEffect(() => {

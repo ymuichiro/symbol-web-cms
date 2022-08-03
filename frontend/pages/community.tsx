@@ -16,7 +16,6 @@ import strapi from '../service/StrapiService';
 import MediaCard from '../components/moleculs/MediaCard';
 import Grid from '@mui/material/Grid';
 import { useRouter } from 'next/router';
-import { useLocale } from '../hooks/useLocale';
 import MediaCardWide from '../components/moleculs/MediaCardWide';
 import Typography from '@mui/material/Typography';
 
@@ -53,15 +52,14 @@ const Community: NextPage = () => {
   const [year, setYear] = useState<string>(`${new Date().getFullYear().toString()}年`);
   const [release, setRelease] = useState<CommunityReleaseFindResponse['data']>([]);
   const router = useRouter();
-  const { locale } = useLocale();
 
   // ページの起動時にニュースを取得する
   useEffect(() => {
     if (typeof window === 'object') {
-      strapi.findCommunityRelease(locale).then((e) => {
-        console.log(e);
-        setRelease([...e.data]);
-      });
+      // strapi.findCommunityRelease(locale).then((e) => {
+      //   console.log(e);
+      //   setRelease([...e.data]);
+      // });
     }
   }, []);
 
