@@ -14,9 +14,7 @@ import Container from '@mui/material/Container';
 import strapi from '../service/StrapiService';
 import Grid from '@mui/material/Grid';
 import { useRouter } from 'next/router';
-import { useLocale } from '../hooks/useLocale';
 import Typography from '@mui/material/Typography';
-import TextField from '@mui/material/TextField';
 import Divider from '@mui/material/Divider';
 import List from '@mui/material/List';
 import ListItemButton from '@mui/material/ListItemButton';
@@ -30,15 +28,14 @@ const Docs: NextPage = () => {
   const [docs, setDocs] = useState<CommunityReleaseFindResponse['data']>([]);
   const [search, setSearch] = useState<string>('');
   const router = useRouter();
-  const { locale } = useLocale();
 
   // ページの起動時にニュースを取得する
   useEffect(() => {
     if (typeof window === 'object') {
-      strapi.findDocuments(locale).then((e) => {
-        console.log(e);
-        setDocs([...e.data]);
-      });
+      // strapi.findDocuments(locale).then((e) => {
+      //   console.log(e);
+      //   setDocs([...e.data]);
+      // });
     }
   }, []);
 
