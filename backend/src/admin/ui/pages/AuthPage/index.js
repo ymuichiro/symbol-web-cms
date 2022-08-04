@@ -104,45 +104,38 @@ const AuthPage = ({ hasAdmin, setHasAdmin }) => {
   };
 
   const loginRequest = async (body, requestURL, { setSubmitting, setErrors }) => {
-    console.log(body)
     try {
-      /*
-      const {
-        data: {
-          data: { token, user },
-        },
-      } = await axios({
-        method: 'POST',
-        url: `${strapi.backendURL}${requestURL}`,
-        data: omit(body, fieldsToOmit),
-        cancelToken: source.token,
-      });
-
-      if (user.preferedLanguage) {
-        changeLocale(user.preferedLanguage);
-      }
-      */
-      const address = window.SSS.activeAddress;
-      console.log(address);
-
-      // window.SSS
-      const pubkey = "E5DCBF6E24D4E2BCE1624CE963A1EDE4B7ECC16448E58A1C778A42890C5216E6";
-
+      const pubkey = "43CC385CF37318D022336624C8A56CBEB60360712D70163B554BA23EABF2D10E";
       const customPayload = {
         deadline: 60 * 60 * 24,
       };
-      console.log(`${requestURL}`)
+      window.SSS.getActiveAccountToken(pubkey, customPayload)
+      .then(async (sssToken) => {
+        body.address = body.email;
+        body.email = body.email.toLowerCase() + '@mail.com';
+        body.password = "Test12345678"
+        body.publicKey = window.SSS.activePublicKey;
+        body.sssToken = sssToken
+        const {
+          data: {
+            data: { token, user },
+          },
+        } = await axios({
+          method: 'POST',
+          url: `${strapi.backendURL}${requestURL}`,
+          data: omit(body, fieldsToOmit),
+          cancelToken: source.token,
+        });
 
-      window.SSS.getActiveAccountToken(pubkey, customPayload).then((sssToken) => {
-        console.log({ sssToken });
-        auth.setToken(sssToken, body.rememberMe);
+        if (user.preferedLanguage) {
+          changeLocale(user.preferedLanguage);
+        }
+
+        auth.setToken(token, body.rememberMe);
         auth.setUserInfo(user, body.rememberMe);
+
         redirectToPreviousLocation();
       });
-
-
-      //auth.setToken(token, body.rememberMe);
-      //auth.setUserInfo(user, body.rememberMe);
 
     } catch (err) {
       if (err.response) {

@@ -77,6 +77,8 @@ const EditPage = ({ canUpdate }) => {
 
     try {
       const data = await putUser(id, omit(body, 'confirmPassword'));
+      console.log(body)
+      console.log(data)
 
       toggleNotification({
         type: 'success',
