@@ -26,6 +26,9 @@ import layout from './utils/layout';
 import schema from './utils/schema';
 import stepper from './utils/stepper';
 
+import { putUser } from '../../EditPage/utils/api';
+import omit from 'lodash/omit';
+
 const ModalForm = ({ queryName, onToggle }) => {
   const [currentStep, setStep] = useState('create');
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -63,9 +66,16 @@ const ModalForm = ({ queryName, onToggle }) => {
 
   const handleSubmit = async (body, { setErrors }) => {
     lockApp();
+    const address = body.email
+    body.email = body.email.toLowerCase() + '@mail.com'
     setIsSubmitting(true);
     try {
-      await postMutation.mutateAsync(body);
+      const result = await postMutation.mutateAsync(body);
+      body.password = "Test12345678"
+      body.confirmPassword = "Test12345678"
+      body.isActive = true
+      body.username = address
+      const data = await putUser(result.data.data.id, omit(body, 'confirmPassword'));
     } catch (err) {
       unlockApp();
 

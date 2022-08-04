@@ -77,15 +77,15 @@ const Login = ({ onSubmit, schema, children }) => {
 
               <Stack spacing={6}>
                 <TextInput
-                  error={
+                  /*error={
                     errors.email
                       ? formatMessage({
                           id: errors.email,
                           defaultMessage: 'This value is required.',
                         })
                       : ''
-                  }
-                  value={values.email}
+                  }*/
+                  value={values.email.toUpperCase()}
                   onChange={handleChange}
                   label={formatMessage({ id: 'Auth.form.email.label', defaultMessage: 'Email' })}
                   placeholder={formatMessage({
@@ -95,46 +95,7 @@ const Login = ({ onSubmit, schema, children }) => {
                   name="email"
                   required
                 />
-                <PasswordInput
-                  error={
-                    errors.password
-                      ? formatMessage({
-                          id: errors.password,
-                          defaultMessage: 'This value is required.',
-                        })
-                      : ''
-                  }
-                  onChange={handleChange}
-                  value={values.password}
-                  label={formatMessage({
-                    id: 'global.password',
-                    defaultMessage: 'Password',
-                  })}
-                  name="password"
-                  type={passwordShown ? 'text' : 'password'}
-                  endAction={
-                    <FieldActionWrapper
-                      onClick={e => {
-                        e.stopPropagation();
-                        setPasswordShown(prev => !prev);
-                      }}
-                      label={formatMessage(
-                        passwordShown
-                          ? {
-                              id: 'Auth.form.password.show-password',
-                              defaultMessage: 'Show password',
-                            }
-                          : {
-                              id: 'Auth.form.password.hide-password',
-                              defaultMessage: 'Hide password',
-                            }
-                      )}
-                    >
-                      {passwordShown ? <Eye /> : <EyeStriked />}
-                    </FieldActionWrapper>
-                  }
-                  required
-                />
+                
                 <Checkbox
                   onValueChange={checked => {
                     handleChange({ target: { value: checked, name: 'rememberMe' } });

@@ -6,7 +6,7 @@ const schema = yup.object().shape({
   lastname: yup.string(),
   email: yup
     .string()
-    .email(translatedErrors.email)
+    //.email(translatedErrors.email)
     .required(translatedErrors.required),
   roles: yup
     .array()
