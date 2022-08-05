@@ -4,15 +4,16 @@
 
 */
 import type { NextPage } from 'next';
-import Header from '../../components/moleculs/Header';
-import Footer from '../../components/moleculs/Footer';
 import { useEffect, useState } from 'react';
-import strapi from '../../service/StrapiService';
 import { DocumentFindOneResponse } from '../../model/StrapiModel';
 import { Toolbar } from '../../components/atom/Toolbar';
-import Container from '@mui/material/Container';
 import { PageTitle } from '../../components/atom/Titles';
 import { useRouter } from 'next/router';
+import { useTranslation } from 'next-export-i18n';
+import Header from '../../components/moleculs/Header';
+import Footer from '../../components/moleculs/Footer';
+import strapi from '../../service/StrapiService';
+import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
 import UtilService from '../../service/UtilService';
 import MarkdownParser from '../../components/moleculs/MarkdownParser';
@@ -20,16 +21,16 @@ import MarkdownParser from '../../components/moleculs/MarkdownParser';
 const DocsArticle: NextPage = () => {
   const [doc, setDoc] = useState<DocumentFindOneResponse['data'] | null>(null);
   const router = useRouter();
-  const query = router.query;
+  const { t } = useTranslation();
 
   // ページの起動時にニュースを取得する
   useEffect(() => {
-    if (typeof window === 'object' && query !== undefined && query.slug !== undefined) {
-      strapi.findOneDocuments((query as { slug: string }).slug).then((e) => {
+    if (typeof window === 'object' && router.isReady && typeof router.query.slug === 'string') {
+      strapi.findOneDocuments(router.query.slug).then((e) => {
         setDoc({ ...e.data });
       });
     }
-  }, [query, router]);
+  }, [router.query]);
 
   if (doc === null) {
     return <div />;
@@ -43,15 +44,15 @@ const DocsArticle: NextPage = () => {
         <div
           style={{ marginTop: '10px', display: 'flex', flexWrap: 'nowrap', justifyContent: 'flex-start', gap: '10px' }}
         >
-          <Typography color="text.secondary">作者</Typography>
+          <Typography color="text.secondary">{t('docs_article.author')}</Typography>
           <Typography color="text.secondary">{'Symbol address'}</Typography>
         </div>
         <div style={{ display: 'flex', flexWrap: 'nowrap', justifyContent: 'flex-start', gap: '10px' }}>
-          <Typography color="text.secondary">作成</Typography>
+          <Typography color="text.secondary">{t('docs_article.published')}</Typography>
           <Typography color="text.secondary">
             {UtilService.formatDate(new Date(doc.attributes.publishedAt), 'yyyy/MM/dd')}
           </Typography>
-          <Typography color="text.secondary">更新</Typography>
+          <Typography color="text.secondary">{t('docs_article.updated')}</Typography>
           <Typography color="text.secondary">
             {UtilService.formatDate(new Date(doc.attributes.updatedAt), 'yyyy/MM/dd')}
           </Typography>

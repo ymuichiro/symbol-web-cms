@@ -1,6 +1,6 @@
 import { useTheme } from '@mui/material/styles';
 import { useRouter } from 'next/router';
-import { LanguageSwitcher, useSelectedLanguage } from 'next-export-i18n';
+import { LanguageSwitcher } from 'next-export-i18n';
 import React from 'react';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
@@ -32,10 +32,9 @@ const SITELINKS = [
 
 export default function Header() {
   const theme = useTheme();
-  const [open, setOpen] = React.useState<boolean>(false);
-  const matches = useMediaQuery(theme.breakpoints.between('xs', 'md'));
   const router = useRouter();
-  const { setLang } = useSelectedLanguage();
+  const matches = useMediaQuery(theme.breakpoints.between('xs', 'md'));
+  const [open, setOpen] = React.useState<boolean>(false);
 
   return (
     <React.Fragment>

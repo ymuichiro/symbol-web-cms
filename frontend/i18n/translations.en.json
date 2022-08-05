@@ -1,7 +1,50 @@
 {
   "i18n": {
     "index": {
-      "headline": "Hello"
+      "title_message": "Empowering Individuals, Blockchain",
+      "feature1_title": "About Symbol",
+      "feature1_body": "We are looking for a description of Symbol's features",
+      "news_title": "News Release",
+      "start_title": "Start Symbol",
+      "start_card1": "How to Choose a Wallet",
+      "start_card2": "Things to watch out for",
+      "start_card3": "Where to consult when you need help",
+      "start_card4": "Information for developers",
+      "explorer_title": "Symbol Explorer",
+      "explorer_body": "Let's check the status of transactions on the chain"
+    },
+    "news": {
+      "page_title": "News Release",
+      "no_articles": "No article was found"
+    },
+    "community": {
+      "page_title": "Community",
+      "section_title_release": "News from the Community",
+      "no_articles": "No article was found"
+    },
+    "docs": {
+      "section_title_wellcom": "For First Time Visitors",
+      "advice_private_key": "No one must know your private key",
+      "advice_1": "Other Notes1",
+      "advice_2": "Other Notes2",
+      "section_search_article": "Search Articles",
+      "search_bar_placeholder": "Please enter what you want to search for",
+      "no_articles": "No article was found"
+    },
+    "news_article": {
+      "author": "author",
+      "published": "publish",
+      "updated": "update"
+    },
+    "community_article": {
+      "author": "author",
+      "published": "publish",
+      "updated": "update"
+    },
+    "docs_article": {
+      "author": "author",
+      "published": "publish",
+      "updated": "update"
     }
   }
 }

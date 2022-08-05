@@ -23,21 +23,23 @@ import InputAdornment from '@mui/material/InputAdornment';
 import SearchIcon from '@mui/icons-material/Search';
 import Button from '@mui/material/Button';
 import { OutlinedInput } from '@mui/material';
+import { useTranslation } from 'next-export-i18n';
+import { isLanguageByQuery } from '../i18n/isLanguageByQuery';
 
 const Docs: NextPage = () => {
   const [docs, setDocs] = useState<CommunityReleaseFindResponse['data']>([]);
   const [search, setSearch] = useState<string>('');
   const router = useRouter();
+  const { t } = useTranslation();
 
   // ページの起動時にニュースを取得する
   useEffect(() => {
-    if (typeof window === 'object') {
-      // strapi.findDocuments(locale).then((e) => {
-      //   console.log(e);
-      //   setDocs([...e.data]);
-      // });
+    if (typeof window === 'object' && router.isReady) {
+      strapi.findDocuments(isLanguageByQuery(router.query.lang)).then((e) => {
+        setDocs([...e.data]);
+      });
     }
-  }, []);
+  }, [router.query]);
 
   return (
     <div style={{ marginBottom: '5vh' }}>
@@ -45,9 +47,9 @@ const Docs: NextPage = () => {
         <Header />
         <Toolbar />
         <section style={{ marginTop: '10vh' }}>
-          <PageTitle>はじめて来た方へ</PageTitle>
+          <PageTitle>{t('docs.section_title_wellcom')}</PageTitle>
           <Typography gutterBottom variant="h5" fontWeight={'bold'} style={{ marginTop: '2rem' }}>
-            秘密鍵は誰にも知られてはなりません
+            {t('docs.advice_private_key')}
           </Typography>
           <Typography gutterBottom variant="body1">
             ここに説明を挿入 ここに説明を挿入 ここに説明を挿入 ここに説明を挿入 ここに説明を挿入 ここに説明を挿入
@@ -56,7 +58,7 @@ const Docs: NextPage = () => {
             ここに説明を挿入 ここに説明を挿入 ここに説明を挿入 ここに説明を挿入 ここに説明を挿入 ここに説明を挿入
           </Typography>
           <Typography gutterBottom variant="h5" fontWeight={'bold'} style={{ marginTop: '2rem' }}>
-            他の注意事項
+            {t('docs.advice_1')}
           </Typography>
           <Typography gutterBottom variant="body1">
             ここに説明を挿入 ここに説明を挿入 ここに説明を挿入 ここに説明を挿入 ここに説明を挿入 ここに説明を挿入
@@ -65,7 +67,7 @@ const Docs: NextPage = () => {
             ここに説明を挿入 ここに説明を挿入 ここに説明を挿入 ここに説明を挿入 ここに説明を挿入 ここに説明を挿入
           </Typography>
           <Typography gutterBottom variant="h5" fontWeight={'bold'} style={{ marginTop: '2rem' }}>
-            他の注意事項
+            {t('docs.advice_2')}
           </Typography>
           <Typography gutterBottom variant="body1">
             ここに説明を挿入 ここに説明を挿入 ここに説明を挿入 ここに説明を挿入 ここに説明を挿入 ここに説明を挿入
@@ -81,7 +83,7 @@ const Docs: NextPage = () => {
             </Grid>
             <Grid item xs={12}>
               <Typography variant="h5" fontWeight={'bold'} align="center">
-                記事を検索する
+                {t('docs.section_search_article')}
               </Typography>
             </Grid>
             <Grid item xs={12} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
@@ -91,7 +93,7 @@ const Docs: NextPage = () => {
                   value={search}
                   onChange={(e) => setSearch(e.currentTarget.value)}
                   type="text"
-                  placeholder="検索したいことを入力して下さい"
+                  placeholder={t('docs.search_bar_placeholder')}
                   endAdornment={
                     <InputAdornment position="end">
                       <Button variant="contained">
@@ -104,7 +106,7 @@ const Docs: NextPage = () => {
             </Grid>
           </Grid>
           <List>
-            {docs.length === 0 && <Typography align="left">記事はありません</Typography>}
+            {docs.length === 0 && <Typography align="left">{t('docs.no_articles')}</Typography>}
             {docs.map((item, index) => (
               <ListItemButton divider key={index} onClick={() => router.push('/docs/' + item.id)}>
                 <ListItemText primary={item.attributes.title} secondary={item.attributes.description} />
