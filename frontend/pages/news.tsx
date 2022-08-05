@@ -9,13 +9,15 @@ import { Select } from '../components/atom/Select';
 import { useEffect, useState } from 'react';
 import { PageTitle } from '../components/atom/Titles';
 import { NewsReleaseFindResponse } from '../model/StrapiModel';
+import { useRouter } from 'next/router';
+import { useTranslation } from 'next-export-i18n';
+import { isLanguageByQuery } from '../i18n/isLanguageByQuery';
 import Header from '../components/moleculs/Header';
 import Footer from '../components/moleculs/Footer';
 import Container from '@mui/material/Container';
 import strapi from '../service/StrapiService';
 import MediaCard from '../components/moleculs/MediaCard';
 import Grid from '@mui/material/Grid';
-import { useRouter } from 'next/router';
 import Typography from '@mui/material/Typography';
 
 const YEAR = ['2022年'];
@@ -24,15 +26,16 @@ const News: NextPage = () => {
   const [year, setYear] = useState<string>(`${new Date().getFullYear().toString()}年`);
   const [release, setRelease] = useState<NewsReleaseFindResponse['data']>([]);
   const router = useRouter();
+  const { t } = useTranslation();
 
   // ページの起動時にニュースを取得する
   useEffect(() => {
-    if (typeof window === 'object') {
-      // strapi.findNewsRelease(locale).then((e) => {
-      //   setRelease([...e.data]);
-      // });
+    if (typeof window === 'object' && router.isReady) {
+      strapi.findNewsRelease(isLanguageByQuery(router.query.lang)).then((e) => {
+        setRelease([...e.data]);
+      });
     }
-  }, []);
+  }, [router.query]);
 
   return (
     <div style={{ marginBottom: '5vh' }}>
@@ -41,7 +44,7 @@ const News: NextPage = () => {
         <Toolbar />
         <Grid container>
           <Grid item xs={12} sm={6}>
-            <PageTitle>News Release</PageTitle>
+            <PageTitle>{t('news.page_title')}</PageTitle>
           </Grid>
           <Grid item xs={12} sm={6} style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center' }}>
             <Select
@@ -59,7 +62,7 @@ const News: NextPage = () => {
         <Grid container spacing={5} style={{ marginTop: '5vh' }}>
           {release.length === 0 && (
             <Grid item xs={12}>
-              <Typography align="left">記事はありません</Typography>
+              <Typography align="left">{t('no_articles')}</Typography>
             </Grid>
           )}
           {release.map((item, index) => (

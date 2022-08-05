@@ -25,11 +25,6 @@ const Home: NextPage = () => {
   const router = useRouter();
   const { t } = useTranslation();
 
-  useEffect(() => {
-    // 次ここから 改善した useRouter 側 の query の値を正として Strapi には fetch する
-    // translations.en.json 等にSchemaを適用する
-  }, []);
-
   // ページの起動時の処理群
   useEffect(() => {
     if (typeof window === 'object' && router.isReady) {
@@ -85,7 +80,7 @@ const Home: NextPage = () => {
                   align={matches ? 'center' : 'left'}
                   style={{ paddingLeft: '20px' }}
                 >
-                  {t('index.headline')}
+                  {t('index.title_message')}
                 </Typography>
               </Grid>
               <Grid item xs={12} md={6} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
@@ -99,8 +94,8 @@ const Home: NextPage = () => {
           {new Array(3).fill('').map((_, i) => {
             return (
               <MediaCardWide
-                title="About Symbol"
-                description={new Array(10).fill('Symbolの特徴を示す説明を募集致します').join(' ')}
+                title={t('index.feature1_title')}
+                description={new Array(10).fill(t('index.feature1_body')).join(' ')}
                 imageUrl={`${router.basePath}/assets/img/symbol-logo-white.png`}
                 isShowMore={true}
                 showMoreLink={'/'}
@@ -114,7 +109,7 @@ const Home: NextPage = () => {
         {/* ニュース簡易表示セクション */}
         <section>
           <Typography variant="h4" align="center" color="text.primary" gutterBottom style={{ marginTop: '10vh' }}>
-            News Release
+            {t('index.news_title')}
           </Typography>
           <Grid container spacing={5}>
             {news.map((n, i) => {
@@ -137,7 +132,7 @@ const Home: NextPage = () => {
           <Grid container style={{ marginTop: '10vh' }} spacing={5}>
             <Grid item xs={12} md={6} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
               <Typography variant="h4" align="center" fontWeight="bold" color="text.primary" gutterBottom>
-                Start Symbol
+                {t('index.start_title')}
               </Typography>
             </Grid>
             <Grid item xs={12} md={6} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
@@ -146,42 +141,44 @@ const Home: NextPage = () => {
             <Grid item xs={12}>
               <div style={{ height: '10px' }} />
             </Grid>
-            {['ウォレットの選び方', '注意するべきこと', '困った時相談先', '開発者向けの情報'].map((item, index) => {
-              return (
-                <Grid item xs={12} sm={6} key={index}>
-                  <div>
-                    <div
-                      style={{
-                        display: 'flex',
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                        backgroundImage: `url(${router.basePath}/assets/img/symbol-logo-white.png)`,
-                        backgroundRepeat: 'no-repeat',
-                        backgroundSize: 'cover',
-                        height: '30vh',
-                        filter: 'brightness(0.2)',
-                        borderRadius: '10px',
-                        border: '6px solid white',
-                      }}
-                    />
-                    <Typography color="white" style={{ position: 'relative', top: 0, left: 0 }}>
-                      {item}
-                    </Typography>
-                  </div>
-                </Grid>
-              );
-            })}
+            {[t('index.start_card1'), t('index.start_card2'), t('index.start_card3'), t('index.start_card4')].map(
+              (item, index) => {
+                return (
+                  <Grid item xs={12} sm={6} key={index}>
+                    <div>
+                      <div
+                        style={{
+                          display: 'flex',
+                          justifyContent: 'center',
+                          alignItems: 'center',
+                          backgroundImage: `url(${router.basePath}/assets/img/symbol-logo-white.png)`,
+                          backgroundRepeat: 'no-repeat',
+                          backgroundSize: 'cover',
+                          height: '30vh',
+                          filter: 'brightness(0.2)',
+                          borderRadius: '10px',
+                          border: '6px solid white',
+                        }}
+                      />
+                      <Typography color="white" style={{ position: 'relative', top: 0, left: 0 }}>
+                        {item}
+                      </Typography>
+                    </div>
+                  </Grid>
+                );
+              }
+            )}
           </Grid>
         </section>
         {/* Symbol Explorer */}
-        <section>
+        <section style={{ marginTop: '100px' }}>
           <Grid container justifyContent="center" alignItems="center" style={{ height: '60vh' }}>
             <Grid item xs={12} md={3}>
               <Typography variant="h5" align="center" fontWeight="bold">
-                Symbol Explorer
+                {t('index.explorer_title')}
               </Typography>
               <Typography variant="body1" align="center">
-                Transactionを確認する
+                {t('index.explorer_body')}
               </Typography>
             </Grid>
             <Grid item xs={12} md={9} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
@@ -200,7 +197,7 @@ const Home: NextPage = () => {
           </Grid>
         </section>
         {/* Footer */}
-        <section>
+        <section style={{ marginTop: '100px' }}>
           <Footer />
         </section>
       </Container>

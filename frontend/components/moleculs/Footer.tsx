@@ -1,7 +1,8 @@
+import { useTheme } from '@mui/material/styles';
+import { useRouter } from 'next/router';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import Typography from '@mui/material/Typography';
 import Link from 'next/link';
-import { useTheme } from '@mui/material/styles';
 import IconButton from '@mui/material/IconButton';
 import ChatIcon from '@mui/icons-material/Chat';
 import GitHubIcon from '@mui/icons-material/GitHub';
@@ -10,6 +11,7 @@ import TwitterIcon from '@mui/icons-material/Twitter';
 export default function Footer(): JSX.Element {
   const theme = useTheme();
   const matches = useMediaQuery(theme.breakpoints.between('xs', 'sm'));
+  const router = useRouter();
 
   return (
     <>
@@ -25,40 +27,40 @@ export default function Footer(): JSX.Element {
       >
         <div>
           <Typography>
-            <Link href={'/'}>
+            <Link href={'/news'}>
               <a style={{ color: theme.palette.text.primary, textDecoration: 'none' }}>News</a>
             </Link>
           </Typography>
         </div>
         <div>
           <Typography>
-            <Link href={'/'}>
+            <Link href={'/community'}>
               <a style={{ color: theme.palette.text.primary, textDecoration: 'none' }}>Community</a>
             </Link>
           </Typography>
         </div>
         <div>
           <Typography>
-            <Link href={'/'}>
+            <Link href={'/docs'}>
               <a style={{ color: theme.palette.text.primary, textDecoration: 'none' }}>Docs</a>
             </Link>
           </Typography>
         </div>
         <div>
           <Typography>
-            <Link href={'/'}>
+            <Link href={'https://twitter.com/symnem_com_info'}>
               <a style={{ color: theme.palette.text.primary, textDecoration: 'none' }}>Contract</a>
             </Link>
           </Typography>
         </div>
         <div style={{ flexGrow: 1, display: 'flex', justifyContent: 'flex-end' }}>
-          <IconButton>
+          <IconButton onClick={() => router.push('https://github.com/symbol')}>
             <GitHubIcon />
           </IconButton>
-          <IconButton>
+          <IconButton onClick={() => router.push('https://twitter.com/thesymbolchain')}>
             <TwitterIcon />
           </IconButton>
-          <IconButton>
+          <IconButton onClick={() => router.push('https://discord.gg/xymcity')}>
             <ChatIcon />
           </IconButton>
         </div>
