@@ -6,8 +6,8 @@ module.exports = [
   'strapi::logger',
   'strapi::query',
   'strapi::body',
+  'global::sssAuth',
   'strapi::session',
   'strapi::favicon',
   'strapi::public',
-  'global::sssAuth',
 ];

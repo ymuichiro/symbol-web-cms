@@ -1,14 +1,14 @@
 const layout = [
   [
     {
-      intlLabel: {
-        id: 'Auth.form.firstname.label',
-        defaultMessage: 'First name',
-      },
       name: 'firstname',
+      intlLabel: {
+        id: 'Auth.form.name.labels',
+        defaultMessage: 'Name',
+      },
       placeholder: {
-        id: 'Auth.form.firstname.placeholder',
-        defaultMessage: 'e.g. Kai',
+        id: 'Auth.form.name.placeholder',
+        defaultMessage: 'e.g. Hatchet',
       },
       type: 'text',
       size: {
@@ -17,33 +17,17 @@ const layout = [
       },
       required: true,
     },
-    {
-      intlLabel: {
-        id: 'Auth.form.lastname.label',
-        defaultMessage: 'Last name',
-      },
-      name: 'lastname',
-      placeholder: {
-        id: 'Auth.form.lastname.placeholder',
-        defaultMessage: 'e.g. Doe',
-      },
-      type: 'text',
-      size: {
-        col: 6,
-        xs: 12,
-      },
-    },
   ],
   [
     {
       intlLabel: {
-        id: 'Auth.form.email.label',
-        defaultMessage: 'Email',
+        id: 'Auth.form.symbol.label',
+        defaultMessage: 'SymbolAddress',
       },
       name: 'email',
       placeholder: {
-        id: 'Auth.form.email.placeholder',
-        defaultMessage: 'e.g. kai.doe@strapi.io',
+        id: 'Auth.form.symbol.placeholder',
+        defaultMessage: 'e.g. TDR5AFR3Y5AMKP4GRSCMJERFQ7MEVEE5C7TKWXA',
       },
       type: 'email',
       size: {

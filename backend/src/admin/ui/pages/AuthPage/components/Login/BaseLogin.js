@@ -46,7 +46,6 @@ const Login = ({ onSubmit, schema, children }) => {
             <Form noValidate>
               <Column>
                 <Logo />
-                <div>hahahahaha</div>
                 <Box paddingTop={6} paddingBottom={1}>
                   <Typography variant="alpha" as="h1">
                     {formatMessage({
@@ -87,11 +86,12 @@ const Login = ({ onSubmit, schema, children }) => {
                   }*/
                   value={values.email.toUpperCase()}
                   onChange={handleChange}
-                  label={formatMessage({ id: 'Auth.form.email.label', defaultMessage: 'Email' })}
-                  placeholder={formatMessage({
+                  label='SymbolAddress'//{formatMessage({ id: 'Auth.form.email.label', defaultMessage: 'Email' })}
+                  placeholder='TDR5AFR3Y5AMKP4GRSCMJERFQ7MEVEE5C7TKWXA'
+                  /*{formatMessage({
                     id: 'Auth.form.email.placeholder',
                     defaultMessage: 'kai@doe.com',
-                  })}
+                  })}*/
                   name="email"
                   required
                 />

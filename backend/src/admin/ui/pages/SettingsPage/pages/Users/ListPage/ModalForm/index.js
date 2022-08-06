@@ -136,6 +136,7 @@ const ModalForm = ({ queryName, onToggle }) => {
                         <Grid gap={5}>
                           {layout.map(row => {
                             return row.map(input => {
+                              console.log(input)
                               return (
                                 <GridItem key={input.name} {...input.size}>
                                   <GenericInput
