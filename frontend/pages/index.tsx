@@ -2,6 +2,10 @@ import type { NextPage } from 'next';
 import { useEffect, useState } from 'react';
 import { useTheme } from '@mui/material/styles';
 import { NewsReleaseFindResponse } from '../model/StrapiModel';
+import { useRouter } from 'next/router';
+import { useTranslation } from 'next-export-i18n';
+import { isLanguageByQuery } from '../i18n/isLanguageByQuery';
+import { useLanguageQuery } from '../hooks/useLanguageQuery';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import Header from '../components/moleculs/Header';
 import Container from '@mui/material/Container';
@@ -14,38 +18,27 @@ import Footer from '../components/moleculs/Footer';
 import Image from 'next/image';
 import SymbolExplorerImage from '../public/assets/img/symbol-explorer.png';
 import SymbolLogoWhiteImagee from '../public/assets/img/symbol-logo-white.png';
-import { useLocale } from '../hooks/useLocale';
-import { useRouter } from 'next/router';
-import { useTranslation, useLanguageQuery, LanguageSwitcher } from 'next-export-i18n';
 
 const Home: NextPage = () => {
   const theme = useTheme();
   const matches = useMediaQuery(theme.breakpoints.between('xs', 'md'));
   const [news, setNews] = useState<NewsReleaseFindResponse['data']>([]);
-  // const { t, locale } = useLocale();
   const router = useRouter();
+  const languageQuery = useLanguageQuery(router);
   const { t } = useTranslation();
-  const [query] = useLanguageQuery();
 
   // ページの起動時の処理群
   useEffect(() => {
-    console.log('now', t, query);
-    if (typeof window === 'object') {
-      // strapi.findNewsRelease(t).then((e) => setNews([...e.data]));
+    if (typeof window === 'object' && router.isReady) {
+      strapi.findNewsRelease(isLanguageByQuery(languageQuery.lang)).then((e) => setNews([...e.data]));
     }
-  }, []);
+  }, [router.query]);
 
   return (
     <div style={{ marginBottom: '5vh' }}>
       <Container maxWidth="lg" style={{ height: '100%' }}>
         <Header />
         {/* ヘッダーセクション */}
-
-        {/* 次ここから： これをDrawerへ移植しておく。またページが跨った時の処理を追加 */}
-
-        <LanguageSwitcher lang="en">en</LanguageSwitcher>
-        <LanguageSwitcher lang="ja">ja</LanguageSwitcher>
-
         <section>
           <div
             style={{
@@ -89,7 +82,7 @@ const Home: NextPage = () => {
                   align={matches ? 'center' : 'left'}
                   style={{ paddingLeft: '20px' }}
                 >
-                  {t('index.headline')}
+                  {t('index.title_message')}
                 </Typography>
               </Grid>
               <Grid item xs={12} md={6} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
@@ -103,11 +96,11 @@ const Home: NextPage = () => {
           {new Array(3).fill('').map((_, i) => {
             return (
               <MediaCardWide
-                title="About Symbol"
-                description={new Array(10).fill('Symbolの特徴を示す説明を募集致します').join(' ')}
+                title={t('index.feature1_title')}
+                description={new Array(10).fill(t('index.feature1_body')).join(' ')}
                 imageUrl={`${router.basePath}/assets/img/symbol-logo-white.png`}
+                showMoreLink={{ pathname: '/', query: languageQuery }}
                 isShowMore={true}
-                showMoreLink={'/'}
                 imageHeight={'50vh'}
                 style={{ marginTop: '20vh' }}
                 key={i}
@@ -118,7 +111,7 @@ const Home: NextPage = () => {
         {/* ニュース簡易表示セクション */}
         <section>
           <Typography variant="h4" align="center" color="text.primary" gutterBottom style={{ marginTop: '10vh' }}>
-            News Release
+            {t('index.news_title')}
           </Typography>
           <Grid container spacing={5}>
             {news.map((n, i) => {
@@ -129,7 +122,7 @@ const Home: NextPage = () => {
                     description={n.attributes.description}
                     date={n.attributes.publishedAt}
                     image={`${router.basePath}/assets/img/symbol-logo-white.png`}
-                    onClickLink={() => router.push('/news/' + n.id)}
+                    onClickLink={() => router.push({ pathname: '/news/' + n.id, query: languageQuery })}
                   />
                 </Grid>
               );
@@ -141,7 +134,7 @@ const Home: NextPage = () => {
           <Grid container style={{ marginTop: '10vh' }} spacing={5}>
             <Grid item xs={12} md={6} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
               <Typography variant="h4" align="center" fontWeight="bold" color="text.primary" gutterBottom>
-                Start Symbol
+                {t('index.start_title')}
               </Typography>
             </Grid>
             <Grid item xs={12} md={6} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
@@ -150,42 +143,44 @@ const Home: NextPage = () => {
             <Grid item xs={12}>
               <div style={{ height: '10px' }} />
             </Grid>
-            {['ウォレットの選び方', '注意するべきこと', '困った時相談先', '開発者向けの情報'].map((item, index) => {
-              return (
-                <Grid item xs={12} sm={6} key={index}>
-                  <div>
-                    <div
-                      style={{
-                        display: 'flex',
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                        backgroundImage: `url(${router.basePath}/assets/img/symbol-logo-white.png)`,
-                        backgroundRepeat: 'no-repeat',
-                        backgroundSize: 'cover',
-                        height: '30vh',
-                        filter: 'brightness(0.2)',
-                        borderRadius: '10px',
-                        border: '6px solid white',
-                      }}
-                    />
-                    <Typography color="white" style={{ position: 'relative', top: 0, left: 0 }}>
-                      {item}
-                    </Typography>
-                  </div>
-                </Grid>
-              );
-            })}
+            {[t('index.start_card1'), t('index.start_card2'), t('index.start_card3'), t('index.start_card4')].map(
+              (item, index) => {
+                return (
+                  <Grid item xs={12} sm={6} key={index}>
+                    <div>
+                      <div
+                        style={{
+                          display: 'flex',
+                          justifyContent: 'center',
+                          alignItems: 'center',
+                          backgroundImage: `url(${router.basePath}/assets/img/symbol-logo-white.png)`,
+                          backgroundRepeat: 'no-repeat',
+                          backgroundSize: 'cover',
+                          height: '30vh',
+                          filter: 'brightness(0.2)',
+                          borderRadius: '10px',
+                          border: '6px solid white',
+                        }}
+                      />
+                      <Typography color="white" style={{ position: 'relative', top: 0, left: 0 }}>
+                        {item}
+                      </Typography>
+                    </div>
+                  </Grid>
+                );
+              }
+            )}
           </Grid>
         </section>
         {/* Symbol Explorer */}
-        <section>
+        <section style={{ marginTop: '100px' }}>
           <Grid container justifyContent="center" alignItems="center" style={{ height: '60vh' }}>
             <Grid item xs={12} md={3}>
               <Typography variant="h5" align="center" fontWeight="bold">
-                Symbol Explorer
+                {t('index.explorer_title')}
               </Typography>
               <Typography variant="body1" align="center">
-                Transactionを確認する
+                {t('index.explorer_body')}
               </Typography>
             </Grid>
             <Grid item xs={12} md={9} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
@@ -204,7 +199,7 @@ const Home: NextPage = () => {
           </Grid>
         </section>
         {/* Footer */}
-        <section>
+        <section style={{ marginTop: '100px' }}>
           <Footer />
         </section>
       </Container>

@@ -1,16 +1,50 @@
 {
   "i18n": {
-    "ui": {
-      "languageSwitcher": "Choose Language: "
-    },
-    "nav": {
-      "index": {
-        "text": "Got To Paris",
-        "route": "/"
-      }
-    },
     "index": {
-      "headline": "こんにちは"
+      "title_message": "個人に力を与える、ブロックチェーン",
+      "feature1_title": "Symbolについて",
+      "feature1_body": "Symbolの特徴を示す説明を募集致します",
+      "news_title": "ニュースリリース",
+      "start_title": "はじめよう Symbol",
+      "start_card1": "ウォレットの選び方",
+      "start_card2": "注意するべきこと",
+      "start_card3": "困った時相談先",
+      "start_card4": "開発者向けの情報",
+      "explorer_title": "Symbol エクスプローラー",
+      "explorer_body": "チェーン上の取引状況を確認してみよう"
+    },
+    "news": {
+      "page_title": "ニュースリリース",
+      "no_articles": "記事がありませんでした"
+    },
+    "community": {
+      "page_title": "コミュニティ",
+      "section_title_release": "コミュニティからのお知らせ",
+      "no_articles": "記事がありませんでした"
+    },
+    "docs": {
+      "section_title_wellcom": "はじめて来た方へ",
+      "advice_private_key": "秘密鍵は誰にも知られてはなりません",
+      "advice_1": "他の注意事項",
+      "advice_2": "他の注意事項",
+      "section_search_article": "記事を検索する",
+      "search_bar_placeholder": "検索したい事を入力して下さい",
+      "no_articles": "記事がありませんでした"
+    },
+    "news_article": {
+      "author": "作者",
+      "published": "作成",
+      "updated": "更新"
+    },
+    "community_article": {
+      "author": "作者",
+      "published": "作成",
+      "updated": "更新"
+    },
+    "docs_article": {
+      "author": "作者",
+      "published": "作成",
+      "updated": "更新"
     }
   }
 }
