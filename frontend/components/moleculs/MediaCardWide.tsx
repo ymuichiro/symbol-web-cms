@@ -6,13 +6,14 @@ import Typography from '@mui/material/Typography';
 import Link from 'next/link';
 import { useTheme } from '@mui/material/styles';
 import { CSSProperties } from 'react';
+import { UrlObject } from 'url';
 
 interface MediaCardWideArgs {
   title: string;
   description: string;
   imageUrl: string;
   isShowMore?: boolean;
-  showMoreLink?: string;
+  showMoreLink?: UrlObject;
   style?: CSSProperties;
   imageHeight?: string;
 }

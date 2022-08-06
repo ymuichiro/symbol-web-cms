@@ -20,6 +20,7 @@ import MediaCard from '../components/moleculs/MediaCard';
 import Grid from '@mui/material/Grid';
 import MediaCardWide from '../components/moleculs/MediaCardWide';
 import Typography from '@mui/material/Typography';
+import { useLanguageQuery } from '../hooks/useLanguageQuery';
 
 const YEAR = ['2022年'];
 const COMMUNITIES = [
@@ -55,11 +56,12 @@ const Community: NextPage = () => {
   const [release, setRelease] = useState<CommunityReleaseFindResponse['data']>([]);
   const router = useRouter();
   const { t } = useTranslation();
+  const languageQuery = useLanguageQuery(router);
 
   // ページの起動時にニュースを取得する
   useEffect(() => {
     if (typeof window === 'object' && router.isReady) {
-      strapi.findCommunityRelease(isLanguageByQuery(router.query.lang)).then((e) => {
+      strapi.findCommunityRelease(isLanguageByQuery(languageQuery.lang)).then((e) => {
         setRelease([...e.data]);
       });
     }
@@ -78,7 +80,7 @@ const Community: NextPage = () => {
               description={item.description}
               imageUrl={item.imageUrl}
               isShowMore={true}
-              showMoreLink={'/'}
+              showMoreLink={{ href: '/' }}
               imageHeight={'20vh'}
               style={{ marginTop: '3vh' }}
               key={index}
@@ -116,7 +118,7 @@ const Community: NextPage = () => {
                   description={item.attributes.description}
                   date={item.attributes.publishedAt}
                   image="/assets/img/symbol-logo-white.png"
-                  onClickLink={() => router.push('/community/' + item.id)}
+                  onClickLink={() => router.push({ pathname: `/community/${item.id}`, query: languageQuery })}
                 />
               </Grid>
             ))}

@@ -19,6 +19,7 @@ import strapi from '../service/StrapiService';
 import MediaCard from '../components/moleculs/MediaCard';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
+import { useLanguageQuery } from '../hooks/useLanguageQuery';
 
 const YEAR = ['2022年'];
 
@@ -26,12 +27,13 @@ const News: NextPage = () => {
   const [year, setYear] = useState<string>(`${new Date().getFullYear().toString()}年`);
   const [release, setRelease] = useState<NewsReleaseFindResponse['data']>([]);
   const router = useRouter();
+  const languageQuery = useLanguageQuery(router);
   const { t } = useTranslation();
 
   // ページの起動時にニュースを取得する
   useEffect(() => {
     if (typeof window === 'object' && router.isReady) {
-      strapi.findNewsRelease(isLanguageByQuery(router.query.lang)).then((e) => {
+      strapi.findNewsRelease(isLanguageByQuery(isLanguageByQuery(languageQuery.lang))).then((e) => {
         setRelease([...e.data]);
       });
     }
@@ -72,7 +74,7 @@ const News: NextPage = () => {
                 description={item.attributes.description}
                 date={item.attributes.publishedAt}
                 image="/assets/img/symbol-logo-white.png"
-                onClickLink={() => router.push('/news/' + item.id)}
+                onClickLink={() => router.push({ pathname: `/news/${item.id}`, query: languageQuery })}
               />
             </Grid>
           ))}
