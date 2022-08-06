@@ -4,6 +4,7 @@
 
 */
 
+import { Languages } from '../i18n/isLanguageByQuery';
 import {
   CommunityReleaseFindOneResponse,
   CommunityReleaseFindResponse,
@@ -43,7 +44,7 @@ export default class StrapiService {
     return json;
   }
 
-  static async findNewsRelease(locale: string): Promise<NewsReleaseFindResponse> {
+  static async findNewsRelease(locale: Languages): Promise<NewsReleaseFindResponse> {
     const sp = new URLSearchParams();
     sp.append('locale', locale);
     const ep = generateEndpoint(sp, 'api', 'news-releases');
@@ -61,7 +62,7 @@ export default class StrapiService {
     return json;
   }
 
-  static async findCommunityRelease(locale: string): Promise<CommunityReleaseFindResponse> {
+  static async findCommunityRelease(locale: Languages): Promise<CommunityReleaseFindResponse> {
     const sp = new URLSearchParams();
     sp.append('locale', locale);
     const ep = generateEndpoint(sp, 'api', 'community-releases');
@@ -78,7 +79,7 @@ export default class StrapiService {
     return json;
   }
 
-  static async findDocuments(locale: string): Promise<DocumentFindResponse> {
+  static async findDocuments(locale: Languages): Promise<DocumentFindResponse> {
     const sp = new URLSearchParams();
     sp.append('locale', locale);
     const ep = generateEndpoint(sp, 'api', 'documents');

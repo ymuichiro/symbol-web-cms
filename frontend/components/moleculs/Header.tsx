@@ -1,3 +1,6 @@
+import { useTheme } from '@mui/material/styles';
+import { useRouter } from 'next/router';
+import { LanguageSwitcher } from 'next-export-i18n';
 import React from 'react';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
@@ -5,27 +8,35 @@ import IconButton from '@mui/material/IconButton';
 import List from '@mui/material/List';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
-import MenuIcon from '@mui/icons-material/Menu';
-import { useTheme } from '@mui/material/styles';
 import Drawer from '@mui/material/Drawer';
 import Button from '@mui/material/Button';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import Image from 'next/image';
-import SymbolLogo from '../../public/assets/img/symbol-logo-with-dark-text.png';
-import { useRouter } from 'next/router';
+import SymbolLogoLight from '../../public/assets/img/symbol-logo-with-light-text.png';
+import SymbolLogoDark from '../../public/assets/img/symbol-logo-with-dark-text.png';
+import Typography from '@mui/material/Typography';
+import Divider from '@mui/material/Divider';
+import MenuIcon from '@mui/icons-material/Menu';
+import ArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
+import HomeIcon from '@mui/icons-material/Home';
+import NewspaperIcon from '@mui/icons-material/Newspaper';
+import ForumIcon from '@mui/icons-material/Forum';
+import TopicIcon from '@mui/icons-material/Topic';
+import { useLanguageQuery } from '../../hooks/useLanguageQuery';
 
 const SITELINKS = [
-  { title: 'Top', link: '/' },
-  { title: 'News', link: '/news' },
-  { title: 'Community', link: '/community' },
-  { title: 'Docs', link: '/docs' },
+  { title: 'Top', link: '/', Icon: HomeIcon },
+  { title: 'News', link: '/news', Icon: NewspaperIcon },
+  { title: 'Community', link: '/community', Icon: ForumIcon },
+  { title: 'Docs', link: '/docs', Icon: TopicIcon },
 ];
 
 export default function Header() {
   const theme = useTheme();
-  const [open, setOpen] = React.useState<boolean>(false);
-  const matches = useMediaQuery(theme.breakpoints.between('xs', 'md'));
   const router = useRouter();
+  const matches = useMediaQuery(theme.breakpoints.between('xs', 'md'));
+  const [open, setOpen] = React.useState<boolean>(false);
+  const languageQuery = useLanguageQuery(router);
 
   return (
     <React.Fragment>
@@ -50,7 +61,13 @@ export default function Header() {
           <Toolbar>
             <>
               <div style={{ flexGrow: 1, display: 'flex', justifyContent: 'flex-start', alignItems: 'center' }}>
-                <Image src={SymbolLogo} height={35} width={155} alt="Symbol-Logo" onClick={() => router.push('/')} />
+                <Image
+                  src={SymbolLogoDark}
+                  height={35}
+                  width={155}
+                  alt="Symbol-Logo"
+                  onClick={() => router.push({ pathname: '/', query: languageQuery })}
+                />
               </div>
               {matches || (
                 <div
@@ -66,7 +83,7 @@ export default function Header() {
                     <Button
                       variant="text"
                       key={index}
-                      onClick={() => router.push(item.link)}
+                      onClick={() => router.push({ pathname: item.link, query: languageQuery })}
                       style={{
                         color: 'black',
                         fontWeight: 'bold',
@@ -92,18 +109,81 @@ export default function Header() {
         </AppBar>
       </div>
       <Drawer anchor={'left'} open={open} onClose={() => setOpen(!open)}>
-        <List>
-          {SITELINKS.map((item, index) => (
-            <ListItemButton
-              key={index}
-              divider
-              style={{ width: '70vh', maxWidth: '300px' }}
-              onClick={() => router.push(item.link)}
+        <div
+          style={{
+            display: 'flex',
+            height: '100%',
+            flexDirection: 'column',
+            justifyContent: 'flex-start',
+            alignItems: 'stretch',
+            maxWidth: '300px',
+          }}
+        >
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              marginTop: '20px',
+              marginBottom: '20px',
+            }}
+          >
+            {theme.palette.mode === 'dark' ? (
+              <Image
+                src={SymbolLogoLight}
+                height={35}
+                width={155}
+                alt="Symbol-Logo"
+                onClick={() => router.push({ pathname: '/', query: languageQuery })}
+              />
+            ) : (
+              <Image
+                src={SymbolLogoDark}
+                height={35}
+                width={155}
+                alt="Symbol-Logo"
+                onClick={() => router.push({ pathname: '/', query: languageQuery })}
+              />
+            )}
+          </div>
+          <div>
+            <Divider />
+          </div>
+          <List>
+            {SITELINKS.map((item, index) => (
+              <ListItemButton
+                key={index}
+                style={{ width: '70vh', maxWidth: '300px' }}
+                onClick={() => router.push({ pathname: item.link, query: languageQuery })}
+              >
+                <item.Icon />
+                <ListItemText primary={item.title} style={{ marginLeft: '1rem' }} />
+                <ArrowRightIcon />
+              </ListItemButton>
+            ))}
+          </List>
+          <div style={{ marginTop: 'auto', paddingInline: '30px', paddingBlock: '15px' }}>
+            <Typography gutterBottom variant="body2" color="text.secondary" align="left">
+              Language
+            </Typography>
+            <div
+              style={{
+                display: 'flex',
+                justifyContent: 'flex-start',
+                columnGap: '20px',
+                maxWidth: '100%',
+                flexWrap: 'wrap',
+              }}
             >
-              <ListItemText primary={item.title} />
-            </ListItemButton>
-          ))}
-        </List>
+              <LanguageSwitcher lang="en">
+                <Button>en</Button>
+              </LanguageSwitcher>
+              <LanguageSwitcher lang="ja">
+                <Button>ja</Button>
+              </LanguageSwitcher>
+            </div>
+          </div>
+        </div>
       </Drawer>
     </React.Fragment>
   );
