@@ -22,6 +22,7 @@ import HomeIcon from '@mui/icons-material/Home';
 import NewspaperIcon from '@mui/icons-material/Newspaper';
 import ForumIcon from '@mui/icons-material/Forum';
 import TopicIcon from '@mui/icons-material/Topic';
+import { useLanguageQuery } from '../../hooks/useLanguageQuery';
 
 const SITELINKS = [
   { title: 'Top', link: '/', Icon: HomeIcon },
@@ -35,6 +36,7 @@ export default function Header() {
   const router = useRouter();
   const matches = useMediaQuery(theme.breakpoints.between('xs', 'md'));
   const [open, setOpen] = React.useState<boolean>(false);
+  const languageQuery = useLanguageQuery(router);
 
   return (
     <React.Fragment>
@@ -64,7 +66,7 @@ export default function Header() {
                   height={35}
                   width={155}
                   alt="Symbol-Logo"
-                  onClick={() => router.push('/')}
+                  onClick={() => router.push({ pathname: '/', query: languageQuery })}
                 />
               </div>
               {matches || (
@@ -81,7 +83,7 @@ export default function Header() {
                     <Button
                       variant="text"
                       key={index}
-                      onClick={() => router.push(item.link)}
+                      onClick={() => router.push({ pathname: item.link, query: languageQuery })}
                       style={{
                         color: 'black',
                         fontWeight: 'bold',
@@ -127,9 +129,21 @@ export default function Header() {
             }}
           >
             {theme.palette.mode === 'dark' ? (
-              <Image src={SymbolLogoLight} height={35} width={155} alt="Symbol-Logo" onClick={() => router.push('/')} />
+              <Image
+                src={SymbolLogoLight}
+                height={35}
+                width={155}
+                alt="Symbol-Logo"
+                onClick={() => router.push({ pathname: '/', query: languageQuery })}
+              />
             ) : (
-              <Image src={SymbolLogoDark} height={35} width={155} alt="Symbol-Logo" onClick={() => router.push('/')} />
+              <Image
+                src={SymbolLogoDark}
+                height={35}
+                width={155}
+                alt="Symbol-Logo"
+                onClick={() => router.push({ pathname: '/', query: languageQuery })}
+              />
             )}
           </div>
           <div>
@@ -140,7 +154,7 @@ export default function Header() {
               <ListItemButton
                 key={index}
                 style={{ width: '70vh', maxWidth: '300px' }}
-                onClick={() => router.push(item.link)}
+                onClick={() => router.push({ pathname: item.link, query: languageQuery })}
               >
                 <item.Icon />
                 <ListItemText primary={item.title} style={{ marginLeft: '1rem' }} />

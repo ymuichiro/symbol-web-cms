@@ -5,6 +5,7 @@ import { NewsReleaseFindResponse } from '../model/StrapiModel';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-export-i18n';
 import { isLanguageByQuery } from '../i18n/isLanguageByQuery';
+import { useLanguageQuery } from '../hooks/useLanguageQuery';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import Header from '../components/moleculs/Header';
 import Container from '@mui/material/Container';
@@ -23,12 +24,13 @@ const Home: NextPage = () => {
   const matches = useMediaQuery(theme.breakpoints.between('xs', 'md'));
   const [news, setNews] = useState<NewsReleaseFindResponse['data']>([]);
   const router = useRouter();
+  const languageQuery = useLanguageQuery(router);
   const { t } = useTranslation();
 
   // ページの起動時の処理群
   useEffect(() => {
     if (typeof window === 'object' && router.isReady) {
-      strapi.findNewsRelease(isLanguageByQuery(router.query.lang)).then((e) => setNews([...e.data]));
+      strapi.findNewsRelease(isLanguageByQuery(languageQuery.lang)).then((e) => setNews([...e.data]));
     }
   }, [router.query]);
 
@@ -97,8 +99,8 @@ const Home: NextPage = () => {
                 title={t('index.feature1_title')}
                 description={new Array(10).fill(t('index.feature1_body')).join(' ')}
                 imageUrl={`${router.basePath}/assets/img/symbol-logo-white.png`}
+                showMoreLink={{ pathname: '/', query: languageQuery }}
                 isShowMore={true}
-                showMoreLink={'/'}
                 imageHeight={'50vh'}
                 style={{ marginTop: '20vh' }}
                 key={i}
@@ -120,7 +122,7 @@ const Home: NextPage = () => {
                     description={n.attributes.description}
                     date={n.attributes.publishedAt}
                     image={`${router.basePath}/assets/img/symbol-logo-white.png`}
-                    onClickLink={() => router.push('/news/' + n.id)}
+                    onClickLink={() => router.push({ pathname: '/news/' + n.id, query: languageQuery })}
                   />
                 </Grid>
               );

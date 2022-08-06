@@ -25,17 +25,19 @@ import Button from '@mui/material/Button';
 import { OutlinedInput } from '@mui/material';
 import { useTranslation } from 'next-export-i18n';
 import { isLanguageByQuery } from '../i18n/isLanguageByQuery';
+import { useLanguageQuery } from '../hooks/useLanguageQuery';
 
 const Docs: NextPage = () => {
   const [docs, setDocs] = useState<CommunityReleaseFindResponse['data']>([]);
   const [search, setSearch] = useState<string>('');
   const router = useRouter();
   const { t } = useTranslation();
+  const languageQuery = useLanguageQuery(router);
 
   // ページの起動時にニュースを取得する
   useEffect(() => {
     if (typeof window === 'object' && router.isReady) {
-      strapi.findDocuments(isLanguageByQuery(router.query.lang)).then((e) => {
+      strapi.findDocuments(isLanguageByQuery(languageQuery.lang)).then((e) => {
         setDocs([...e.data]);
       });
     }
@@ -108,7 +110,11 @@ const Docs: NextPage = () => {
           <List>
             {docs.length === 0 && <Typography align="left">{t('docs.no_articles')}</Typography>}
             {docs.map((item, index) => (
-              <ListItemButton divider key={index} onClick={() => router.push('/docs/' + item.id)}>
+              <ListItemButton
+                divider
+                key={index}
+                onClick={() => router.push({ pathname: `/docs/${item.id}`, query: languageQuery })}
+              >
                 <ListItemText primary={item.attributes.title} secondary={item.attributes.description} />
               </ListItemButton>
             ))}
