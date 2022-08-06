@@ -17,7 +17,6 @@
     "pg": "^8.7.3",
     "pg-connection-string": "^2.5.0",
     "rxjs": "^7.5.6",
-    "sss-module": "^1.0.4",
     "symbol-sdk": "^2.0.0"
   },
   "author": {

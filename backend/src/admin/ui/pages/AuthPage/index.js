@@ -13,6 +13,7 @@ import formatAPIErrors from '../../utils/formatAPIErrors';
 import init from './init';
 import { initialState, reducer } from './reducer';
 import symbol from 'symbol-sdk';
+import { setEncriptionMessage, requestSignEncription } from "sss-module";
 
 const AuthPage = ({ hasAdmin, setHasAdmin }) => {
   const {
@@ -106,37 +107,49 @@ const AuthPage = ({ hasAdmin, setHasAdmin }) => {
   const loginRequest = async (body, requestURL, { setSubmitting, setErrors }) => {
     try {
       const pubkey = "43CC385CF37318D022336624C8A56CBEB60360712D70163B554BA23EABF2D10E";
+
       const customPayload = {
         deadline: 60 * 60 * 24,
       };
-      window.SSS.getActiveAccountToken(pubkey, customPayload)
-      .then(async (sssToken) => {
-        body.address = body.email;
-        body.email = body.email.toLowerCase() + '@mail.com';
-        body.password = "Test12345678"
-        body.publicKey = window.SSS.activePublicKey;
-        body.sssToken = sssToken
-        const {
-          data: {
-            data: { token, user },
-          },
-        } = await axios({
-          method: 'POST',
-          url: `${strapi.backendURL}${requestURL}`,
-          data: omit(body, fieldsToOmit),
-          cancelToken: source.token,
-        });
 
-        if (user.preferedLanguage) {
-          changeLocale(user.preferedLanguage);
+      const encryptedPayload = await axios({
+        method: 'POST',
+        url: `${strapi.backendURL}/api/set-password`,
+        data: {
+          address: body.email.toLowerCase() + '@mail.com',
+          publicKey: window.SSS.activePublicKey
         }
-
-        auth.setToken(token, body.rememberMe);
-        auth.setUserInfo(user, body.rememberMe);
-
-        redirectToPreviousLocation();
       });
+      
+      window.SSS.getActiveAccountToken(pubkey, customPayload, encryptedPayload.data)
+        .then(async (sssToken) => {
+          const confirmUser = {
+            address: body.email,
+            email: body.email.toLowerCase() + '@mail.com',
+            //password: 'B2D7D7A54CBE5F46',
+            publicKey: window.SSS.activePublicKey,
+            sssToken
+          }
+          const {
+            data: {
+              data: { token, user },
+            },
+          } = await axios({
+            method: 'POST',
+            url: `${strapi.backendURL}${requestURL}`,
+            data: omit(confirmUser, fieldsToOmit),
+            cancelToken: source.token,
+          });
 
+          if (user.preferedLanguage) {
+            changeLocale(user.preferedLanguage);
+          }
+
+          auth.setToken(token, body.rememberMe);
+          auth.setUserInfo(user, body.rememberMe);
+
+          redirectToPreviousLocation();
+        });
     } catch (err) {
       if (err.response) {
         const errorMessage = get(
