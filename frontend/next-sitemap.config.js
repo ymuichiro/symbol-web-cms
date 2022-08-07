@@ -1,6 +1,6 @@
 /** @type {import('next-sitemap').IConfig} */
 const config = {
-  siteUrl: "https://example.com",
+  siteUrl: 'https://symbol-community.com',
   generateRobotsTxt: true,
 };
 
