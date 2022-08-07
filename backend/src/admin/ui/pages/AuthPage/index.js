@@ -12,8 +12,6 @@ import useLocalesProvider from '../../components/LocalesProvider/useLocalesProvi
 import formatAPIErrors from '../../utils/formatAPIErrors';
 import init from './init';
 import { initialState, reducer } from './reducer';
-import symbol from 'symbol-sdk';
-import { setEncriptionMessage, requestSignEncription } from "sss-module";
 
 const AuthPage = ({ hasAdmin, setHasAdmin }) => {
   const {
