@@ -50,7 +50,6 @@ export default function MediaCardWide(props: MediaCardWideArgs): JSX.Element {
             alt="card-content-image"
             image={props.imageUrl}
             style={{ height: props.imageHeight }}
-            alt="content-image"
           />
         </Grid>
       </Grid>
