@@ -6,13 +6,14 @@ import Typography from '@mui/material/Typography';
 import Link from 'next/link';
 import { useTheme } from '@mui/material/styles';
 import { CSSProperties } from 'react';
+import { UrlObject } from 'url';
 
 interface MediaCardWideArgs {
   title: string;
   description: string;
   imageUrl: string;
   isShowMore?: boolean;
-  showMoreLink?: string;
+  showMoreLink?: UrlObject;
   style?: CSSProperties;
   imageHeight?: string;
 }
@@ -44,7 +45,12 @@ export default function MediaCardWide(props: MediaCardWideArgs): JSX.Element {
           </CardContent>
         </Grid>
         <Grid item xs={12} md={5}>
-          <CardMedia component="img" image={props.imageUrl} style={{ height: props.imageHeight }} alt="content-image" />
+          <CardMedia
+            component="img"
+            alt="card-content-image"
+            image={props.imageUrl}
+            style={{ height: props.imageHeight }}
+          />
         </Grid>
       </Grid>
     </Card>

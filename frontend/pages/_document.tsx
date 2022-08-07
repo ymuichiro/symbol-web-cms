@@ -7,13 +7,16 @@ export default class MyDocument extends Document {
     return (
       <Html lang="en">
         <Head>
-          <meta name="description" content={process.env.NEXT_PUBLIC_SITE_DESCRIPTION} />
           <meta charSet="utf-8" />
           <meta name="theme-color" content="#01579b" />
-          <meta name="description" content="" />
+          <meta
+            name="description"
+            content="Next Generation Blockchain Symbol Web Site. Be the first to check the latest information. You can also get information about the active community."
+          />
           <link rel="icon" href="/favicon.ico" />
-          <link rel="apple-touch-icon" href="/logo192.png" />
+          <link rel="apple-touch-icon" href="/icon-192x192.png" />
           <link rel="manifest" href="/manifest.json" />
+          <title>Symbol for Everyone</title>
         </Head>
         <body>
           <Main />
