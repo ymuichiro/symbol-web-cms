@@ -20,7 +20,7 @@ interface Args {
 export default function MediaCard(props: Args): JSX.Element {
   return (
     <Card style={props.style}>
-      <CardMedia component="img" height="200" image={props.image} />
+      <CardMedia component="img" height="200" alt="card-content-image" image={props.image} />
       <CardContent>
         <Typography gutterBottom variant="h5" component="div">
           {props.title}
