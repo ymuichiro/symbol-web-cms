@@ -18,13 +18,13 @@
       "minLength": 3,
       "unique": true,
       "configurable": false,
-      "required": true
+      "required": false
     },
     "email": {
       "type": "email",
       "minLength": 6,
       "configurable": false,
-      "required": true
+      "required": false
     },
     "provider": {
       "type": "string",
