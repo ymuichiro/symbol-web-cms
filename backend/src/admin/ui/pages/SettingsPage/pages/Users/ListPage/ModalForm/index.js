@@ -19,15 +19,11 @@ import { Form, GenericInput, useNotification, useOverlayBlocker } from '@strapi/
 import { useQueryClient, useMutation } from 'react-query';
 import formDataModel from 'ee_else_ce/pages/SettingsPage/pages/Users/ListPage/ModalForm/utils/formDataModel';
 import roleSettingsForm from 'ee_else_ce/pages/SettingsPage/pages/Users/ListPage/ModalForm/utils/roleSettingsForm';
-import MagicLink from 'ee_else_ce/pages/SettingsPage/pages/Users/components/MagicLink';
 import { axiosInstance } from '../../../../../../core/utils';
 import SelectRoles from '../../components/SelectRoles';
 import layout from './utils/layout';
 import schema from './utils/schema';
 import stepper from './utils/stepper';
-
-import { putUser } from '../../EditPage/utils/api';
-import omit from 'lodash/omit';
 
 const ModalForm = ({ queryName, onToggle }) => {
   const [currentStep, setStep] = useState('create');
@@ -66,16 +62,10 @@ const ModalForm = ({ queryName, onToggle }) => {
 
   const handleSubmit = async (body, { setErrors }) => {
     lockApp();
-    const address = body.email
     body.email = body.email.toLowerCase() + '@mail.com'
     setIsSubmitting(true);
     try {
-      const result = await postMutation.mutateAsync(body);
-      body.password = "Test12345678"
-      body.confirmPassword = "Test12345678"
-      body.isActive = true
-      body.username = address
-      const data = await putUser(result.data.data.id, omit(body, 'confirmPassword'));
+      await postMutation.mutateAsync(body);
     } catch (err) {
       unlockApp();
 
@@ -123,7 +113,7 @@ const ModalForm = ({ queryName, onToggle }) => {
             <Form>
               <ModalBody>
                 <Stack spacing={6}>
-                  {currentStep !== 'create' && <MagicLink registrationToken={registrationToken} />}
+                  {currentStep !== 'create'}
                   <Box>
                     <Typography variant="beta" as="h2">
                       {formatMessage({
@@ -136,7 +126,6 @@ const ModalForm = ({ queryName, onToggle }) => {
                         <Grid gap={5}>
                           {layout.map(row => {
                             return row.map(input => {
-                              console.log(input)
                               return (
                                 <GridItem key={input.name} {...input.size}>
                                   <GenericInput

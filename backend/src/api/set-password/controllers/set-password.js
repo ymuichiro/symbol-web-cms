@@ -10,9 +10,10 @@
       const data = await strapi
         .service("api::set-password.set-password")
         .setPassword(ctx);
+        if(!data[0]) throw new Error(data[1])
       return data;
     } catch (err) {
-      ctx.badRequest("Post report controller error", { moreDetails: err });
+      ctx.badRequest("Account does not exist", { moreDetails: err });
     }
   },
 };

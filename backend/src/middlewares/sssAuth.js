@@ -5,24 +5,18 @@ module.exports = (config, { strapi }) => {
     return async (ctx, next) => {
       if(ctx.req.url == '/admin/login') {
         strapi.log.info("In Auth middleware.");
-        const {address, publicKey, email, sssToken, password, adminMode} = ctx.request.body;        
-        const networkType = symbol.NetworkType.TEST_NET;
-        const privateKey = '5E73378E058339952B13D65297C294884C03C83DECDAB2B9B3E33AFC8F89AA22';
-        const accountHttp = new symbol.AccountHttp('https://hideyoshi.mydns.jp:3001');
-        const add = symbol.Address.createFromRawAddress(address)
-        const accInfo = await accountHttp.getAccountInfo(add).toPromise();
-        const encryptedMessage = new symbol.EncryptedMessage(sssToken)
-        
-        try {
-            const payload = symbol.EncryptedMessage.decrypt(encryptedMessage, privateKey, accInfo.publicAccount).payload;
+        const { mode } = ctx.request.body;
+        if(mode !== 'admin') {
+            const {publicKey, sssToken} = ctx.request.body;
+            const networkType = process.env.NETWORKTYPE == '152' ? symbol.NetworkType.TEST_NET : symbol.NetworkType.MAIN_NET;
+            const privateKey = process.env.ADMIN_PRIVATEKEY;
+            const publickAccount = symbol.PublicAccount.createFromPublicKey(publicKey, networkType)
+            const encryptedMessage = new symbol.EncryptedMessage(sssToken)
+            const payload = symbol.EncryptedMessage.decrypt(encryptedMessage, privateKey, publickAccount).payload;
             const decrypto = JSON.parse(payload);
             ctx.request.body.password = decrypto.encryptedMessage;
-        } catch(e) {
-            ctx.res.status = 403
-            console.error('error' + e)
-        } finally {
-            await next();
         }
+        await next();
       } else {
         await next();
       }
