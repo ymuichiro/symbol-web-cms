@@ -9,7 +9,16 @@
   "customizations": {
     "vscode": {
       "extensions": [
-        "dbaeumer.vscode-eslint"
+        "dbaeumer.vscode-eslint",
+        "ms-azuretools.vscode-docker",
+        "cschleiden.vscode-github-actions",
+        "eamodio.gitlens",
+        "ritwickdey.LiveServer",
+        "yzhang.markdown-all-in-one",
+        "chrisdias.vscode-opennewinstance",
+        "esbenp.prettier-vscode",
+        "Gruntfuggly.todo-tree",
+        "GitHub.vscode-pull-request-github"
       ]
     }
   },
