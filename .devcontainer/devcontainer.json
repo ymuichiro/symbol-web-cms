@@ -20,8 +20,8 @@
   },
   "remoteUser": "node",
   "mounts": [
-    "source=node_modules,target=${containerWorkspaceFolder}/frontend/node_modules,type=volume",
-    "source=node_modules,target=${containerWorkspaceFolder}/backend/node_modules,type=volume"
+    "source=symbol-web-front-node_modules,target=${containerWorkspaceFolder}/frontend/node_modules,type=volume",
+    "source=symbol-web-back-node_modules,target=${containerWorkspaceFolder}/backend/node_modules,type=volume"
   ],
   "postCreateCommand": "sudo chown node frontend/node_modules&&sudo chown node backend/node_modules",
   "postStartCommand": "yarn --cwd frontend install&&yarn --cwd backend install",
