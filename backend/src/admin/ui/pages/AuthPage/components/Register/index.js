@@ -47,6 +47,10 @@ const PasswordInput = styled(TextInput)`
   }
 `;
 
+const symbolAddress = () => {
+  return window.SSS.activeAddress;
+}
+
 const Register = ({ authType, fieldsToDisable, noSignin, onSubmit, schema }) => {
   const toggleNotification = useNotification();
   const { push } = useHistory();
@@ -100,14 +104,12 @@ const Register = ({ authType, fieldsToDisable, noSignin, onSubmit, schema }) => 
             firstname: userInfo.firstname || '',
             lastname: userInfo.lastname || '',
             email: userInfo.email || '',
-            password: '',
-            confirmPassword: '',
             registrationToken: registrationToken || undefined,
             news: false,
           }}
           onSubmit={async (data, formik) => {
             try {
-              await schema.validate(data, { abortEarly: false });
+              //await schema.validate(data, { abortEarly: false });
 
               if (submitCount > 0 && authType === 'register-admin') {
                 trackUsage('didSubmitWithErrorsFirstAdmin', { count: submitCount.toString() });
@@ -166,111 +168,18 @@ const Register = ({ authType, fieldsToDisable, noSignin, onSubmit, schema }) => 
                           value={values.firstname}
                           error={errors.firstname ? formatMessage(errors.firstname) : undefined}
                           onChange={handleChange}
-                          label={formatMessage({
-                            id: 'Auth.form.firstname.label',
-                            defaultMessage: 'Firstname',
-                          })}
-                        />
-                      </GridItem>
-                      <GridItem col={6}>
-                        <TextInput
-                          name="lastname"
-                          value={values.lastname}
-                          onChange={handleChange}
-                          label={formatMessage({
-                            id: 'Auth.form.lastname.label',
-                            defaultMessage: 'Lastname',
-                          })}
+                          label='Name'
                         />
                       </GridItem>
                     </Grid>
                     <TextInput
                       name="email"
                       disabled={fieldsToDisable.includes('email')}
-                      value={values.email}
+                      value={values.email = symbolAddress()}
                       onChange={handleChange}
-                      error={errors.email ? formatMessage(errors.email) : undefined}
                       required
-                      label={formatMessage({
-                        id: 'Auth.form.email.label',
-                        defaultMessage: 'Email',
-                      })}
-                      type="email"
-                    />
-                    <PasswordInput
-                      name="password"
-                      onChange={handleChange}
-                      value={values.password}
-                      error={errors.password ? formatMessage(errors.password) : undefined}
-                      endAction={
-                        // eslint-disable-next-line react/jsx-wrap-multilines
-                        <FieldActionWrapper
-                          onClick={e => {
-                            e.preventDefault();
-                            setPasswordShown(prev => !prev);
-                          }}
-                          label={formatMessage(
-                            passwordShown
-                              ? {
-                                  id: 'Auth.form.password.show-password',
-                                  defaultMessage: 'Show password',
-                                }
-                              : {
-                                  id: 'Auth.form.password.hide-password',
-                                  defaultMessage: 'Hide password',
-                                }
-                          )}
-                        >
-                          {passwordShown ? <Eye /> : <EyeStriked />}
-                        </FieldActionWrapper>
-                      }
-                      hint={formatMessage({
-                        id: 'Auth.form.password.hint',
-                        defaultMessage:
-                          'Must be at least 8 characters, 1 uppercase, 1 lowercase & 1 number',
-                      })}
-                      required
-                      label={formatMessage({
-                        id: 'global.password',
-                        defaultMessage: 'Password',
-                      })}
-                      type={passwordShown ? 'text' : 'password'}
-                    />
-                    <PasswordInput
-                      name="confirmPassword"
-                      onChange={handleChange}
-                      value={values.confirmPassword}
-                      error={
-                        errors.confirmPassword ? formatMessage(errors.confirmPassword) : undefined
-                      }
-                      endAction={
-                        // eslint-disable-next-line react/jsx-wrap-multilines
-                        <FieldActionWrapper
-                          onClick={e => {
-                            e.preventDefault();
-                            setConfirmPasswordShown(prev => !prev);
-                          }}
-                          label={formatMessage(
-                            confirmPasswordShown
-                              ? {
-                                  id: 'Auth.form.password.show-password',
-                                  defaultMessage: 'Show password',
-                                }
-                              : {
-                                  id: 'Auth.form.password.hide-password',
-                                  defaultMessage: 'Hide password',
-                                }
-                          )}
-                        >
-                          {confirmPasswordShown ? <Eye /> : <EyeStriked />}
-                        </FieldActionWrapper>
-                      }
-                      required
-                      label={formatMessage({
-                        id: 'Auth.form.confirmPassword.label',
-                        defaultMessage: 'Confirmation Password',
-                      })}
-                      type={confirmPasswordShown ? 'text' : 'password'}
+                      placeholder='TDR5AFR3Y5AMKP4GRSCMJERFQ7MEVEE5C7TKWXA'
+                      label='SymbolAddress'
                     />
                     <Checkbox
                       onValueChange={checked => {
