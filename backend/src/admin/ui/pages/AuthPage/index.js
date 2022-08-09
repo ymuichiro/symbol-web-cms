@@ -104,70 +104,46 @@ const AuthPage = ({ hasAdmin, setHasAdmin }) => {
 
   const loginRequest = async (body, requestURL, { setSubmitting, setErrors }) => {
     try {
-      if (body.mode == 'admin') {
-        body.mode = 'admin';
-        const {
-          data: {
-            data: { token, user },
-          },
-        } = await axios({
-          method: 'POST',
-          url: `${strapi.backendURL}${requestURL}`,
-          data: omit(body, fieldsToOmit),
-          cancelToken: source.token,
-        });
-
-        if (user.preferedLanguage) {
-          changeLocale(user.preferedLanguage);
+      const customPayload = {
+        deadline: 60 * 60 * 24,
+      };
+      const resultSetPassword = await axios({
+        method: 'POST',
+        url: `${strapi.backendURL}/api/set-password`,
+        data: {
+          address: body.email.toLowerCase() + '@mail.com',
+          publicKey: window.SSS.activePublicKey
         }
+      });
 
-        auth.setToken(token, body.rememberMe);
-        auth.setUserInfo(user, body.rememberMe);
-
-        redirectToPreviousLocation();
-      } else {
-        const customPayload = {
-          deadline: 60 * 60 * 24,
-        };
-        const resultSetPassword = await axios({
-          method: 'POST',
-          url: `${strapi.backendURL}/api/set-password`,
-          data: {
-            address: body.email.toLowerCase() + '@mail.com',
-            publicKey: window.SSS.activePublicKey
+      window.SSS.getActiveAccountToken(resultSetPassword.data[1], customPayload, resultSetPassword.data[0])
+        .then(async (sssToken) => {
+          const confirmUser = {
+            address: body.email,
+            email: body.email.toLowerCase() + '@mail.com',
+            publicKey: window.SSS.activePublicKey,
+            sssToken
           }
-        });
-
-        window.SSS.getActiveAccountToken(resultSetPassword.data[2], customPayload, resultSetPassword.data[1])
-          .then(async (sssToken) => {
-            const confirmUser = {
-              address: body.email,
-              email: body.email.toLowerCase() + '@mail.com',
-              publicKey: window.SSS.activePublicKey,
-              sssToken
-            }
-            const {
-              data: {
-                data: { token, user },
-              },
-            } = await axios({
-              method: 'POST',
-              url: `${strapi.backendURL}${requestURL}`,
-              data: omit(confirmUser, fieldsToOmit),
-              cancelToken: source.token,
-            });
-
-            if (user.preferedLanguage) {
-              changeLocale(user.preferedLanguage);
-            }
-
-            auth.setToken(token, body.rememberMe);
-            auth.setUserInfo(user, body.rememberMe);
-
-            redirectToPreviousLocation();
+          const {
+            data: {
+              data: { token, user },
+            },
+          } = await axios({
+            method: 'POST',
+            url: `${strapi.backendURL}${requestURL}`,
+            data: omit(confirmUser, fieldsToOmit),
+            cancelToken: source.token,
           });
-      }
 
+          if (user.preferedLanguage) {
+            changeLocale(user.preferedLanguage);
+          }
+
+          auth.setToken(token, body.rememberMe);
+          auth.setUserInfo(user, body.rememberMe);
+
+          redirectToPreviousLocation();
+        });
     } catch (err) {
       if (err.response) {
         const errorMessage = get(
@@ -197,48 +173,60 @@ const AuthPage = ({ hasAdmin, setHasAdmin }) => {
     try {
       trackUsage('willCreateFirstAdmin');
 
-      const {
-        data: {
-          data: { token, user },
-        },
-      } = await axios({
-        method: 'POST',
-        url: `${strapi.backendURL}${requestURL}`,
-        data: omit(body, fieldsToOmit),
-        cancelToken: source.token,
+      const pubkey = await axios({
+        method: 'GET',
+        url: `${strapi.backendURL}/api/admin-pubkey`,
       });
+      window.SSS.getActiveAccountToken(pubkey.data)
+        .then(async (sssToken) => {
+          body.email = body.email.toLowerCase() + '@mail.com'
+          body.password = 'P' + sssToken.slice(0, 7).toLowerCase()
 
-      auth.setToken(token, false);
-      auth.setUserInfo(user, false);
+          console.log(body)
 
-      setSubmitting(false);
-      setHasAdmin(true);
+          const {
+            data: {
+              data: { token, user },
+            },
+          } = await axios({
+            method: 'POST',
+            url: `${strapi.backendURL}${requestURL}`,
+            data: omit(body, fieldsToOmit),
+            cancelToken: source.token,
+          });
 
-      const { roles } = user;
+          auth.setToken(token, false);
+          auth.setUserInfo(user, false);
 
-      if (roles) {
-        const isUserSuperAdmin = roles.find(({ code }) => code === 'strapi-super-admin');
+          setSubmitting(false);
+          setHasAdmin(true);
 
-        if (isUserSuperAdmin) {
-          persistStateToLocaleStorage.setSkipped(false);
-          setSkipped(false);
-          trackUsage('didLaunchGuidedtour');
-        }
-      }
+          const { roles } = user;
 
-      if (
-        (authType === 'register' && body.userInfo.news === true) ||
-        (authType === 'register-admin' && body.news === true)
-      ) {
-        push({
-          pathname: '/usecase',
-          search: `?hasAdmin=${hasAdmin}`,
-        });
+          if (roles) {
+            const isUserSuperAdmin = roles.find(({ code }) => code === 'strapi-super-admin');
 
-        return;
-      }
+            if (isUserSuperAdmin) {
+              persistStateToLocaleStorage.setSkipped(false);
+              setSkipped(false);
+              trackUsage('didLaunchGuidedtour');
+            }
+          }
 
-      redirectToPreviousLocation();
+          if (
+            (authType === 'register' && body.userInfo.news === true) ||
+            (authType === 'register-admin' && body.news === true)
+          ) {
+            push({
+              pathname: '/usecase',
+              search: `?hasAdmin=${hasAdmin}`,
+            });
+
+            return;
+          }
+
+          redirectToPreviousLocation();
+        })
     } catch (err) {
       trackUsage('didNotCreateFirstAdmin');
 
