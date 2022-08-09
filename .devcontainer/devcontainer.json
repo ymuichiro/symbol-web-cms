@@ -10,19 +10,21 @@
     "vscode": {
       "extensions": [
         "dbaeumer.vscode-eslint",
-        "ms-azuretools.vscode-docker",
         "cschleiden.vscode-github-actions",
-        "eamodio.gitlens",
         "ritwickdey.LiveServer",
-        "yzhang.markdown-all-in-one",
         "chrisdias.vscode-opennewinstance",
         "esbenp.prettier-vscode",
-        "Gruntfuggly.todo-tree",
-        "GitHub.vscode-pull-request-github"
+        "Gruntfuggly.todo-tree"
       ]
     }
   },
   "remoteUser": "node",
+  "mounts": [
+    "source=node_modules,target=${containerWorkspaceFolder}/frontend/node_modules,type=volume",
+    "source=node_modules,target=${containerWorkspaceFolder}/backend/node_modules,type=volume"
+  ],
+  "postCreateCommand": "sudo chown node frontend/node_modules&&sudo chown node backend/node_modules",
+  "postStartCommand": "yarn --cwd frontend install&&yarn --cwd backend install",
   "features": {
     "git": "os-provided",
     "github-cli": "latest"

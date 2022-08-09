@@ -3,12 +3,6 @@
   "private": true,
   "version": "0.1.0",
   "description": "A Strapi application",
-  "scripts": {
-    "develop": "strapi develop",
-    "start": "strapi start",
-    "build": "strapi build",
-    "strapi": "strapi"
-  },
   "dependencies": {
     "@strapi/plugin-i18n": "4.2.3",
     "@strapi/plugin-users-permissions": "4.2.3",
@@ -29,5 +23,11 @@
     "node": "16.x",
     "yarn": "1.x"
   },
-  "license": "MIT"
+  "license": "MIT",
+  "scripts": {
+    "develop": "strapi develop",
+    "start": "strapi start",
+    "build": "strapi build",
+    "strapi": "strapi"
+  }
 }
