@@ -23,10 +23,10 @@ function generateEndpoint(search: URLSearchParams, ...path: string[]) {
     u.search = search.toString();
     return u.href;
   } else {
-    if (process.env.NEXT_API_SERVER_URL === undefined) {
+    if (process.env.NEXT_PUBLIC_NEXT_API_SERVER_URL === undefined) {
       throw new Error('api server uri is not defined');
     }
-    const u = new URL(process.env.NEXT_API_SERVER_URL);
+    const u = new URL(process.env.NEXT_PUBLIC_NEXT_API_SERVER_URL);
     u.pathname = path.join('/');
     u.search = search.toString();
     return u.href;
