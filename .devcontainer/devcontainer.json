@@ -24,7 +24,7 @@
     "source=symbol-web-back-node_modules,target=${containerWorkspaceFolder}/backend/node_modules,type=volume"
   ],
   "postCreateCommand": "sudo chown node frontend/node_modules&&sudo chown node backend/node_modules",
-  "postStartCommand": "yarn --cwd frontend install&&yarn --cwd backend install",
+  "postStartCommand": "yarn --cwd frontend install&&yarn --cwd backend install&&npm install -g ",
   "features": {
     "git": "os-provided",
     "github-cli": "latest"
