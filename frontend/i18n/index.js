@@ -13,7 +13,9 @@ const i18n = {
     ja: ja.i18n,
   },
   defaultLang: 'en',
-  useBrowserDefault: process.env.NODE_ENV === 'production',
+  // Hyderation Error を回避できなかった為、一旦OFFとする
+  // useBrowserDefault: process.env.NODE_ENV === 'production',
+  useBrowserDefault: false,
 };
 
 module.exports = i18n;
