@@ -13,7 +13,7 @@ if (process.env.NODE_ENV === 'development') {
 } else {
   nextConfig = withPWA({
     reactStrictMode: true,
-    swcMinify: true,
+    swcMinify: false,
     // basePath: '/symbol-web',
     pwa: {
       dest: 'public',
