@@ -6,13 +6,13 @@
 const { HashLockTransaction, Deadline, RepositoryFactoryHttp, PublicAccount, Account, Address, MosaicId, Mosaic, UInt64, PlainMessage, NetworkType, TransferTransaction, AggregateTransaction } = require('symbol-sdk');
 const op = require('rxjs');
 
-const NODE = "https://hideyoshi.mydns.jp:3001";
+const NODE = "https://hideyoshi-node.net:3001";
 const repositoryFactory = new RepositoryFactoryHttp(NODE);
 const transactionHttp = repositoryFactory.createTransactionRepository();
-const mosaicId = '3A8416DB2D53B6C8';
-var ea = 1637848847;
-var nt = NetworkType.TEST_NET;
-const ng = "7FCCD304802016BEBBCD342A332F91FF1F3BB5E902988B352697BE245F48E836";
+const mosaicId = '6BED913FA20223F8';
+var ea = 1615853185;
+var nt = NetworkType.MAIN_NET;
+const ng = "57F7DA205008026C776CB6AED843393F04CD458E0AA2D9F1D5F31A402072B2D6";
 
 module.exports = {
   sendReward: async (ctx, next) => {
@@ -20,7 +20,7 @@ module.exports = {
       const rawAddress = ctx.query.address;
       const rewardAmount = Number(ctx.query.amount);
       const deadline = Deadline.create(ea);
-      const sender = PublicAccount.createFromPublicKey("71754759FD4F25981ED20F60050C20AB1E7CA104A87EC758E9B1E69FCA0286D6", nt);
+      const sender = PublicAccount.createFromPublicKey("9C2E2EAF09A681E7B8186EBBEDCC426CB054635C758353F710ABFAB477919C61", nt);
       const bot = Account.createFromPrivateKey(process.env.BOT_PRIVATEKEY, nt);
       const receiver = Address.createFromRawAddress(rawAddress)
 
