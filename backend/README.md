@@ -10,6 +10,9 @@ SSS認証のための暗号化・復号用Symbolアカウントの秘密鍵（Sy
 ADMIN_PUBLICKEY<string>
 上の公開鍵
 
+SENDER_PUBLICKEY<string>
+報酬の支払いを行うアカウントの公開鍵
+
 BOT_PRIVATEKEY<string>
 報酬を送るためのアグボンを生成する際のBot用秘密鍵、誰か一人の署名が必要なため設定している。これをベネアドのマルチシグの一人に設定する。n of m の n が1じゃない限り最悪漏れても良いものでもある
 
