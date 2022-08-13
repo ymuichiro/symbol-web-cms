@@ -14986,9 +14986,10 @@
      .then((resAuth) => {
        const token = resAuth.data.jwt;
        axios
-         .get(api_url + '/api/users', {
-           identifier: process.env.BOT_ID,
-           password: process.env.BOT_PASSWORD,
+         .get(api_url + '/api/users',  {
+           headers: {
+             Authorization: `Bearer ${token}`,
+           }
          })
          .then((resUser) => {
            const users = resUser.data;
@@ -15000,7 +15001,11 @@
              }
            }
            axios
-             .get(api_url + '/api/rewards')
+             .get(api_url + '/api/rewards', {
+               headers: {
+                 Authorization: `Bearer ${token}`,
+               }
+             })
              .then((resReward) => {
                const rewards = resReward.data.data;
                const reward = rewards.find((d) => d.attributes.issueNumber === issue_number);
