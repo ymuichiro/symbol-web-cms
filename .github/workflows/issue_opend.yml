@@ -8,7 +8,6 @@ jobs:
     runs-on: ubuntu-latest
     env:
       ISSUE_TITLE: ${{ github.event.issue.title }}
-      GITHUB_TOKEN: ${{ secrets.ACTIONS_TOKEN }}
       ISSUE_NUM: ${{ github.event.issue.number }}
     permissions:
       id-token: write
@@ -47,13 +46,3 @@ jobs:
         uses: EndBug/add-and-commit@v9
         with:
           new_branch: ${{ github.event.issue.title }}
-      - name: Create PR
-        run: |
-          gh pr create \
-            --head $NEW_BRANCH_NAME \
-            --base $BASE_BRANCH_NAME \
-            --title "$ISSUE_TITLE" \
-            --body "close #${ISSUE_NUM}"
-        env:
-          NEW_BRANCH_NAME: ${{ github.event.issue.title }}
-          BASE_BRANCH_NAME: ${{ github.event.repository.default_branch }}
