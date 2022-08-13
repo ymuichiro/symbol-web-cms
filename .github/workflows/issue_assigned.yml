@@ -1,0 +1,16 @@
+name: Issue Assigned
+on:
+  issues:
+    types: assigned
+
+jobs:
+  issue_assigned:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Issue Assigned
+        uses: ./actions/issue_assigned
+        env:
+          BOT_ID: ${{ secrets.BOT_ID }}
+          BOT_PASSWORD: ${{ secrets.BOT_PASSWORD }}

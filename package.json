@@ -1,0 +1,21 @@
+{
+  "name": "symbol-web",
+  "version": "0.0.1",
+  "description": "web site of symbol by community",
+  "author": "yuichiro - frinker <47295014+ymuichiro@users.noreply.github.com>",
+  "license": "MIT",
+  "private": true,
+  "repository": {
+    "url": "https://github.com/ymuichiro/symbol-web"
+  },
+  "engines": {
+    "node": "16.x",
+    "yarn": "1.x"
+  },
+  "scripts": {
+    "install": "yarn --cwd backend install",
+    "dev": "yarn --cwd backend run develop & yarn --cwd frontend run dev",
+    "build": "yarn --cwd backend run build",
+    "start": "yarn --cwd backend run start"
+  }
+}
