@@ -18,5 +18,7 @@
     "build": "yarn --cwd backend run build",
     "start": "yarn --cwd backend run start"
   },
-  "dependencies": {}
+  "dependencies": {
+    "symbol-node-util": "^1.0.9"
+  }
 }

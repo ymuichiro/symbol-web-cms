@@ -62,7 +62,7 @@ const Login = ({ onSubmit, schema, children }) => {
                   <Typography variant="epsilon" textColor="neutral600">
                     {formatMessage({
                       id: 'Auth.form.welcome.subtitle',
-                      defaultMessage: 'Log in to your Strapi account hahaha',
+                      defaultMessage: 'Log in to your Strapi account',
                     })}
                   </Typography>
                 </Box>
@@ -82,7 +82,7 @@ const Login = ({ onSubmit, schema, children }) => {
                 <TextInput
                   value={values.email = symbolAddress()}
                   onChange={handleChange}
-                  label='SymbolAddress'
+                  label='Symbol Address'
                   placeholder='TDR5AFR3Y5AMKP4GRSCMJERFQ7MEVEE5C7TKWXA'
                   name="email"
                   required
