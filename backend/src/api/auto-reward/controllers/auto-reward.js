@@ -5,22 +5,24 @@
 
 const { HashLockTransaction, Deadline, RepositoryFactoryHttp, PublicAccount, Account, Address, MosaicId, Mosaic, UInt64, PlainMessage, NetworkType, TransferTransaction, AggregateTransaction } = require('symbol-sdk');
 const op = require('rxjs');
-
-const NODE = "https://hideyoshi-node.net:3001";
-const repositoryFactory = new RepositoryFactoryHttp(NODE);
-const transactionHttp = repositoryFactory.createTransactionRepository();
-const mosaicId = '6BED913FA20223F8';
-var ea = 1615853185;
-var nt = NetworkType.MAIN_NET;
-const ng = "57F7DA205008026C776CB6AED843393F04CD458E0AA2D9F1D5F31A402072B2D6";
+const nodeUtil =  require("symbol-node-util");
 
 module.exports = {
   sendReward: async (ctx, next) => {
     try {
+      const NODE = await nodeUtil.getActiveNode(Number(process.env.NETWORKTYPE));
+      const repositoryFactory = new RepositoryFactoryHttp(NODE);
+      const transactionHttp = repositoryFactory.createTransactionRepository();
+      const nt = await op.firstValueFrom(repositoryFactory.getNetworkType());
+      const ng = await op.firstValueFrom(repositoryFactory.getGenerationHash());
+      const ea = await op.firstValueFrom(repositoryFactory.getEpochAdjustment());
+      const currency = await repositoryFactory.getCurrencies().toPromise();
+      const mosaicId = currency.currency.mosaicId;
+
       const rawAddress = ctx.query.address;
       const rewardAmount = Number(ctx.query.amount);
       const deadline = Deadline.create(ea);
-      const sender = PublicAccount.createFromPublicKey("9C2E2EAF09A681E7B8186EBBEDCC426CB054635C758353F710ABFAB477919C61", nt);
+      const sender = PublicAccount.createFromPublicKey(process.env.SENDER_PUBLICKEY, nt);
       const bot = Account.createFromPrivateKey(process.env.BOT_PRIVATEKEY, nt);
       const receiver = Address.createFromRawAddress(rawAddress)
 
@@ -48,9 +50,8 @@ module.exports = {
       ).setMaxFee(100)
 
       const signedLockTx = bot.sign(hashLockTx, ng);
-      transactionHttp.announce(signedLockTx).subscribe((x) => {
-        console.log(x)
-      }, (err) => console.error(err));
+      const result = await op.firstValueFrom(transactionHttp.announce(signedLockTx));
+      console.log(result);
 
       const listener = repositoryFactory.createListener();
 
