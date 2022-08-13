@@ -14993,7 +14993,6 @@
    const issue_number = issue.number;
    const issue_url = issue.html_url;
    const comment = issue.body;
-   console.log(process.env.BOT_ID)
    axios
      .post(api_url + '/api/auth/local', {
        identifier: process.env.BOT_ID,
@@ -15012,7 +15011,6 @@
            "rewardAmount": reward_amount,
          }
        }
-       console.log(data)
  
        axios
          .post(api_url + '/api/rewards', data, {
@@ -15024,14 +15022,14 @@
            console.log('Data: ', resReward.data);
          })
          .catch((error) => {
-           core.setFailed('A: ' + error.message);
+           core.setFailed(error.message);
          });
      })
      .catch((error) => {
-       core.setFailed('B: ' + error.message);
+       core.setFailed(error.message);
      });
  } catch (error) {
-   core.setFailed('C: ' + error.message);
+   core.setFailed(error.message);
  }
  })();
  
