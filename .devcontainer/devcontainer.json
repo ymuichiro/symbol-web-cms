@@ -1,0 +1,32 @@
+{
+  "name": "Node.js",
+  "build": {
+    "dockerfile": "Dockerfile",
+    "args": {
+      "VARIANT": "16"
+    }
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "dbaeumer.vscode-eslint",
+        "cschleiden.vscode-github-actions",
+        "ritwickdey.LiveServer",
+        "chrisdias.vscode-opennewinstance",
+        "esbenp.prettier-vscode",
+        "Gruntfuggly.todo-tree"
+      ]
+    }
+  },
+  "remoteUser": "node",
+  "mounts": [
+    "source=symbol-web-front-node_modules,target=${containerWorkspaceFolder}/frontend/node_modules,type=volume",
+    "source=symbol-web-back-node_modules,target=${containerWorkspaceFolder}/backend/node_modules,type=volume"
+  ],
+  "postCreateCommand": "sudo chown node frontend/node_modules&&sudo chown node backend/node_modules",
+  "postStartCommand": "yarn --cwd frontend install&&yarn --cwd backend install&&npm install -g ",
+  "features": {
+    "git": "os-provided",
+    "github-cli": "latest"
+  }
+}

@@ -1,0 +1,38 @@
+{
+  "name": "frontend",
+  "version": "0.1.0",
+  "private": true,
+  "engines": {
+    "node": "16.x"
+  },
+  "dependencies": {
+    "@emotion/react": "^11.9.3",
+    "@emotion/styled": "^11.9.3",
+    "@mui/icons-material": "^5.8.4",
+    "@mui/material": "^5.9.1",
+    "@mui/styles": "^5.9.1",
+    "@types/react-syntax-highlighter": "^15.5.4",
+    "next": "12.2.2",
+    "next-export-i18n": "^2.0.3",
+    "next-pwa": "^5.5.4",
+    "next-sitemap": "^3.1.11",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "react-markdown": "^8.0.3",
+    "react-syntax-highlighter": "^15.5.0",
+    "typescript": "4.7.4"
+  },
+  "devDependencies": {
+    "@types/node": "18.0.6",
+    "@types/react": "18.0.15",
+    "@types/react-dom": "18.0.6",
+    "eslint": "8.20.0",
+    "eslint-config-next": "12.2.2",
+    "reload": "^3.2.0"
+  },
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build && next export",
+    "lint": "next lint"
+  }
+}
