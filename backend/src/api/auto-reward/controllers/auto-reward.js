@@ -21,7 +21,7 @@ module.exports = {
       const mosaicId = currency.currency.mosaicId;
       const divisibility = currency.currency.divisibility;
       const rawAddress = ctx.query.address;
-      const rewardAmount = Number(ctx.query.amount);
+      const rewardAmount = Number(ctx.query.amount) == 0 ? 0 : Number(ctx.query.amount) * Math.pow(10, divisibility);
       const deadline = Deadline.create(ea);
       const sender = PublicAccount.createFromPublicKey(process.env.SENDER_PUBLICKEY, nt);
       const bot = Account.createFromPrivateKey(process.env.BOT_PRIVATEKEY, nt);
@@ -30,7 +30,7 @@ module.exports = {
       const tx = TransferTransaction.create(
         deadline,
         receiver,
-        [new Mosaic(mosaicId, UInt64.fromUint(rewardAmount * Math.pow(10, divisibility)))],
+        [new Mosaic(mosaicId, UInt64.fromUint(rewardAmount))],
         PlainMessage.create("Send Reward"),
         nt
       ).setMaxFee(100)
