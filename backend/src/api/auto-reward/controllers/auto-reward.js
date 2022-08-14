@@ -3,15 +3,14 @@
  * A set of functions called "actions" for `auto-reward`
  */
 
-const { HashLockTransaction, Deadline, RepositoryFactoryHttp, PublicAccount, Account, Address, MosaicId, Mosaic, UInt64, PlainMessage, NetworkType, TransferTransaction, AggregateTransaction } = require('symbol-sdk');
+const { NamespaceHttp, Listener, ReceiptHttp, TransactionHttp, TransactionService, HashLockTransaction, Deadline, RepositoryFactoryHttp, PublicAccount, Account, Address, MosaicId, Mosaic, UInt64, PlainMessage, NetworkType, TransferTransaction, AggregateTransaction } = require('symbol-sdk');
 const op = require('rxjs');
 const nodeUtil =  require("symbol-node-util");
-const ChronoUnit = require('@js-joda/core');
 
 module.exports = {
   sendReward: async (ctx, next) => {
     try {
-      const NODE = await nodeUtil.getActiveNode(Number(process.env.NETWORKTYPE));
+      const NODE = await nodeUtil.getActiveNode(Number(process.env.NETWORKTYPE));      
       const repositoryFactory = new RepositoryFactoryHttp(NODE);
       const transactionHttp = repositoryFactory.createTransactionRepository();
       const nt = await op.firstValueFrom(repositoryFactory.getNetworkType());
@@ -20,9 +19,9 @@ module.exports = {
       const currency = await op.firstValueFrom(repositoryFactory.getCurrencies());
       const mosaicId = currency.currency.mosaicId;
       const divisibility = currency.currency.divisibility;
-
       const rawAddress = ctx.query.address;
-      const rewardAmount = Number(ctx.query.amount);
+      const rewardAmount = Number(ctx.query.amount) == 0 ? 0 : Number(ctx.query.amount) * Math.pow(10, divisibility);
+      
       const deadline = Deadline.create(ea);
       const sender = PublicAccount.createFromPublicKey(process.env.SENDER_PUBLICKEY, nt);
       const bot = Account.createFromPrivateKey(process.env.BOT_PRIVATEKEY, nt);
@@ -31,13 +30,13 @@ module.exports = {
       const tx = TransferTransaction.create(
         deadline,
         receiver,
-        [new Mosaic(mosaicId, UInt64.fromUint(rewardAmount * Math.pow(10, divisibility)))],
+        [new Mosaic(mosaicId, UInt64.fromUint(rewardAmount))],
         PlainMessage.create("Send Reward"),
         nt
       ).setMaxFee(100)
 
       const agg = AggregateTransaction.createBonded(
-        Deadline.create(ea, 48, ChronoUnit.HOURS),
+        Deadline.create(ea, 48),
         [tx.toAggregate(sender)],
         nt
       ).setMaxFeeForAggregate(100, 0)
@@ -53,7 +52,7 @@ module.exports = {
 
       const signedLockTx = bot.sign(hashLockTx, ng);
       const result = await op.firstValueFrom(transactionHttp.announce(signedLockTx));
-      console.log(result);
+      console.log(signedLockTx.hash);
 
       const listener = repositoryFactory.createListener();
 
@@ -78,7 +77,8 @@ module.exports = {
             listener.close();
           });
       });
-      ctx.body = "send reward";
+
+      ctx.body = "send hashlock";
     } catch (err) {
       console.error(err)
       ctx.body = err;
