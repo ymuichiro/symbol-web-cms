@@ -17,8 +17,9 @@ module.exports = {
       const nt = await op.firstValueFrom(repositoryFactory.getNetworkType());
       const ng = await op.firstValueFrom(repositoryFactory.getGenerationHash());
       const ea = await op.firstValueFrom(repositoryFactory.getEpochAdjustment());
-      const currency = await repositoryFactory.getCurrencies().toPromise();
+      const currency = await op.firstValueFrom(repositoryFactory.getCurrencies());
       const mosaicId = currency.currency.mosaicId;
+      const divisibility = currency.currency.divisibility;
 
       const rawAddress = ctx.query.address;
       const rewardAmount = Number(ctx.query.amount);
@@ -30,7 +31,7 @@ module.exports = {
       const tx = TransferTransaction.create(
         deadline,
         receiver,
-        [new Mosaic(mosaicId, UInt64.fromUint(rewardAmount))],
+        [new Mosaic(mosaicId, UInt64.fromUint(rewardAmount * Math.pow(10, divisibility)))],
         PlainMessage.create("Send Reward"),
         nt
       ).setMaxFee(100)
