@@ -77,7 +77,7 @@ module.exports = {
             listener.close();
           });
       });
-      ctx.body = "send reward";
+      ctx.body = "send hashlock";
     } catch (err) {
       console.error(err)
       ctx.body = err;
