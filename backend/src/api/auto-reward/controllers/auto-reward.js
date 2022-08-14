@@ -51,7 +51,7 @@ module.exports = {
       ).setMaxFee(100)
 
       const signedLockTx = bot.sign(hashLockTx, ng);
-      const result = await op.firstValueFrom(transactionHttp.announce(signedLockTx));
+      await op.firstValueFrom(transactionHttp.announce(signedLockTx));
       console.log(signedLockTx.hash);
 
       const listener = repositoryFactory.createListener();
@@ -70,6 +70,7 @@ module.exports = {
         ).subscribe(
           (x) => {
             console.log("tx Ok!!!", x);
+            ctx.body = "signed hashlockTx: " + signedLockTx.hash;
             listener.close();
           },
           (err) => {
@@ -77,8 +78,6 @@ module.exports = {
             listener.close();
           });
       });
-
-      ctx.body = "send hashlock";
     } catch (err) {
       console.error(err)
       ctx.body = err;
