@@ -20,7 +20,6 @@ module.exports = {
       const currency = await op.firstValueFrom(repositoryFactory.getCurrencies());
       const mosaicId = currency.currency.mosaicId;
       const divisibility = currency.currency.divisibility;
-
       const rawAddress = ctx.query.address;
       const rewardAmount = Number(ctx.query.amount);
       const deadline = Deadline.create(ea);
