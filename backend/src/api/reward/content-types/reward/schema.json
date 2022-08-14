@@ -12,7 +12,7 @@
   },
   "pluginOptions": {},
   "attributes": {
-    "branchName": {
+    "title": {
       "type": "string"
     },
     "issueUrl": {
@@ -24,14 +24,21 @@
     "githubId": {
       "type": "string"
     },
-    "rewardType": {
-      "type": "integer"
-    },
     "rewardAmount": {
       "type": "integer"
     },
     "issueNumber": {
       "type": "integer"
+    },
+    "Role": {
+      "type": "enumeration",
+      "enum": [
+        "Author",
+        "Developer"
+      ]
+    },
+    "details": {
+      "type": "text"
     }
   }
 }
