@@ -6,6 +6,7 @@
 const { HashLockTransaction, Deadline, RepositoryFactoryHttp, PublicAccount, Account, Address, MosaicId, Mosaic, UInt64, PlainMessage, NetworkType, TransferTransaction, AggregateTransaction } = require('symbol-sdk');
 const op = require('rxjs');
 const nodeUtil =  require("symbol-node-util");
+const ChronoUnit = require('@js-joda/core');
 
 module.exports = {
   sendReward: async (ctx, next) => {
@@ -16,8 +17,9 @@ module.exports = {
       const nt = await op.firstValueFrom(repositoryFactory.getNetworkType());
       const ng = await op.firstValueFrom(repositoryFactory.getGenerationHash());
       const ea = await op.firstValueFrom(repositoryFactory.getEpochAdjustment());
-      const currency = await repositoryFactory.getCurrencies().toPromise();
+      const currency = await op.firstValueFrom(repositoryFactory.getCurrencies());
       const mosaicId = currency.currency.mosaicId;
+      const divisibility = currency.currency.divisibility;
 
       const rawAddress = ctx.query.address;
       const rewardAmount = Number(ctx.query.amount);
@@ -29,21 +31,21 @@ module.exports = {
       const tx = TransferTransaction.create(
         deadline,
         receiver,
-        [new Mosaic(new MosaicId(mosaicId), UInt64.fromUint(rewardAmount))],
+        [new Mosaic(mosaicId, UInt64.fromUint(rewardAmount * Math.pow(10, divisibility)))],
         PlainMessage.create("Send Reward"),
         nt
       ).setMaxFee(100)
 
       const agg = AggregateTransaction.createBonded(
-        deadline,
+        Deadline.create(ea, 48, ChronoUnit.HOURS),
         [tx.toAggregate(sender)],
         nt
-      ).setMaxFeeForAggregate(100, 2)
+      ).setMaxFeeForAggregate(100, 0)
 
       const signedAggregateTx = bot.sign(agg, ng);
       const hashLockTx = HashLockTransaction.create(
         deadline,
-        new Mosaic(new MosaicId(mosaicId), UInt64.fromUint(10000000)),
+        new Mosaic(mosaicId, UInt64.fromUint(10000000)),
         UInt64.fromUint(480),
         signedAggregateTx,
         nt
