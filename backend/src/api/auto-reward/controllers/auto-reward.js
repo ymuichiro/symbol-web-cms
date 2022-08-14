@@ -35,10 +35,10 @@ module.exports = {
       ).setMaxFee(100)
 
       const agg = AggregateTransaction.createBonded(
-        deadline,
+        Deadline.create(ea, 48, JSJoda.ChronoUnit.HOURS),
         [tx.toAggregate(sender)],
         nt
-      ).setMaxFeeForAggregate(100, 2)
+      ).setMaxFeeForAggregate(100, 0)
 
       const signedAggregateTx = bot.sign(agg, ng);
       const hashLockTx = HashLockTransaction.create(
