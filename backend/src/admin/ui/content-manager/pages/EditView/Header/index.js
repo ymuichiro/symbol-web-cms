@@ -20,6 +20,28 @@ import Check from '@strapi/icons/Check';
 import { getTrad } from '../../../utils';
 import { connect, getDraftRelations, select } from './utils';
 
+import { setTransactionByPayload, requestSign } from "sss-module";
+
+import axios from 'axios';
+const createHashLockTransaction = async (node, payload, hash, signerPublicKey) => {
+  const baseURL = process.env.STRAPI_ADMIN_BACKEND_URL;
+  const result = await axios
+  .get(baseURL + '/api/create-hashlock-transaction?node=' + node + '&payload=' + payload + '&hash=' + hash + '&signerPublicKey=' + signerPublicKey)
+  return result.data;
+}
+const createAggregateTransaction = async (address, amount) => {
+  const baseURL = process.env.STRAPI_ADMIN_BACKEND_URL;
+  const result = await axios
+  .get(baseURL + '/api/create-aggregate-transaction?address=' + address + '&amount=' + amount)
+  return result;
+}
+const announceTransaction = async (node, payload, hash, signerPublicKey, aggPayload, aggHash, aggSignerPublicKey) => {
+  const baseURL = process.env.STRAPI_ADMIN_BACKEND_URL;
+  const result = await axios
+  .get(baseURL + '/api/announce-transaction?node=' + node + '&payload=' + payload + '&hash=' + hash + '&signerPublicKey=' + signerPublicKey + '&aggPayload=' + aggPayload + '&aggHash=' + aggHash + '&aggSignerPublicKey=' + aggSignerPublicKey)
+  return result;
+}
+
 const Header = ({
   allowedActions: { canUpdate, canCreate, canPublish },
   componentLayouts,
@@ -32,10 +54,12 @@ const Header = ({
   onPublish,
   onUnpublish,
   status,
-}) => {
+  slug,
+}) => {  
   const { goBack } = useHistory();
   const [showWarningUnpublish, setWarningUnpublish] = useState(false);
   const [showWarningDraftRelation, setShowWarningDraftRelation] = useState(false);
+  const [showWarningApproval, setWarningApproval] = useState(false);
   const { formatMessage } = useIntl();
   const draftRelationsCountRef = useRef(0);
 
@@ -109,33 +133,85 @@ const Header = ({
         };
     /* eslint-enable indent */
 
-    primaryAction = (
-      <Flex>
-        {shouldShowPublishButton && (
-          <Button
-            disabled={didChangeData}
-            loading={isPublishButtonLoading}
-            onClick={onClick}
-            startIcon={<Check />}
-            variant="secondary"
-          >
-            {formatMessage(pubishButtonLabel)}
-          </Button>
-        )}
-        <Box paddingLeft={shouldShowPublishButton ? 2 : 0}>
-          <Button disabled={!didChangeData} loading={status === 'submit-pending'} type="submit">
-            {formatMessage({
-              id: getTrad('containers.Edit.submit'),
-              defaultMessage: 'Save',
-            })}
-          </Button>
-        </Box>
-      </Flex>
-    );
+    /* eslint-disable indent */
+    const onClickApproval = isPublished
+      ? () => setWarningApproval(true)
+      : () => {
+          if (checkIfHasDraftRelations() === 0) {
+            onPublish();
+          } else {
+            setShowWarningDraftRelation(true);
+          }
+        };
+    /* eslint-enable indent */
+
+    if(slug == 'api::reward.reward') {
+      primaryAction = (
+        <Flex>
+          <Box paddingLeft={shouldShowPublishButton ? 2 : 0}>
+            <Button 
+              loading={status === 'submit-pending'} 
+              //type="submit" 
+              startIcon={<Check />}
+              onClick={onClickApproval}>
+              {formatMessage({
+                id: getTrad('containers.Edit.ninsyo'),
+                defaultMessage: 'Approve an article',
+              })}
+            </Button>
+          </Box>
+          <Box paddingRight={shouldShowPublishButton ? 2 : 0}></Box>
+          {shouldShowPublishButton && (
+            <Button
+              disabled={didChangeData}
+              loading={isPublishButtonLoading}
+              onClick={onClick}
+              startIcon={<Check />}
+              variant="secondary"
+            >
+              {formatMessage(pubishButtonLabel)}
+            </Button>
+          )}
+          <Box paddingLeft={shouldShowPublishButton ? 2 : 0}>
+            <Button disabled={!didChangeData} loading={status === 'submit-pending'} type="submit">
+              {formatMessage({
+                id: getTrad('containers.Edit.submit'),
+                defaultMessage: 'Save',
+              })}
+            </Button>
+          </Box>
+        </Flex>
+      );
+    } else {
+      primaryAction = (
+        <Flex>
+          {shouldShowPublishButton && (
+            <Button
+              disabled={didChangeData}
+              loading={isPublishButtonLoading}
+              onClick={onClick}
+              startIcon={<Check />}
+              variant="secondary"
+            >
+              {formatMessage(pubishButtonLabel)}
+            </Button>
+          )}
+          <Box paddingLeft={shouldShowPublishButton ? 2 : 0}>
+            <Button disabled={!didChangeData} loading={status === 'submit-pending'} type="submit">
+              {formatMessage({
+                id: getTrad('containers.Edit.submit'),
+                defaultMessage: 'Save',
+              })}
+            </Button>
+          </Box>
+        </Flex>
+      );
+    }
   }
 
   const toggleWarningUnpublish = () => setWarningUnpublish(prevState => !prevState);
   const toggleWarningDraftRelation = () => setShowWarningDraftRelation(prevState => !prevState);
+  const toggleWarningApproval = () => setWarningApproval(prevState => !prevState);
 
   const handlePublish = () => {
     toggleWarningDraftRelation();
@@ -146,6 +222,27 @@ const Header = ({
   const handleUnpublish = () => {
     toggleWarningUnpublish();
     onUnpublish();
+  };
+
+  const handleApproval = async () => {
+    toggleWarningApproval();
+    // 認証のトランザクションAPI
+    const result = await createAggregateTransaction(initialData.symbolAddress, initialData.rewardAmount);
+    setTransactionByPayload(result.data[0]);
+    console.log('set aggregate bonded')
+    const signedAggTx = await requestSign();
+    console.log('signed aggregate hashlock')
+    console.log(signedAggTx.hash)
+    const node = result.data[1];
+    const hashlockPayload = await createHashLockTransaction(node, signedAggTx.payload, signedAggTx.hash, signedAggTx.signerPublicKey)
+    setTimeout(async()=>{
+      setTransactionByPayload(hashlockPayload);
+      console.log('set hashlock')
+      const signedHashTx = await requestSign()
+      console.log('signed hashlock')
+      console.log(signedHashTx.hash)
+      await announceTransaction(node, signedHashTx.payload, signedHashTx.hash, signedHashTx.signerPublicKey, signedAggTx.payload, signedAggTx.hash, signedAggTx.signerPublicKey)
+    }, 500)
   };
 
   const subtitle = `${formatMessage({
@@ -178,6 +275,62 @@ const Header = ({
           </Link>
         }
       />
+
+      {showWarningApproval && (
+        <Dialog
+          onClose={toggleWarningApproval}
+          title="Confirmation"
+          labelledBy="confirmation"
+          describedBy="confirm-description"
+          isOpen={showWarningApproval}
+        >
+          <DialogBody icon={<ExclamationMarkCircle />}>
+            <Stack spacing={2}>
+              <Flex justifyContent="center" style={{ textAlign: 'center' }}>
+                <Typography id="confirm-description">
+                  {formatMessage(
+                    {
+                      id: getTrad('popUpWarning.warning.approval'),
+                      defaultMessage:
+                        '報酬支払用のトランザクションが送信されます。承認には最低署名数が必要です。',
+                    },
+                    {
+                      br: () => <br />,
+                    }
+                  )}
+                </Typography>
+              </Flex>
+              <Flex justifyContent="center" style={{ textAlign: 'center' }}>
+                <Typography id="confirm-description">
+                  {formatMessage({
+                    id: getTrad('popUpWarning.warning.approval-question'),
+                    defaultMessage: '本当に記事を承認してトランザクションを送信しますか？',
+                  })}
+                </Typography>
+              </Flex>
+            </Stack>
+          </DialogBody>
+          <DialogFooter
+            startAction={
+              <Button onClick={toggleWarningApproval} variant="tertiary">
+                {formatMessage({
+                  id: 'components.popUpWarning.button.cancel-approval',
+                  defaultMessage: 'いいえ',
+                })}
+              </Button>
+            }
+            endAction={
+              <Button variant="danger-light" onClick={handleApproval}>
+                {formatMessage({
+                  id: 'components.popUpWarning.button.confirm-approval',
+                  defaultMessage: 'はい、送信します',
+                })}
+              </Button>
+            }
+          />
+        </Dialog>
+      )}
+
       {showWarningUnpublish && (
         <Dialog
           onClose={toggleWarningUnpublish}
