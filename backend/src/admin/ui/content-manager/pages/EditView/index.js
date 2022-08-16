@@ -130,7 +130,7 @@ const EditView = ({
             updateActionAllowedFields={updateActionAllowedFields}
           >
             <Main aria-busy={status !== 'resolved'}>
-              <Header allowedActions={allowedActions} />
+              <Header allowedActions={allowedActions} slug={slug} />
               <ContentLayout>
                 <Grid gap={4}>
                   <GridItem col={9} s={12}>

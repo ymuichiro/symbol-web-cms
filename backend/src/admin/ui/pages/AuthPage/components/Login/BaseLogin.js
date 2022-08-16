@@ -24,8 +24,13 @@ const PasswordInput = styled(TextInput)`
   }
 `;
 
+import { isAllowedSSS, getActiveAddress} from 'sss-module'
 const symbolAddress = () => {
-    return window.SSS.activeAddress;
+  if(!isAllowedSSS()) {
+    alert('SSSを有効化してください');
+    return undefined
+  }
+    return getActiveAddress();
 }
 
 const Login = ({ onSubmit, schema, children }) => {

@@ -93,11 +93,5 @@ git checkout -b future/{作業名}
 ```
 
 ※ git が conflict した時にはメンバーに相談して下さい
-branch name is future/action-test
 
-branch name is future/test1
-
-branch name is future/test2
-
-branch name is future/test3
 
