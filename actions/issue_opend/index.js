@@ -34,10 +34,11 @@ try {
 
       const data = {
         "data": {
-          "branchName": title,
+          "title": title,
+          "details": comment,
           "issueNumber": issue_number,
           "issueUrl": issue_url,
-          "rewardType": 0,
+          "Role": "Developer",
           "rewardAmount": reward_amount,
         }
       }

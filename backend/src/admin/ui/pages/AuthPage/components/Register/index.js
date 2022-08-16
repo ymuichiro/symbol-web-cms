@@ -24,31 +24,26 @@ import { TextInput } from '@strapi/design-system/TextInput';
 import { Checkbox } from '@strapi/design-system/Checkbox';
 import { Grid, GridItem } from '@strapi/design-system/Grid';
 import { Typography } from '@strapi/design-system/Typography';
-import EyeStriked from '@strapi/icons/EyeStriked';
-import Eye from '@strapi/icons/Eye';
 import UnauthenticatedLayout, {
   Column,
   LayoutContent,
 } from '../../../../layouts/UnauthenticatedLayout';
 import Logo from '../../../../components/UnauthenticatedLogo';
-import FieldActionWrapper from '../FieldActionWrapper';
 
 const CenteredBox = styled(Box)`
   text-align: center;
 `;
-
 const A = styled.a`
   color: ${({ theme }) => theme.colors.primary600};
 `;
 
-const PasswordInput = styled(TextInput)`
-  ::-ms-reveal {
-    display: none;
-  }
-`;
-
+import { isAllowedSSS, getActiveAddress} from 'sss-module'
 const symbolAddress = () => {
-  return window.SSS.activeAddress;
+  if(!isAllowedSSS()) {
+    alert('SSSを有効化してください');
+    return undefined
+  }
+    return getActiveAddress();
 }
 
 const Register = ({ authType, fieldsToDisable, noSignin, onSubmit, schema }) => {
