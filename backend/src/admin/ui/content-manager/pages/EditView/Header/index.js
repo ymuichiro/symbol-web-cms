@@ -20,25 +20,19 @@ import Check from '@strapi/icons/Check';
 import { getTrad } from '../../../utils';
 import { connect, getDraftRelations, select } from './utils';
 
-import { setTransactionByPayload, requestSign } from "sss-module";
-
+import { setTransactionByPayload, requestSignCosignatureTransaction } from "sss-module";
 import axios from 'axios';
-const createHashLockTransaction = async (node, payload, hash, signerPublicKey) => {
-  const baseURL = process.env.STRAPI_ADMIN_BACKEND_URL;
-  const result = await axios
-  .get(baseURL + '/api/create-hashlock-transaction?node=' + node + '&payload=' + payload + '&hash=' + hash + '&signerPublicKey=' + signerPublicKey)
-  return result.data;
-}
+
 const createAggregateTransaction = async (address, amount) => {
   const baseURL = process.env.STRAPI_ADMIN_BACKEND_URL;
   const result = await axios
   .get(baseURL + '/api/create-aggregate-transaction?address=' + address + '&amount=' + amount)
   return result;
 }
-const announceTransaction = async (node, payload, hash, signerPublicKey, aggPayload, aggHash, aggSignerPublicKey) => {
+const announceTransaction = async (node, signature, signerPublicKey, aggPayload) => {
   const baseURL = process.env.STRAPI_ADMIN_BACKEND_URL;
   const result = await axios
-  .get(baseURL + '/api/announce-transaction?node=' + node + '&payload=' + payload + '&hash=' + hash + '&signerPublicKey=' + signerPublicKey + '&aggPayload=' + aggPayload + '&aggHash=' + aggHash + '&aggSignerPublicKey=' + aggSignerPublicKey)
+  .get(baseURL + '/api/announce-transaction?node=' + node + '&signature=' + signature + '&signerPublicKey=' + signerPublicKey + '&aggPayload=' + aggPayload)
   return result;
 }
 
@@ -134,15 +128,7 @@ const Header = ({
     /* eslint-enable indent */
 
     /* eslint-disable indent */
-    const onClickApproval = isPublished
-      ? () => setWarningApproval(true)
-      : () => {
-          if (checkIfHasDraftRelations() === 0) {
-            onPublish();
-          } else {
-            setShowWarningDraftRelation(true);
-          }
-        };
+    const onClickApproval =  () => setWarningApproval(true)
     /* eslint-enable indent */
 
     if(slug == 'api::reward.reward') {
@@ -226,23 +212,14 @@ const Header = ({
 
   const handleApproval = async () => {
     toggleWarningApproval();
-    // 認証のトランザクションAPI
     const result = await createAggregateTransaction(initialData.symbolAddress, initialData.rewardAmount);
-    setTransactionByPayload(result.data[0]);
-    console.log('set aggregate bonded')
-    const signedAggTx = await requestSign();
-    console.log('signed aggregate hashlock')
-    console.log(signedAggTx.hash)
-    const node = result.data[1];
-    const hashlockPayload = await createHashLockTransaction(node, signedAggTx.payload, signedAggTx.hash, signedAggTx.signerPublicKey)
-    setTimeout(async()=>{
-      setTransactionByPayload(hashlockPayload);
-      console.log('set hashlock')
-      const signedHashTx = await requestSign()
-      console.log('signed hashlock')
-      console.log(signedHashTx.hash)
-      await announceTransaction(node, signedHashTx.payload, signedHashTx.hash, signedHashTx.signerPublicKey, signedAggTx.payload, signedAggTx.hash, signedAggTx.signerPublicKey)
-    }, 500)
+    const aggSignedPayload = result.data[0];
+    setTransactionByPayload(aggSignedPayload);
+    const signedCosignatureAggTx = await requestSignCosignatureTransaction();
+    console.log(signedCosignatureAggTx.signerPublicKey)
+    const aggPayload = result.data[1];
+    const node = result.data[2];
+    await announceTransaction(node, signedCosignatureAggTx.signature, signedCosignatureAggTx.signerPublicKey, aggPayload)
   };
 
   const subtitle = `${formatMessage({
