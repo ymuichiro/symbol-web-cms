@@ -14,6 +14,9 @@ export default {
     head: {
       favicon: favicon,
     },
+    bot: {
+      id: process.env.BOT_ID,
+    },
   },
 
   bootstrap(app) {
