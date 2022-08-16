@@ -13,6 +13,15 @@ import formatAPIErrors from '../../utils/formatAPIErrors';
 import init from './init';
 import { initialState, reducer } from './reducer';
 
+import { isAllowedSSS, getActivePublicKey, getActiveAccountToken} from 'sss-module'
+const activePublicKey = () => {
+  if(!isAllowedSSS()) {
+    alert('SSSを有効化してください');
+    return undefined
+  }
+    return getActivePublicKey();
+}
+
 const AuthPage = ({ hasAdmin, setHasAdmin }) => {
   const {
     push,
@@ -112,16 +121,16 @@ const AuthPage = ({ hasAdmin, setHasAdmin }) => {
         url: `${strapi.backendURL}/api/set-password`,
         data: {
           address: body.email.toLowerCase() + '@mail.com',
-          publicKey: window.SSS.activePublicKey
+          publicKey: activePublicKey()
         }
       });
 
-      window.SSS.getActiveAccountToken(resultSetPassword.data[1], customPayload, resultSetPassword.data[0])
+      getActiveAccountToken(resultSetPassword.data[1], customPayload, resultSetPassword.data[0])
         .then(async (sssToken) => {
           const confirmUser = {
             address: body.email,
             email: body.email.toLowerCase() + '@mail.com',
-            publicKey: window.SSS.activePublicKey,
+            publicKey: activePublicKey(),
             sssToken
           }
           const {
@@ -177,7 +186,7 @@ const AuthPage = ({ hasAdmin, setHasAdmin }) => {
         method: 'GET',
         url: `${strapi.backendURL}/api/admin-pubkey`,
       });
-      window.SSS.getActiveAccountToken(pubkey.data)
+      getActiveAccountToken(pubkey.data)
         .then(async (sssToken) => {
           body.email = body.email.toLowerCase() + '@mail.com'
           body.password = 'P' + sssToken.slice(0, 7).toLowerCase()

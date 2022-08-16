@@ -40,7 +40,7 @@ jobs:
           BOT_PASSWORD: ${{ secrets.BOT_PASSWORD }}
       - name: Create files
         run: |
-          echo -e "branch name is ${{ github.event.issue.title }}\n" \
+          echo -e "\n${{ github.event.issue.title }}\n" \
             >> ./README.md
       - name: Create branch
         uses: EndBug/add-and-commit@v9
