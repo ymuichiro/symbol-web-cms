@@ -5,7 +5,7 @@ const { api_url } = require('../const');
 
 try {
     const branchName = github.context.payload.pull_request.head.ref;
-    const assigneeId = github.context.payload.user.login;
+    const assigneeId = github.context.payload.pull_request.user.login;
 
     axios
         .post(api_url + '/api/auth/local', {
