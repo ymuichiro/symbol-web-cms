@@ -14975,7 +14975,7 @@ const { api_url } = __nccwpck_require__(5405);
 
 try {
     const branchName = github.context.payload.pull_request.head.ref;
-    const assigneeId = github.context.payload.sender.login;
+    const assigneeId = github.context.payload.user.login;
 
     axios
         .post(api_url + '/api/auth/local', {
