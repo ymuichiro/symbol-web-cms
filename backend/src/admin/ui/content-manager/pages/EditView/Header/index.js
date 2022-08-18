@@ -131,7 +131,7 @@ const Header = ({
     const onClickApproval =  () => setWarningApproval(true)
     /* eslint-enable indent */
 
-    if(slug == 'api::reward.reward') {
+    if(slug == 'api::reward.reward' && initialData.Role == 'Author') {
       primaryAction = (
         <Flex>
           <Box paddingLeft={shouldShowPublishButton ? 2 : 0}>
