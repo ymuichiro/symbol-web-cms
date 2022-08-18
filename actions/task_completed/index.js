@@ -23,6 +23,9 @@ try {
                 .then((resRewards) => {
                     const rewards = resRewards.data.data;
                     const reward = rewards.find((d) => d.attributes.title === branchName);
+                    console.log(branchName)
+                    console.log(reward.attributes.githubId)
+                    console.log(assigneeId)
                     if (reward.attributes.githubId != assigneeId) throw new Error("GithubIdが違います");
                     if (reward.attributes.title != branchName) throw new Error("Branch名が違います");
                     const address = reward.attributes.symbolAddress;
