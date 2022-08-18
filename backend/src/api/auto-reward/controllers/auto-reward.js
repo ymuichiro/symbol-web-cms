@@ -10,7 +10,7 @@ const nodeUtil =  require("symbol-node-util");
 module.exports = {
   sendReward: async (ctx, next) => {
     try {
-      const NODE = await nodeUtil.getActiveNode(Number(process.env.NETWORKTYPE));      
+      const NODE = await nodeUtil.getActiveNode(Number(process.env.NETWORKTYPE));
       const repositoryFactory = new RepositoryFactoryHttp(NODE);
       const transactionHttp = repositoryFactory.createTransactionRepository();
       const nt = await op.firstValueFrom(repositoryFactory.getNetworkType());
