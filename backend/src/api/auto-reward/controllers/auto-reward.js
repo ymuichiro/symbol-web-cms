@@ -88,7 +88,6 @@ module.exports = {
   createAggregateTransaction: async (ctx, next) => {
     try {
       const NODE = await nodeUtil.getActiveNode(Number(process.env.NETWORKTYPE));
-      //const NODE = 'https://hideyoshi.mydns.jp:3001';
       const repositoryFactory = new RepositoryFactoryHttp(NODE);
       const nt = await op.firstValueFrom(repositoryFactory.getNetworkType());
       const ea = await op.firstValueFrom(repositoryFactory.getEpochAdjustment());
