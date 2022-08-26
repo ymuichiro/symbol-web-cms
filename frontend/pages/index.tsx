@@ -93,12 +93,61 @@ const Home: NextPage = () => {
         </section>
         {/* 特徴説明セクション */}
         <section>
-          {new Array(3).fill('').map((_, i) => {
+          {[
+            {
+              title: t('index.feature_title1'),
+              description: t('index.feature_body1'),
+              image:`${router.basePath}/assets/img/reshot-illustration-isometric-technical-support-482YXS7HJP.png`,
+              more: 'https://docs.symbol.dev/handbook/index.html',
+            },
+            {
+              title: t('index.feature_title2'),
+              description: t('index.feature_body2'),
+              image:`${router.basePath}/assets/img/reshot-illustration-isometric-teamwork-Q9N263475D.png`,
+              more: 'https://docs.symbol.dev/concepts/plugin.html',
+            },
+            {
+              title: t('index.feature_title3'),
+              description: t('index.feature_body3'),
+              image:`${router.basePath}/assets/img/reshot-illustration-secure-files-63RH5MNAW2.png`,
+              more: 'https://docs.symbol.dev/concepts/multisig-account.html',
+            },
+            {
+              title: t('index.feature_title4'),
+              description: t('index.feature_body4'),
+              image:`${router.basePath}/assets/img/reshot-illustration-isometric-startup-development-V2B8Q7PS9T.png`,
+              more: 'https://docs.symbol.dev/concepts/aggregate-transaction.html',
+            },
+            {
+              title: t('index.feature_title5'),
+              description: t('index.feature_body5'),
+              image:`${router.basePath}/assets/img/reshot-illustration-cyber-security-engineer-QRZA6W2N4U.png`,
+              more: 'https://docs.symbol.dev/concepts/mosaic.html',
+            },
+            {
+              title: t('index.feature_title6'),
+              description: t('index.feature_body6'),
+              image:`${router.basePath}/assets/img/reshot-illustration-money-tree-RDK5M28AE3.png`,
+              more: 'https://docs.symbol.dev/concepts/node.html',
+            },
+            {
+              title: t('index.feature_title7'),
+              description: t('index.feature_body7'),
+              image:`${router.basePath}/assets/img/reshot-illustration-money-tree-RDK5M28AE3.png`,
+              more: 'https://docs.symbol.dev/concepts/consensus-algorithm.html#sidebar',
+            },
+            {
+              title: t('index.feature_title8'),
+              description: t('index.feature_body8'),
+              image:`${router.basePath}/assets/img/reshot-illustration-smartphone-tool-app-MDYG6AH5RC.png`,
+              more: 'https://docs.symbol.dev/references/overview.html',
+            },
+          ].map((content, i) => {
             return (
               <MediaCardWide
-                title={t('index.feature1_title')}
-                description={new Array(10).fill(t('index.feature1_body')).join(' ')}
-                imageUrl={`${router.basePath}/assets/img/symbol-logo-white.png`}
+                title={content.title}
+                description={content.description}
+                imageUrl={content.image}
                 showMoreLink={{ pathname: '/', query: languageQuery }}
                 isShowMore={true}
                 imageHeight={'50vh'}
@@ -143,7 +192,28 @@ const Home: NextPage = () => {
             <Grid item xs={12}>
               <div style={{ height: '10px' }} />
             </Grid>
-            {[t('index.start_card1'), t('index.start_card2'), t('index.start_card3'), t('index.start_card4')].map(
+            {[
+              {
+                title:t('index.start_card1'),
+                image:`${router.basePath}/assets/img/reshot-illustration-crypto-digital-wallet-DJLEMYZTQN-0ec78.png`,
+                onClick:()=>{},
+              },
+              {
+                title:t('index.start_card2'),
+                image:`${router.basePath}/assets/img/reshot-illustration-chat-bot-data-security-HGS4CXMJAE.png`,
+                onClick:()=>{},
+              },
+              {
+                title:t('index.start_card3'),
+                image:`${router.basePath}/assets/img/reshot-illustration-social-media-manager-R48ZCSE7KP.png`,
+                onClick:()=>{},
+              },
+              {
+                title:t('index.start_card4'),
+                image:`${router.basePath}/assets/img/reshot-illustration-software-developers-59RL8CT7WX.png`,
+                onClick:()=>{},
+              }
+            ].map(
               (item, index) => {
                 return (
                   <Grid item xs={12} sm={6} key={index}>
@@ -153,7 +223,7 @@ const Home: NextPage = () => {
                           display: 'flex',
                           justifyContent: 'center',
                           alignItems: 'center',
-                          backgroundImage: `url(${router.basePath}/assets/img/symbol-logo-white.png)`,
+                          backgroundImage: `url(${item.image})`,
                           backgroundRepeat: 'no-repeat',
                           backgroundSize: 'cover',
                           height: '30vh',
@@ -163,7 +233,7 @@ const Home: NextPage = () => {
                         }}
                       />
                       <Typography color="white" style={{ position: 'relative', top: 0, left: 0 }}>
-                        {item}
+                        {item.title}
                       </Typography>
                     </div>
                   </Grid>
