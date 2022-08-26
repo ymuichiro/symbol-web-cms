@@ -9,5 +9,17 @@ module.exports = {
         middlewares: [],
       },
     },
+    {
+      method: 'GET',
+      path: '/create-aggregate-transaction',
+      handler: 'auto-reward.createAggregateTransaction',
+      config: { auth: false },
+    },
+    {
+      method: 'GET',
+      path: '/announce-transaction',
+      handler: 'auto-reward.announceTransaction',
+      config: { auth: false },
+    },
   ],
 };
