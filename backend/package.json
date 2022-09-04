@@ -29,7 +29,7 @@
   "scripts": {
     "develop": "strapi develop",
     "start": "strapi start",
-    "build": "strapi build",
+    "build": "NODE_ENV=production strapi build",
     "strapi": "strapi"
   }
 }

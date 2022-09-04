@@ -18,6 +18,9 @@ if (process.env.NODE_ENV === 'development') {
     pwa: {
       dest: 'public',
     },
+    images: {
+      domains: ['localhost'],
+    },
     experimental: {
       images: {
         unoptimized: true,
