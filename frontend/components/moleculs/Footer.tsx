@@ -7,13 +7,11 @@ import IconButton from '@mui/material/IconButton';
 import ChatIcon from '@mui/icons-material/Chat';
 import GitHubIcon from '@mui/icons-material/GitHub';
 import TwitterIcon from '@mui/icons-material/Twitter';
-import { useLanguageQuery } from '../../hooks/useLanguageQuery';
 
 export default function Footer(): JSX.Element {
   const theme = useTheme();
   const matches = useMediaQuery(theme.breakpoints.between('xs', 'sm'));
   const router = useRouter();
-  const languageQuery = useLanguageQuery(router);
 
   return (
     <>
@@ -29,21 +27,21 @@ export default function Footer(): JSX.Element {
       >
         <div>
           <Typography>
-            <Link href={{ pathname: '/news', query: languageQuery }}>
+            <Link href={{ pathname: '/news' }}>
               <a style={{ color: theme.palette.text.primary, textDecoration: 'none' }}>News</a>
             </Link>
           </Typography>
         </div>
         <div>
           <Typography>
-            <Link href={{ pathname: '/community', query: languageQuery }}>
+            <Link href={{ pathname: '/community' }}>
               <a style={{ color: theme.palette.text.primary, textDecoration: 'none' }}>Community</a>
             </Link>
           </Typography>
         </div>
         <div>
           <Typography>
-            <Link href={{ pathname: '/docs', query: languageQuery }}>
+            <Link href={{ pathname: '/docs' }}>
               <a style={{ color: theme.palette.text.primary, textDecoration: 'none' }}>Docs</a>
             </Link>
           </Typography>

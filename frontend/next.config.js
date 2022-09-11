@@ -9,22 +9,24 @@ if (process.env.NODE_ENV === 'development') {
     images: {
       domains: ['localhost'],
     },
+    i18n: {
+      locales: ['en-US', 'ja-JP'],
+      defaultLocale: 'ja-JP',
+    },
   };
 } else {
   nextConfig = withPWA({
     reactStrictMode: true,
     swcMinify: false,
-    // basePath: '/symbol-web',
     pwa: {
       dest: 'public',
     },
     images: {
       domains: ['localhost'],
     },
-    experimental: {
-      images: {
-        unoptimized: true,
-      },
+    i18n: {
+      locales: ['en-US', 'ja-JP'],
+      defaultLocale: 'ja-JP',
     },
   });
 }
