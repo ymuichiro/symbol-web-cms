@@ -1,5 +1,5 @@
 name: Publish Docker image
-on: [workflow_dispatch]
+on: ["workflow_dispatch"]
 jobs:
   main:
     name: Push Docker image to Github Container Registry
@@ -20,4 +20,4 @@ jobs:
         uses: docker/build-push-action@v3
         with:
           push: true
-          tags: ghcr.io/${{ github.repository }}:latest
+          tags: ghcr.io/ymuichiro/symbol-web:latest
