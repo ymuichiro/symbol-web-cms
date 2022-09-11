@@ -1,6 +1,5 @@
 import { useTheme } from '@mui/material/styles';
 import { useRouter } from 'next/router';
-import { LanguageSwitcher } from 'next-export-i18n';
 import React from 'react';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
@@ -22,7 +21,7 @@ import HomeIcon from '@mui/icons-material/Home';
 import NewspaperIcon from '@mui/icons-material/Newspaper';
 import ForumIcon from '@mui/icons-material/Forum';
 import TopicIcon from '@mui/icons-material/Topic';
-import { useLanguageQuery } from '../../hooks/useLanguageQuery';
+import LocaleSwitcher from '../atom/LocaleSwitcher';
 
 const SITELINKS = [
   { title: 'Top', link: '/', Icon: HomeIcon },
@@ -36,7 +35,6 @@ export default function Header() {
   const router = useRouter();
   const matches = useMediaQuery(theme.breakpoints.between('xs', 'md'));
   const [open, setOpen] = React.useState<boolean>(false);
-  const languageQuery = useLanguageQuery(router);
 
   return (
     <React.Fragment>
@@ -66,7 +64,7 @@ export default function Header() {
                   height={35}
                   width={155}
                   alt="Symbol-Logo"
-                  onClick={() => router.push({ pathname: '/', query: languageQuery })}
+                  onClick={() => router.push({ pathname: '/' })}
                 />
               </div>
               {matches || (
@@ -83,7 +81,7 @@ export default function Header() {
                     <Button
                       variant="text"
                       key={index}
-                      onClick={() => router.push({ pathname: item.link, query: languageQuery })}
+                      onClick={() => router.push({ pathname: item.link })}
                       style={{
                         color: 'black',
                         fontWeight: 'bold',
@@ -134,7 +132,7 @@ export default function Header() {
                 height={35}
                 width={155}
                 alt="Symbol-Logo"
-                onClick={() => router.push({ pathname: '/', query: languageQuery })}
+                onClick={() => router.push({ pathname: '/' })}
               />
             ) : (
               <Image
@@ -142,7 +140,7 @@ export default function Header() {
                 height={35}
                 width={155}
                 alt="Symbol-Logo"
-                onClick={() => router.push({ pathname: '/', query: languageQuery })}
+                onClick={() => router.push({ pathname: '/' })}
               />
             )}
           </div>
@@ -154,7 +152,7 @@ export default function Header() {
               <ListItemButton
                 key={index}
                 style={{ width: '70vh', maxWidth: '300px' }}
-                onClick={() => router.push({ pathname: item.link, query: languageQuery })}
+                onClick={() => router.push({ pathname: item.link })}
               >
                 <item.Icon />
                 <ListItemText primary={item.title} style={{ marginLeft: '1rem' }} />
@@ -162,7 +160,7 @@ export default function Header() {
               </ListItemButton>
             ))}
           </List>
-          <div style={{ marginTop: 'auto', paddingInline: '30px', paddingBlock: '15px' }}>
+          <div style={{ marginTop: 'auto', paddingInline: '30px', paddingBlock: '20px' }}>
             <Typography gutterBottom variant="body2" color="text.secondary" align="left">
               Language
             </Typography>
@@ -175,12 +173,7 @@ export default function Header() {
                 flexWrap: 'wrap',
               }}
             >
-              <LanguageSwitcher lang="en">
-                <Button>en</Button>
-              </LanguageSwitcher>
-              <LanguageSwitcher lang="ja">
-                <Button>ja</Button>
-              </LanguageSwitcher>
+              <LocaleSwitcher />
             </div>
           </div>
         </div>

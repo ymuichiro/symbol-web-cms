@@ -3,9 +3,7 @@ import { useEffect, useState } from 'react';
 import { useTheme } from '@mui/material/styles';
 import { NewsReleaseFindResponse } from '../model/StrapiModel';
 import { useRouter } from 'next/router';
-import { useTranslation } from 'next-export-i18n';
-import { isLanguageByQuery } from '../i18n/isLanguageByQuery';
-import { useLanguageQuery } from '../hooks/useLanguageQuery';
+import { i18n, en, ja } from '../i18n';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import Header from '../components/moleculs/Header';
 import Container from '@mui/material/Container';
@@ -19,18 +17,20 @@ import Image from 'next/image';
 import SymbolExplorerImage from '../public/assets/img/symbol-explorer.png';
 import SymbolLogoWhiteImagee from '../public/assets/img/symbol-logo-white.png';
 
-const Home: NextPage = () => {
+type Props = {
+  i18nText: i18n;
+};
+
+const Home: NextPage<Props> = ({ i18nText }) => {
   const theme = useTheme();
   const matches = useMediaQuery(theme.breakpoints.between('xs', 'md'));
   const [news, setNews] = useState<NewsReleaseFindResponse['data']>([]);
   const router = useRouter();
-  const languageQuery = useLanguageQuery(router);
-  const { t } = useTranslation();
 
   // ページの起動時の処理群
   useEffect(() => {
     if (typeof window === 'object' && router.isReady) {
-      strapi.findNewsRelease(isLanguageByQuery(languageQuery.lang)).then((e) => setNews([...e.data]));
+      strapi.findNewsRelease(router.locale).then((e) => setNews([...e.data]));
     }
   }, [router.query]);
 
@@ -82,7 +82,7 @@ const Home: NextPage = () => {
                   align={matches ? 'center' : 'left'}
                   style={{ paddingLeft: '20px' }}
                 >
-                  {t('index.title_message')}
+                  {i18nText.index.title_message}
                 </Typography>
               </Grid>
               <Grid item xs={12} md={6} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
@@ -95,51 +95,51 @@ const Home: NextPage = () => {
         <section>
           {[
             {
-              title: t('index.feature_title1'),
-              description: t('index.feature_body1'),
-              image:`${router.basePath}/assets/img/reshot-illustration-isometric-technical-support-482YXS7HJP.png`,
+              title: i18nText.index.feature_title1,
+              description: i18nText.index.feature_body1,
+              image: `${router.basePath}/assets/img/reshot-illustration-isometric-technical-support-482YXS7HJP.png`,
               more: 'https://docs.symbol.dev/handbook/index.html',
             },
             {
-              title: t('index.feature_title2'),
-              description: t('index.feature_body2'),
-              image:`${router.basePath}/assets/img/reshot-illustration-isometric-teamwork-Q9N263475D.png`,
+              title: i18nText.index.feature_title2,
+              description: i18nText.index.feature_body2,
+              image: `${router.basePath}/assets/img/reshot-illustration-isometric-teamwork-Q9N263475D.png`,
               more: 'https://docs.symbol.dev/concepts/plugin.html',
             },
             {
-              title: t('index.feature_title3'),
-              description: t('index.feature_body3'),
-              image:`${router.basePath}/assets/img/reshot-illustration-secure-files-63RH5MNAW2.png`,
+              title: i18nText.index.feature_title3,
+              description: i18nText.index.feature_body3,
+              image: `${router.basePath}/assets/img/reshot-illustration-secure-files-63RH5MNAW2.png`,
               more: 'https://docs.symbol.dev/concepts/multisig-account.html',
             },
             {
-              title: t('index.feature_title4'),
-              description: t('index.feature_body4'),
-              image:`${router.basePath}/assets/img/reshot-illustration-isometric-startup-development-V2B8Q7PS9T.png`,
+              title: i18nText.index.feature_title4,
+              description: i18nText.index.feature_body4,
+              image: `${router.basePath}/assets/img/reshot-illustration-isometric-startup-development-V2B8Q7PS9T.png`,
               more: 'https://docs.symbol.dev/concepts/aggregate-transaction.html',
             },
             {
-              title: t('index.feature_title5'),
-              description: t('index.feature_body5'),
-              image:`${router.basePath}/assets/img/reshot-illustration-cyber-security-engineer-QRZA6W2N4U.png`,
+              title: i18nText.index.feature_title5,
+              description: i18nText.index.feature_body5,
+              image: `${router.basePath}/assets/img/reshot-illustration-cyber-security-engineer-QRZA6W2N4U.png`,
               more: 'https://docs.symbol.dev/concepts/mosaic.html',
             },
             {
-              title: t('index.feature_title6'),
-              description: t('index.feature_body6'),
-              image:`${router.basePath}/assets/img/reshot-illustration-money-tree-RDK5M28AE3.png`,
+              title: i18nText.index.feature_title6,
+              description: i18nText.index.feature_body6,
+              image: `${router.basePath}/assets/img/reshot-illustration-money-tree-RDK5M28AE3.png`,
               more: 'https://docs.symbol.dev/concepts/node.html',
             },
             {
-              title: t('index.feature_title7'),
-              description: t('index.feature_body7'),
-              image:`${router.basePath}/assets/img/reshot-illustration-money-tree-RDK5M28AE3.png`,
+              title: i18nText.index.feature_title7,
+              description: i18nText.index.feature_body7,
+              image: `${router.basePath}/assets/img/reshot-illustration-money-tree-RDK5M28AE3.png`,
               more: 'https://docs.symbol.dev/concepts/consensus-algorithm.html#sidebar',
             },
             {
-              title: t('index.feature_title8'),
-              description: t('index.feature_body8'),
-              image:`${router.basePath}/assets/img/reshot-illustration-smartphone-tool-app-MDYG6AH5RC.png`,
+              title: i18nText.index.feature_title8,
+              description: i18nText.index.feature_body8,
+              image: `${router.basePath}/assets/img/reshot-illustration-smartphone-tool-app-MDYG6AH5RC.png`,
               more: 'https://docs.symbol.dev/references/overview.html',
             },
           ].map((content, i) => {
@@ -148,7 +148,7 @@ const Home: NextPage = () => {
                 title={content.title}
                 description={content.description}
                 imageUrl={content.image}
-                showMoreLink={{ pathname: '/', query: languageQuery }}
+                showMoreLink={{ pathname: '/' }}
                 isShowMore={true}
                 imageHeight={'50vh'}
                 style={{ marginTop: '20vh' }}
@@ -160,7 +160,7 @@ const Home: NextPage = () => {
         {/* ニュース簡易表示セクション */}
         <section>
           <Typography variant="h4" align="center" color="text.primary" gutterBottom style={{ marginTop: '10vh' }}>
-            {t('index.news_title')}
+            {i18nText.index.news_title}
           </Typography>
           <Grid container spacing={5}>
             {news.map((n, i) => {
@@ -171,7 +171,7 @@ const Home: NextPage = () => {
                     description={n.attributes.description}
                     date={n.attributes.publishedAt}
                     image={`${router.basePath}/assets/img/symbol-logo-white.png`}
-                    onClickLink={() => router.push({ pathname: '/news/' + n.id, query: languageQuery })}
+                    onClickLink={() => router.push({ pathname: '/news/' + n.id })}
                   />
                 </Grid>
               );
@@ -183,7 +183,7 @@ const Home: NextPage = () => {
           <Grid container style={{ marginTop: '10vh' }} spacing={5}>
             <Grid item xs={12} md={6} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
               <Typography variant="h4" align="center" fontWeight="bold" color="text.primary" gutterBottom>
-                {t('index.start_title')}
+                {i18nText.index.start_title}
               </Typography>
             </Grid>
             <Grid item xs={12} md={6} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
@@ -194,52 +194,50 @@ const Home: NextPage = () => {
             </Grid>
             {[
               {
-                title:t('index.start_card1'),
-                image:`${router.basePath}/assets/img/reshot-illustration-crypto-digital-wallet-DJLEMYZTQN-0ec78.png`,
-                onClick:()=>{},
+                title: i18nText.index.start_card1,
+                image: `${router.basePath}/assets/img/reshot-illustration-crypto-digital-wallet-DJLEMYZTQN-0ec78.png`,
+                onClick: () => {},
               },
               {
-                title:t('index.start_card2'),
-                image:`${router.basePath}/assets/img/reshot-illustration-chat-bot-data-security-HGS4CXMJAE.png`,
-                onClick:()=>{},
+                title: i18nText.index.start_card2,
+                image: `${router.basePath}/assets/img/reshot-illustration-chat-bot-data-security-HGS4CXMJAE.png`,
+                onClick: () => {},
               },
               {
-                title:t('index.start_card3'),
-                image:`${router.basePath}/assets/img/reshot-illustration-social-media-manager-R48ZCSE7KP.png`,
-                onClick:()=>{},
+                title: i18nText.index.start_card3,
+                image: `${router.basePath}/assets/img/reshot-illustration-social-media-manager-R48ZCSE7KP.png`,
+                onClick: () => {},
               },
               {
-                title:t('index.start_card4'),
-                image:`${router.basePath}/assets/img/reshot-illustration-software-developers-59RL8CT7WX.png`,
-                onClick:()=>{},
-              }
-            ].map(
-              (item, index) => {
-                return (
-                  <Grid item xs={12} sm={6} key={index}>
-                    <div>
-                      <div
-                        style={{
-                          display: 'flex',
-                          justifyContent: 'center',
-                          alignItems: 'center',
-                          backgroundImage: `url(${item.image})`,
-                          backgroundRepeat: 'no-repeat',
-                          backgroundSize: 'cover',
-                          height: '30vh',
-                          filter: 'brightness(0.2)',
-                          borderRadius: '10px',
-                          border: '6px solid white',
-                        }}
-                      />
-                      <Typography color="white" style={{ position: 'relative', top: 0, left: 0 }}>
-                        {item.title}
-                      </Typography>
-                    </div>
-                  </Grid>
-                );
-              }
-            )}
+                title: i18nText.index.start_card4,
+                image: `${router.basePath}/assets/img/reshot-illustration-software-developers-59RL8CT7WX.png`,
+                onClick: () => {},
+              },
+            ].map((item, index) => {
+              return (
+                <Grid item xs={12} sm={6} key={index}>
+                  <div>
+                    <div
+                      style={{
+                        display: 'flex',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        backgroundImage: `url(${item.image})`,
+                        backgroundRepeat: 'no-repeat',
+                        backgroundSize: 'cover',
+                        height: '30vh',
+                        filter: 'brightness(0.2)',
+                        borderRadius: '10px',
+                        border: '6px solid white',
+                      }}
+                    />
+                    <Typography color="white" style={{ position: 'relative', top: 0, left: 0 }}>
+                      {item.title}
+                    </Typography>
+                  </div>
+                </Grid>
+              );
+            })}
           </Grid>
         </section>
         {/* Symbol Explorer */}
@@ -247,10 +245,10 @@ const Home: NextPage = () => {
           <Grid container justifyContent="center" alignItems="center" style={{ height: '60vh' }}>
             <Grid item xs={12} md={3}>
               <Typography variant="h5" align="center" fontWeight="bold">
-                {t('index.explorer_title')}
+                {i18nText.index.explorer_title}
               </Typography>
               <Typography variant="body1" align="center">
-                {t('index.explorer_body')}
+                {i18nText.index.explorer_body}
               </Typography>
             </Grid>
             <Grid item xs={12} md={9} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
@@ -276,5 +274,10 @@ const Home: NextPage = () => {
     </div>
   );
 };
+
+export function getStaticProps({ locale }: any) {
+  const i18nText = locale === 'en-US' ? en : ja;
+  return { props: { i18nText } };
+}
 
 export default Home;

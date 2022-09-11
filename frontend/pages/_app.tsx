@@ -5,6 +5,7 @@ import { StyledEngineProvider, ThemeProvider } from '@mui/material/styles';
 import type { AppProps } from 'next/app';
 import { theme } from '../styles/theme';
 import { ContextProvider } from '../context';
+import Head from 'next/head';
 
 function MyApp({ Component, pageProps }: AppProps) {
   React.useEffect(() => {
@@ -21,6 +22,9 @@ function MyApp({ Component, pageProps }: AppProps) {
 
   return (
     <React.Fragment>
+      <Head>
+        <title>Symbol Community</title>
+      </Head>
       <StyledEngineProvider injectFirst>
         <ContextProvider>
           <ThemeProvider theme={theme}>
