@@ -1,35 +1,23 @@
-name: deploy to github pages
-
-on:
-  # push:
-  #   branches:
-  #     - 13-rethink-deployment-environment
-  workflow_dispatch:
-
+name: Publish Docker image
+on: [workflow_dispatch]
 jobs:
-  deploy:
-
+  main:
+    name: Push Docker image to Github Container Registry
     runs-on: ubuntu-latest
-
     steps:
-
-      - uses: actions/checkout@v3
-
-      - name: Use Node.js
-        uses: actions/setup-node@v3
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v1
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+      - name: Login
+        run: echo $CR_PAT | docker login ghcr.io -u ${OWNER,,} --password-stdin
+        env:
+          CR_PAT: ${{ secrets.GITHUB_TOKEN }}
+          OWNER: ${{ github.repository_owner }}
+      - name: Push to GitHub Container Registry
+        uses: docker/build-push-action@v3
         with:
-          node-version: 16
-
-      - name: install
-        run: yarn --cwd frontend install
-
-      - name: build
-        run: |
-          yarn --cwd frontend run build
-          touch ./frontend/out/.nojekyll
-
-      - name: deploy
-        uses: peaceiris/actions-gh-pages@v3.6.4
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./frontend/out
+          push: true
+          tags: ghcr.io/${{ github.repository }}:latest

@@ -5,13 +5,9 @@ import Image from 'next/image';
 import Link from 'next/link';
 import CodeBlock from '../../components/atom/CodeBlock';
 import UtilService from '../../service/UtilService';
-import { useRouter } from 'next/router';
-import { useLanguageQuery } from '../../hooks/useLanguageQuery';
 
 export default function MarkdownParser(props: { markdown: string }): JSX.Element {
   const theme = useTheme();
-  const router = useRouter();
-  const languageQuery = useLanguageQuery(router);
 
   return (
     <Markdown
@@ -62,13 +58,7 @@ export default function MarkdownParser(props: { markdown: string }): JSX.Element
         code: CodeBlock,
         a: (e) => (
           <Typography>
-            <Link
-              href={
-                new RegExp(/^http.?:\/\/.*/).test(e.href || '')
-                  ? e.href || '/'
-                  : { pathname: e.href || '/', query: languageQuery }
-              }
-            >
+            <Link href={new RegExp(/^http.?:\/\/.*/).test(e.href || '') ? e.href || '/' : { pathname: e.href || '/' }}>
               <a style={{ color: theme.palette.text.primary }}>{e.children}</a>
             </Link>
           </Typography>
