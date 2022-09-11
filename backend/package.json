@@ -8,6 +8,7 @@
     "@strapi/plugin-users-permissions": "4.2.3",
     "@strapi/strapi": "4.2.3",
     "better-sqlite3": "7.4.6",
+    "mysql": "^2.18.1",
     "pg": "^8.7.3",
     "pg-connection-string": "^2.5.0",
     "rxjs": "^7.5.6",
