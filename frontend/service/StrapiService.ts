@@ -4,7 +4,6 @@
 
 */
 
-import { Languages } from '../i18n/isLanguageByQuery';
 import {
   CommunityReleaseFindOneResponse,
   CommunityReleaseFindResponse,
@@ -33,7 +32,16 @@ function generateEndpoint(search: URLSearchParams, ...path: string[]) {
   }
 }
 
-// TODO: フィルター処理の実装をそのうち
+function languageSwitchToStrapi(locale:string) {
+  switch (locale) {
+    case "en-US":
+      return "en";
+    case "ja-JP":
+      return "ja-JP";
+    default:
+      return "ja-JP";
+  }
+}
 
 export default class StrapiService {
   static async getLocales(): Promise<LocalesResponse[]> {
@@ -44,10 +52,13 @@ export default class StrapiService {
     return json;
   }
 
-  static async findNewsRelease(locale: Languages): Promise<NewsReleaseFindResponse> {
+  static async findNewsRelease(locale?: string): Promise<NewsReleaseFindResponse> {
     const sp = new URLSearchParams();
-    sp.append('locale', locale);
+    if(locale){
+      sp.append('locale', languageSwitchToStrapi(locale));
+    }
     const ep = generateEndpoint(sp, 'api', 'news-releases');
+    console.log(ep);
     const response = await fetch(ep, { method: 'GET' });
     const json = await response.json();
     return json;
@@ -56,15 +67,16 @@ export default class StrapiService {
   static async findOneNewsRelease(id: string): Promise<NewsReleaseFindOneResponse> {
     const sp = new URLSearchParams();
     const ep = generateEndpoint(sp, 'api', 'news-releases', id);
-    console.log(ep);
     const response = await fetch(ep, { method: 'GET' });
     const json = await response.json();
     return json;
   }
 
-  static async findCommunityRelease(locale: Languages): Promise<CommunityReleaseFindResponse> {
+  static async findCommunityRelease(locale?: string): Promise<CommunityReleaseFindResponse> {
     const sp = new URLSearchParams();
-    sp.append('locale', locale);
+    if(locale){
+      sp.append('locale', languageSwitchToStrapi(locale));
+    }
     const ep = generateEndpoint(sp, 'api', 'community-releases');
     const response = await fetch(ep, { method: 'GET' });
     const json = await response.json();
@@ -79,9 +91,11 @@ export default class StrapiService {
     return json;
   }
 
-  static async findDocuments(locale: Languages): Promise<DocumentFindResponse> {
+  static async findDocuments(locale?: string): Promise<DocumentFindResponse> {
     const sp = new URLSearchParams();
-    sp.append('locale', locale);
+    if(locale){
+      sp.append('locale', languageSwitchToStrapi(locale));
+    }
     const ep = generateEndpoint(sp, 'api', 'documents');
     const response = await fetch(ep, { method: 'GET' });
     const json = await response.json();

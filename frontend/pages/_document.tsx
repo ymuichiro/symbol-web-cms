@@ -16,7 +16,6 @@ export default class MyDocument extends Document {
           <link rel="icon" href="/favicon.ico" />
           <link rel="apple-touch-icon" href="/icon-192x192.png" />
           <link rel="manifest" href="/manifest.json" />
-          <title>Symbol for Everyone</title>
         </Head>
         <body>
           <Main />
