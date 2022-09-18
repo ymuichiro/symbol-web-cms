@@ -4,6 +4,7 @@ import { useTheme } from '@mui/material/styles';
 import { NewsReleaseFindResponse } from '../model/StrapiModel';
 import { useRouter } from 'next/router';
 import { i18n, en, ja } from '../i18n';
+import { Toolbar } from '../components/atom/Toolbar';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import Header from '../components/moleculs/Header';
 import Container from '@mui/material/Container';
@@ -15,7 +16,11 @@ import strapi from '../service/StrapiService';
 import Footer from '../components/moleculs/Footer';
 import Image from 'next/image';
 import SymbolExplorerImage from '../public/assets/img/symbol-explorer.png';
-import SymbolLogoWhiteImagee from '../public/assets/img/symbol-logo-white.png';
+import Button from '@mui/material/Button';
+// icons
+import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
+import FunctionsPresens from '../components/moleculs/FunctionsPresens';
+import ButtonBase from '@mui/material/ButtonBase';
 
 type Props = {
   i18nText: i18n;
@@ -25,14 +30,29 @@ const Home: NextPage<Props> = ({ i18nText }) => {
   const theme = useTheme();
   const matches = useMediaQuery(theme.breakpoints.between('xs', 'md'));
   const [news, setNews] = useState<NewsReleaseFindResponse['data']>([]);
+  const [backgroundOpacity, setBackgroundOpacity] = useState<number>(0.6);
   const router = useRouter();
+
+  const onScrollHandle = () => {
+    const position = window.scrollY;
+    if (position.toString() !== 'NaN' && position < 1000) {
+      const currentOpacity = 0.6 - position / 1000;
+      if (currentOpacity > 0.3) {
+        setBackgroundOpacity(currentOpacity);
+      }
+    }
+  };
 
   // ページの起動時の処理群
   useEffect(() => {
     if (typeof window === 'object' && router.isReady) {
-      strapi.findNewsRelease(router.locale).then((e) => setNews([...e.data]));
+      // strapi.findNewsRelease(router.locale).then((e) => setNews([...e.data]));
     }
   }, [router.query]);
+
+  useEffect(() => {
+    document.addEventListener('scroll', onScrollHandle);
+  }, []);
 
   return (
     <div style={{ marginBottom: '5vh' }}>
@@ -42,7 +62,7 @@ const Home: NextPage<Props> = ({ i18nText }) => {
         <section>
           <div
             style={{
-              position: 'absolute',
+              position: 'fixed',
               top: 0,
               left: 0,
               width: '100vw',
@@ -51,117 +71,177 @@ const Home: NextPage<Props> = ({ i18nText }) => {
               backgroundRepeat: 'no-repeat',
               backgroundSize: 'cover',
               zIndex: -1,
+              opacity: backgroundOpacity,
               WebkitMaskImage: 'linear-gradient(rgb(0,0,0),rgb(0,0,0),rgb(0,0,0),rgba(0,0,0,0))',
             }}
-          />
+          ></div>
+          <Toolbar />
           <div
             style={{
+              height: '60vh',
               display: 'flex',
               justifyContent: 'center',
               alignItems: 'center',
-              height: '80vh',
-              width: '100%',
+              flexDirection: 'column',
+              gap: '30px',
             }}
           >
-            <Grid container justifyContent="center" alignItems="center" spacing={matches ? 5 : 0}>
-              <Grid item xs={12} md={6}>
-                <Typography
-                  color="white"
-                  variant="h1"
-                  fontWeight={'bold'}
-                  align={matches ? 'center' : 'left'}
-                  style={{ fontSize: '2em', paddingLeft: '20px' }}
-                >
-                  Welcom to {matches && <br />} Symbol &amp; NEM
-                </Typography>
-                <br />
-                <Typography
-                  color="white"
-                  variant="body1"
-                  fontWeight={'bold'}
-                  align={matches ? 'center' : 'left'}
-                  style={{ paddingLeft: '20px' }}
-                >
-                  {i18nText.index.title_message}
-                </Typography>
-              </Grid>
-              <Grid item xs={12} md={6} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                <Image src={SymbolLogoWhiteImagee} alt="Symbol-Logo-White" height="200px" width="200px" />
-              </Grid>
+            <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
+              <Typography
+                color="white"
+                variant="h1"
+                fontWeight={'bold'}
+                align={'center'}
+                style={{ fontSize: '3.5rem' }}
+              >
+                <span style={{ color: theme.palette.primary.main }}>Empowering People</span> with Blockchain
+              </Typography>
+              <br />
+              <Typography
+                color="white"
+                variant="body1"
+                fontWeight={'bold'}
+                align={matches ? 'center' : 'left'}
+                style={{ maxWidth: '600px', textAlign: 'center' }}
+              >
+                {i18nText.index.title_message}
+              </Typography>
+            </div>
+            <Grid container spacing={3} style={{ maxWidth: '600px' }}>
+              {['Install Wallet', 'Start Develop'].map((item, index) => (
+                <Grid item xs={12} sm={6} key={index}>
+                  <Button variant="contained" color="primary" size="large" fullWidth>
+                    <div style={{ display: 'flex', justifyContent: 'center', gap: '3px' }}>
+                      {item}
+                      <KeyboardArrowRightIcon />
+                    </div>
+                  </Button>
+                </Grid>
+              ))}
             </Grid>
           </div>
         </section>
-        {/* 特徴説明セクション */}
+        {/* 最初の説明セクション */}
         <section>
-          {[
+          <div style={{ height: '25vh' }} />
+          <Typography align="center" variant="h4" fontWeight="bold" style={{ color: theme.palette.primary.main }}>
+            {i18nText.index.history_title1}
+          </Typography>
+          <div style={{ height: '15vh' }} />
+          <Grid container spacing={2}>
+            <Grid item xs={12} sm={12} md={6}>
+              <div style={{ display: 'flex', justifyContent: 'center' }}>
+                <Image
+                  height={300}
+                  width={300}
+                  objectFit="contain"
+                  src={`${router.basePath}/assets/img/nem-logo.png`}
+                />
+              </div>
+            </Grid>
+            <Grid item xs={12} sm={12} md={6}>
+              <Typography variant="subtitle1" style={{ marginBottom: '1rem' }}>
+                {i18nText.index.history_body1}
+              </Typography>
+              <Button
+                variant="contained"
+                LinkComponent={'a'}
+                href="https://nemproject.github.io/nem-docs/pages/"
+                rel="noopener noreferrer"
+                target="_blank"
+                fullWidth
+                style={{ marginTop: '2rem', marginBottom: '1rem' }}
+              >
+                {i18nText.index.history_body1_Button}
+              </Button>
+            </Grid>
+          </Grid>
+        </section>
+        {/* 特徴説明セクション */}
+        <div style={{ height: '20vh' }} />
+        <Typography align="center" variant="h4" fontWeight="bold" style={{ color: theme.palette.primary.main }}>
+          {i18nText.index.functionary_section_title}
+        </Typography>
+        <div style={{ height: '5vh' }} />
+        <FunctionsPresens
+          items={[
             {
-              title: i18nText.index.feature_title1,
-              description: i18nText.index.feature_body1,
-              image: `${router.basePath}/assets/img/reshot-illustration-isometric-technical-support-482YXS7HJP.png`,
-              more: 'https://docs.symbol.dev/handbook/index.html',
-            },
-            {
-              title: i18nText.index.feature_title2,
-              description: i18nText.index.feature_body2,
-              image: `${router.basePath}/assets/img/reshot-illustration-isometric-teamwork-Q9N263475D.png`,
+              title: i18nText.index.functionary_title1,
+              subtitle: i18nText.index.functionary_subtitle1,
+              body: i18nText.index.functionary_body1,
+              background: `${router.basePath}/assets/img/reshot-icon-tumbling-blocks-7V4WT8ZAQY.png`,
+              icon: `${router.basePath}/assets/img/reshot-icon-puzzle-block-4VJ29ER6UF.png`,
               more: 'https://docs.symbol.dev/concepts/plugin.html',
             },
             {
-              title: i18nText.index.feature_title3,
-              description: i18nText.index.feature_body3,
-              image: `${router.basePath}/assets/img/reshot-illustration-secure-files-63RH5MNAW2.png`,
-              more: 'https://docs.symbol.dev/concepts/multisig-account.html',
+              title: i18nText.index.functionary_title2,
+              subtitle: i18nText.index.functionary_subtitle2,
+              body: i18nText.index.functionary_body2,
+              background: `${router.basePath}/assets/img/reshot-icon-blockchain-4DVEYGLHWB.png`,
+              icon: `${router.basePath}/assets/img/reshot-icon-gear-in-the-box-WBDG7C93T4.png`,
+              more: 'https://docs.symbol.dev/concepts/plugin.html',
             },
             {
-              title: i18nText.index.feature_title4,
-              description: i18nText.index.feature_body4,
-              image: `${router.basePath}/assets/img/reshot-illustration-isometric-startup-development-V2B8Q7PS9T.png`,
-              more: 'https://docs.symbol.dev/concepts/aggregate-transaction.html',
+              title: i18nText.index.functionary_title3,
+              subtitle: i18nText.index.functionary_subtitle3,
+              body: i18nText.index.functionary_body3,
+              background: `${router.basePath}/assets/img/reshot-icon-movie-ticket-RFBH8E9MQJ.png`,
+              icon: `${router.basePath}/assets/img/reshot-icon-token-ERTB6HXPFK.png`,
+              more: 'https://docs.symbol.dev/concepts/plugin.html',
             },
-            {
-              title: i18nText.index.feature_title5,
-              description: i18nText.index.feature_body5,
-              image: `${router.basePath}/assets/img/reshot-illustration-cyber-security-engineer-QRZA6W2N4U.png`,
-              more: 'https://docs.symbol.dev/concepts/mosaic.html',
-            },
-            {
-              title: i18nText.index.feature_title6,
-              description: i18nText.index.feature_body6,
-              image: `${router.basePath}/assets/img/reshot-illustration-money-tree-RDK5M28AE3.png`,
-              more: 'https://docs.symbol.dev/concepts/node.html',
-            },
-            {
-              title: i18nText.index.feature_title7,
-              description: i18nText.index.feature_body7,
-              image: `${router.basePath}/assets/img/reshot-illustration-money-tree-RDK5M28AE3.png`,
-              more: 'https://docs.symbol.dev/concepts/consensus-algorithm.html#sidebar',
-            },
-            {
-              title: i18nText.index.feature_title8,
-              description: i18nText.index.feature_body8,
-              image: `${router.basePath}/assets/img/reshot-illustration-smartphone-tool-app-MDYG6AH5RC.png`,
-              more: 'https://docs.symbol.dev/references/overview.html',
-            },
-          ].map((content, i) => {
-            return (
-              <MediaCardWide
-                title={content.title}
-                description={content.description}
-                imageUrl={content.image}
-                showMoreLink={{ pathname: '/' }}
-                isShowMore={true}
-                imageHeight={'50vh'}
-                style={{ marginTop: '20vh' }}
-                key={i}
-              />
-            );
-          })}
+          ]}
+        />
+        {/* 安全性説明セクション */}
+        <section>
+          <div style={{ height: '20vh' }} />
+          <Typography align="center" variant="h4" fontWeight="bold" style={{ color: theme.palette.primary.main }}>
+            {i18nText.index.secure_section_title}
+          </Typography>
+          <div style={{ height: '5vh' }} />
+          <div>
+            {[
+              {
+                title: i18nText.index.secure_title1,
+                description: i18nText.index.secure_body1,
+                image: `${router.basePath}/assets/img/reshot-illustration-secure-files-63RH5MNAW2.png`,
+                more: 'https://docs.symbol.dev/concepts/multisig-account.html',
+              },
+
+              {
+                title: i18nText.index.secure_title2,
+                description: i18nText.index.secure_body2,
+                image: `${router.basePath}/assets/img/four-layer-network.png`,
+                more: 'https://docs.symbol.dev/concepts/node.html',
+              },
+              {
+                title: i18nText.index.secure_title3,
+                description: i18nText.index.secure_body3,
+                image: `${router.basePath}/assets/img/reshot-illustration-money-tree-RDK5M28AE3.png`,
+                more: 'https://docs.symbol.dev/concepts/consensus-algorithm.html#sidebar',
+              },
+            ].map((content, i) => {
+              return (
+                <MediaCardWide
+                  title={content.title}
+                  description={content.description}
+                  imageUrl={content.image}
+                  showMoreLink={content.more}
+                  isShowMore={true}
+                  imageHeight={'100%'}
+                  style={{ marginBottom: '5vh' }}
+                  key={i}
+                />
+              );
+            })}
+          </div>
         </section>
         {/* ニュース簡易表示セクション */}
         <section>
-          <Typography variant="h4" align="center" color="text.primary" gutterBottom style={{ marginTop: '10vh' }}>
+          <div style={{ height: '20vh' }} />
+          <Typography align="center" variant="h4" fontWeight="bold" style={{ color: theme.palette.primary.main }}>
             {i18nText.index.news_title}
           </Typography>
+          <div style={{ height: '5vh' }} />
           <Grid container spacing={5}>
             {news.map((n, i) => {
               return (
@@ -178,19 +258,61 @@ const Home: NextPage<Props> = ({ i18nText }) => {
             })}
           </Grid>
         </section>
+
+        {/* 簡単に導入できると説明するセクション */}
+        <section>
+          <div style={{ height: '20vh' }} />
+          <Typography align="center" variant="h4" fontWeight="bold" style={{ color: theme.palette.primary.main }}>
+            {i18nText.index.easy_section_title}
+          </Typography>
+          <div style={{ height: '10vh' }} />
+          <Grid container spacing={2}>
+            <Grid item xs={12} sm={12} md={6}>
+              <div style={{ display: 'flex', justifyContent: 'center' }}>
+                <Image
+                  height={300}
+                  width={400}
+                  objectFit="contain"
+                  src={`${router.basePath}/assets/img/server_install.png`}
+                />
+              </div>
+            </Grid>
+            <Grid item xs={12} sm={12} md={6}>
+              <Typography variant="subtitle1" style={{ marginBottom: '1rem' }}>
+                {i18nText.index.easy_section_body}
+              </Typography>
+              <Button
+                variant="contained"
+                LinkComponent={'a'}
+                href="https://github.com/xembook/quick_learning_symbol"
+                rel="noopener noreferrer"
+                target="_blank"
+                fullWidth
+                style={{ marginTop: '2rem', marginBottom: '1rem' }}
+              >
+                {i18nText.index.easy_section_button}
+              </Button>
+              <Button
+                variant="contained"
+                LinkComponent={'a'}
+                href="https://docs.symbol.dev/sdk.html"
+                rel="noopener noreferrer"
+                target="_blank"
+                fullWidth
+                style={{ marginBottom: '1rem' }}
+              >
+                SDK Repositories
+              </Button>
+            </Grid>
+          </Grid>
+        </section>
         {/* SymbolをはじめようSection */}
         <section>
-          <Grid container style={{ marginTop: '10vh' }} spacing={5}>
-            <Grid item xs={12} md={6} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+          <Grid container style={{ marginTop: '20vh' }} spacing={5}>
+            <Grid item xs={12} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
               <Typography variant="h4" align="center" fontWeight="bold" color="text.primary" gutterBottom>
                 {i18nText.index.start_title}
               </Typography>
-            </Grid>
-            <Grid item xs={12} md={6} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-              <Image src={SymbolLogoWhiteImagee} alt="Symbol-Logo-White" height="200px" width="200px" />
-            </Grid>
-            <Grid item xs={12}>
-              <div style={{ height: '10px' }} />
             </Grid>
             {[
               {
@@ -200,7 +322,7 @@ const Home: NextPage<Props> = ({ i18nText }) => {
               },
               {
                 title: i18nText.index.start_card2,
-                image: `${router.basePath}/assets/img/reshot-illustration-chat-bot-data-security-HGS4CXMJAE.png`,
+                image: `${router.basePath}/assets/img/reshot-illustration-cyber-security-engineer-QRZA6W2N4U.png`,
                 onClick: () => {},
               },
               {
@@ -217,8 +339,9 @@ const Home: NextPage<Props> = ({ i18nText }) => {
               return (
                 <Grid item xs={12} sm={6} key={index}>
                   <div>
-                    <div
+                    <ButtonBase
                       style={{
+                        width: '100%',
                         display: 'flex',
                         justifyContent: 'center',
                         alignItems: 'center',
@@ -226,9 +349,7 @@ const Home: NextPage<Props> = ({ i18nText }) => {
                         backgroundRepeat: 'no-repeat',
                         backgroundSize: 'cover',
                         height: '30vh',
-                        filter: 'brightness(0.2)',
                         borderRadius: '10px',
-                        border: '6px solid white',
                       }}
                     />
                     <Typography color="white" style={{ position: 'relative', top: 0, left: 0 }}>
@@ -242,29 +363,32 @@ const Home: NextPage<Props> = ({ i18nText }) => {
         </section>
         {/* Symbol Explorer */}
         <section style={{ marginTop: '100px' }}>
-          <Grid container justifyContent="center" alignItems="center" style={{ height: '60vh' }}>
-            <Grid item xs={12} md={3}>
-              <Typography variant="h5" align="center" fontWeight="bold">
-                {i18nText.index.explorer_title}
-              </Typography>
-              <Typography variant="body1" align="center">
-                {i18nText.index.explorer_body}
-              </Typography>
-            </Grid>
-            <Grid item xs={12} md={9} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-              <Image
-                src={SymbolExplorerImage}
-                height={677}
-                width={1200}
-                alt="Symbol-Explorer"
-                style={{
-                  borderRadius: '10px',
-                  marginTop: '5px',
-                  filter: 'brightness(150%) contrast(110%)',
-                }}
-              />
-            </Grid>
-          </Grid>
+          <div
+            style={{
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'center',
+              alignItems: 'center',
+              height: '40vh',
+              gap: '3vh',
+            }}
+          >
+            <Typography variant="h5" align="center" fontWeight="bold">
+              {i18nText.index.end_message_title}
+            </Typography>
+            <Button
+              variant="contained"
+              size="large"
+              style={{
+                background: `linear-gradient(to right bottom, ${theme.palette.primary.dark}, ${theme.palette.secondary.dark})`,
+                color: 'white',
+                padding: '0.5rem 2rem 0.5rem 2rem',
+                fontWeight: 'bold',
+              }}
+            >
+              {i18nText.index.end_message_body}
+            </Button>
+          </div>
         </section>
         {/* Footer */}
         <section style={{ marginTop: '100px' }}>
