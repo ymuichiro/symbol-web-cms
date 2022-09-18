@@ -16,9 +16,14 @@
     "docker:build": "docker build -t symbol-web .",
     "docker:run": "docker run -p 1337:1337 -p 3000:3000 --env-file .env  symbol-web",
     "install": "yarn --cwd backend install && yarn --cwd frontend install",
-    "dev": "yarn --cwd backend run develop & yarn --cwd frontend run dev",
+    "dev": "run-p dev:*",
+    "dev:backend": "yarn --cwd backend run develop",
+    "dev:frontend": "yarn --cwd frontend run dev",
     "build": "yarn --cwd backend run build && yarn --cwd frontend run build",
     "start": "yarn --cwd backend run start & yarn --cwd frontend run start"
   },
-  "dependencies": {}
+  "dependencies": {
+    "npm-run-all": "^4.1.5"
+  },
+  "devDependencies": {}
 }
