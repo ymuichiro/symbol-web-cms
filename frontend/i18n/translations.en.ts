@@ -32,7 +32,7 @@ export const en: i18n = {
     start_card2: 'Things to watch out for',
     start_card3: 'Where to consult when you need help',
     start_card4: 'Information for developers',
-    end_message_title: 'Explorer',
+    end_message_title: "Let's go explorer",
     end_message_body: "Check transaction status",
   },
   news: {

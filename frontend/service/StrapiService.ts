@@ -58,8 +58,9 @@ export default class StrapiService {
       sp.append('locale', languageSwitchToStrapi(locale));
     }
     const ep = generateEndpoint(sp, 'api', 'news-releases');
-    console.log(ep);
+    console.log("access uri",ep);
     const response = await fetch(ep, { method: 'GET' });
+    
     const json = await response.json();
     return json;
   }

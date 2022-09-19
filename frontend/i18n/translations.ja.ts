@@ -31,7 +31,7 @@ export const ja = {
     start_card2: '注意するべきこと',
     start_card3: '困った時相談先',
     start_card4: '開発者向けの情報',
-    end_message_title: 'Explorer',
+    end_message_title: "Let's go explorer",
     end_message_body: '取引状況を確認する',
   },
   news: {
