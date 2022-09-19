@@ -159,7 +159,7 @@ module.exports = {
       const hashLockTx = HashLockTransaction.create(
         deadline,
         new Mosaic(mosaicId, UInt64.fromUint(10000000)),
-        UInt64.fromUint(480),
+        UInt64.fromUint(5760),
         sigendAggregateTx,
         nt
       ).setMaxFee(100)
