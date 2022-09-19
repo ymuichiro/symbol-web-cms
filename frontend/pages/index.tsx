@@ -15,7 +15,6 @@ import MediaCard from '../components/moleculs/MediaCard';
 import strapi from '../service/StrapiService';
 import Footer from '../components/moleculs/Footer';
 import Image from 'next/image';
-import SymbolExplorerImage from '../public/assets/img/symbol-explorer.png';
 import Button from '@mui/material/Button';
 // icons
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
@@ -46,9 +45,20 @@ const Home: NextPage<Props> = ({ i18nText }) => {
   // ページの起動時の処理群
   useEffect(() => {
     if (typeof window === 'object' && router.isReady) {
-      // strapi.findNewsRelease(router.locale).then((e) => setNews([...e.data]));
+      console.log('fetch');
+      strapi
+        .findNewsRelease(router.locale)
+        .then((e) => {
+          console.log('result', e);
+          setNews([...e.data]);
+        })
+        .catch((e) => console.error(e));
     }
   }, [router.query]);
+
+  useEffect(() => {
+    console.log(news);
+  }, [news]);
 
   useEffect(() => {
     document.addEventListener('scroll', onScrollHandle);
@@ -158,39 +168,41 @@ const Home: NextPage<Props> = ({ i18nText }) => {
           </Grid>
         </section>
         {/* 特徴説明セクション */}
-        <div style={{ height: '20vh' }} />
-        <Typography align="center" variant="h4" fontWeight="bold" style={{ color: theme.palette.primary.main }}>
-          {i18nText.index.functionary_section_title}
-        </Typography>
-        <div style={{ height: '5vh' }} />
-        <FunctionsPresens
-          items={[
-            {
-              title: i18nText.index.functionary_title1,
-              subtitle: i18nText.index.functionary_subtitle1,
-              body: i18nText.index.functionary_body1,
-              background: `${router.basePath}/assets/img/reshot-icon-tumbling-blocks-7V4WT8ZAQY.png`,
-              icon: `${router.basePath}/assets/img/reshot-icon-puzzle-block-4VJ29ER6UF.png`,
-              more: 'https://docs.symbol.dev/concepts/plugin.html',
-            },
-            {
-              title: i18nText.index.functionary_title2,
-              subtitle: i18nText.index.functionary_subtitle2,
-              body: i18nText.index.functionary_body2,
-              background: `${router.basePath}/assets/img/reshot-icon-blockchain-4DVEYGLHWB.png`,
-              icon: `${router.basePath}/assets/img/reshot-icon-gear-in-the-box-WBDG7C93T4.png`,
-              more: 'https://docs.symbol.dev/concepts/plugin.html',
-            },
-            {
-              title: i18nText.index.functionary_title3,
-              subtitle: i18nText.index.functionary_subtitle3,
-              body: i18nText.index.functionary_body3,
-              background: `${router.basePath}/assets/img/reshot-icon-movie-ticket-RFBH8E9MQJ.png`,
-              icon: `${router.basePath}/assets/img/reshot-icon-token-ERTB6HXPFK.png`,
-              more: 'https://docs.symbol.dev/concepts/plugin.html',
-            },
-          ]}
-        />
+        <section>
+          <div style={{ height: '20vh' }} />
+          <Typography align="center" variant="h4" fontWeight="bold" style={{ color: theme.palette.primary.main }}>
+            {i18nText.index.functionary_section_title}
+          </Typography>
+          <div style={{ height: '5vh' }} />
+          <FunctionsPresens
+            items={[
+              {
+                title: i18nText.index.functionary_title1,
+                subtitle: i18nText.index.functionary_subtitle1,
+                body: i18nText.index.functionary_body1,
+                background: `${router.basePath}/assets/img/reshot-icon-tumbling-blocks-7V4WT8ZAQY.png`,
+                icon: `${router.basePath}/assets/img/reshot-icon-puzzle-block-4VJ29ER6UF.png`,
+                more: 'https://docs.symbol.dev/concepts/plugin.html',
+              },
+              {
+                title: i18nText.index.functionary_title2,
+                subtitle: i18nText.index.functionary_subtitle2,
+                body: i18nText.index.functionary_body2,
+                background: `${router.basePath}/assets/img/reshot-icon-blockchain-4DVEYGLHWB.png`,
+                icon: `${router.basePath}/assets/img/reshot-icon-gear-in-the-box-WBDG7C93T4.png`,
+                more: 'https://docs.symbol.dev/concepts/plugin.html',
+              },
+              {
+                title: i18nText.index.functionary_title3,
+                subtitle: i18nText.index.functionary_subtitle3,
+                body: i18nText.index.functionary_body3,
+                background: `${router.basePath}/assets/img/reshot-icon-movie-ticket-RFBH8E9MQJ.png`,
+                icon: `${router.basePath}/assets/img/reshot-icon-token-ERTB6HXPFK.png`,
+                more: 'https://docs.symbol.dev/concepts/plugin.html',
+              },
+            ]}
+          />
+        </section>
         {/* 安全性説明セクション */}
         <section>
           <div style={{ height: '20vh' }} />
@@ -258,7 +270,6 @@ const Home: NextPage<Props> = ({ i18nText }) => {
             })}
           </Grid>
         </section>
-
         {/* 簡単に導入できると説明するセクション */}
         <section>
           <div style={{ height: '20vh' }} />
@@ -369,7 +380,7 @@ const Home: NextPage<Props> = ({ i18nText }) => {
               flexDirection: 'column',
               justifyContent: 'center',
               alignItems: 'center',
-              height: '40vh',
+              height: '10vh',
               gap: '3vh',
             }}
           >
