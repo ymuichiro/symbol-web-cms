@@ -17,10 +17,10 @@ export default function LocaleSwitcher() {
         gap: '0.5em',
       }}
     >
-      {otherLocales?.map((locale) => {
+      {otherLocales?.map((locale, index) => {
         const { pathname, query, asPath } = router;
         return (
-          <Link href={{ pathname, query }} as={asPath} locale={locale}>
+          <Link key={index} href={{ pathname, query }} as={asPath} locale={locale}>
             <a style={{ color: 'white', textDecoration: 'none', display: 'flex', justifyContent: 'center' }}>
               <Icon fontSize="small" style={{ marginRight: '1em' }} />
               {locale}
