@@ -7,13 +7,14 @@ import Link from 'next/link';
 import { useTheme } from '@mui/material/styles';
 import { CSSProperties } from 'react';
 import { UrlObject } from 'url';
+import useMediaQuery from '@mui/material/useMediaQuery';
 
 interface MediaCardWideArgs {
   title: string;
   description: string;
   imageUrl: string;
   isShowMore?: boolean;
-  showMoreLink?: UrlObject;
+  showMoreLink?: UrlObject | string;
   style?: CSSProperties;
   imageHeight?: string;
 }
@@ -23,6 +24,7 @@ interface MediaCardWideArgs {
  */
 export default function MediaCardWide(props: MediaCardWideArgs): JSX.Element {
   const theme = useTheme();
+  const matches = useMediaQuery(theme.breakpoints.between('xs', 'md'));
 
   return (
     <Card style={{ display: 'flex', ...props.style }}>
@@ -38,7 +40,9 @@ export default function MediaCardWide(props: MediaCardWideArgs): JSX.Element {
             {props.isShowMore && (
               <Typography style={{ marginTop: '20px' }}>
                 <Link href={props.showMoreLink || '/'}>
-                  <a style={{ color: theme.palette.text.primary }}>&gt;&gt; Show more</a>
+                  <a rel="noopener noreferrer" target="_blank" style={{ color: theme.palette.text.primary }}>
+                    &gt;&gt; Show more
+                  </a>
                 </Link>
               </Typography>
             )}
@@ -49,7 +53,7 @@ export default function MediaCardWide(props: MediaCardWideArgs): JSX.Element {
             component="img"
             alt="card-content-image"
             image={props.imageUrl}
-            style={{ height: props.imageHeight }}
+            style={{ height: props.imageHeight, maxHeight: matches ? '400px' : undefined }}
           />
         </Grid>
       </Grid>
