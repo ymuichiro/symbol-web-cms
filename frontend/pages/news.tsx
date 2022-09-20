@@ -18,6 +18,7 @@ import strapi from '../service/StrapiService';
 import MediaCard from '../components/moleculs/MediaCard';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
+import MainBackground from '../components/atom/MainBackground';
 
 const YEAR = ['2022年'];
 type Props = {
@@ -42,6 +43,7 @@ const News: NextPage<Props> = ({ i18nText }) => {
     <div style={{ marginBottom: '5vh' }}>
       <Container maxWidth="lg" style={{ height: '100%' }}>
         <Header />
+        <MainBackground />
         <Toolbar />
         <Grid container>
           <Grid item xs={12} sm={6}>
