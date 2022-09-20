@@ -20,6 +20,7 @@ import Button from '@mui/material/Button';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import FunctionsPresens from '../components/moleculs/FunctionsPresens';
 import ButtonBase from '@mui/material/ButtonBase';
+import LinkButton from '../components/atom/LinkButton';
 
 type Props = {
   i18nText: i18n;
@@ -118,16 +119,18 @@ const Home: NextPage<Props> = ({ i18nText }) => {
               </Typography>
             </div>
             <Grid container spacing={3} style={{ maxWidth: '600px' }}>
-              {['Install Wallet', 'Start Develop'].map((item, index) => (
-                <Grid item xs={12} sm={6} key={index}>
-                  <Button variant="contained" color="primary" size="large" fullWidth>
-                    <div style={{ display: 'flex', justifyContent: 'center', gap: '3px' }}>
-                      {item}
-                      <KeyboardArrowRightIcon />
-                    </div>
-                  </Button>
-                </Grid>
-              ))}
+              <Grid item xs={12} sm={6}>
+                <LinkButton fullWidth size="large" href="/">
+                  Install wallet
+                  <KeyboardArrowRightIcon />
+                </LinkButton>
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <LinkButton fullWidth size="large" href="https://github.com/xembook/quick_learning_symbol" isNewTab>
+                  Start Develop
+                  <KeyboardArrowRightIcon />
+                </LinkButton>
+              </Grid>
             </Grid>
           </div>
         </section>
@@ -153,17 +156,14 @@ const Home: NextPage<Props> = ({ i18nText }) => {
               <Typography variant="subtitle1" style={{ marginBottom: '1rem' }}>
                 {i18nText.index.history_body1}
               </Typography>
-              <Button
-                variant="contained"
-                LinkComponent={'a'}
-                href="https://nemproject.github.io/nem-docs/pages/"
-                rel="noopener noreferrer"
-                target="_blank"
+              <LinkButton
+                isNewTab
                 fullWidth
+                href="https://nemproject.github.io/nem-docs/pages/"
                 style={{ marginTop: '2rem', marginBottom: '1rem' }}
               >
                 {i18nText.index.history_body1_Button}
-              </Button>
+              </LinkButton>
             </Grid>
           </Grid>
         </section>
@@ -292,28 +292,17 @@ const Home: NextPage<Props> = ({ i18nText }) => {
               <Typography variant="subtitle1" style={{ marginBottom: '1rem' }}>
                 {i18nText.index.easy_section_body}
               </Typography>
-              <Button
-                variant="contained"
-                LinkComponent={'a'}
-                href="https://github.com/xembook/quick_learning_symbol"
-                rel="noopener noreferrer"
-                target="_blank"
+              <LinkButton
+                isNewTab
                 fullWidth
+                href="https://github.com/xembook/quick_learning_symbol"
                 style={{ marginTop: '2rem', marginBottom: '1rem' }}
               >
                 {i18nText.index.easy_section_button}
-              </Button>
-              <Button
-                variant="contained"
-                LinkComponent={'a'}
-                href="https://docs.symbol.dev/sdk.html"
-                rel="noopener noreferrer"
-                target="_blank"
-                fullWidth
-                style={{ marginBottom: '1rem' }}
-              >
+              </LinkButton>
+              <LinkButton isNewTab fullWidth href="https://docs.symbol.dev/sdk.html" style={{ marginBottom: '1rem' }}>
                 SDK Repositories
-              </Button>
+              </LinkButton>
             </Grid>
           </Grid>
         </section>
@@ -321,7 +310,7 @@ const Home: NextPage<Props> = ({ i18nText }) => {
         <section>
           <Grid container style={{ marginTop: '20vh' }} spacing={5}>
             <Grid item xs={12} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-              <Typography variant="h4" align="center" fontWeight="bold" color="text.primary" gutterBottom>
+              <Typography align="center" variant="h4" fontWeight="bold" style={{ color: theme.palette.primary.main }}>
                 {i18nText.index.start_title}
               </Typography>
             </Grid>
@@ -387,9 +376,10 @@ const Home: NextPage<Props> = ({ i18nText }) => {
             <Typography variant="h5" align="center" fontWeight="bold">
               {i18nText.index.end_message_title}
             </Typography>
-            <Button
-              variant="contained"
+            <LinkButton
+              isNewTab
               size="large"
+              href="https://symbol-explorer.com/"
               style={{
                 background: `linear-gradient(to right bottom, ${theme.palette.primary.dark}, ${theme.palette.secondary.dark})`,
                 color: 'white',
@@ -398,7 +388,7 @@ const Home: NextPage<Props> = ({ i18nText }) => {
               }}
             >
               {i18nText.index.end_message_body}
-            </Button>
+            </LinkButton>
           </div>
         </section>
         {/* Footer */}
