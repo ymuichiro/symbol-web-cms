@@ -15,12 +15,12 @@ import MediaCard from '../components/moleculs/MediaCard';
 import strapi from '../service/StrapiService';
 import Footer from '../components/moleculs/Footer';
 import Image from 'next/image';
-import Button from '@mui/material/Button';
-// icons
-import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
-import FunctionsPresens from '../components/moleculs/FunctionsPresens';
 import ButtonBase from '@mui/material/ButtonBase';
 import LinkButton from '../components/atom/LinkButton';
+import MainBackground from '../components/atom/MainBackground';
+import FunctionsPresens from '../components/moleculs/FunctionsPresens';
+// icons
+import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 
 type Props = {
   i18nText: i18n;
@@ -30,40 +30,17 @@ const Home: NextPage<Props> = ({ i18nText }) => {
   const theme = useTheme();
   const matches = useMediaQuery(theme.breakpoints.between('xs', 'md'));
   const [news, setNews] = useState<NewsReleaseFindResponse['data']>([]);
-  const [backgroundOpacity, setBackgroundOpacity] = useState<number>(0.6);
   const router = useRouter();
-
-  const onScrollHandle = () => {
-    const position = window.scrollY;
-    if (position.toString() !== 'NaN' && position < 1000) {
-      const currentOpacity = 0.6 - position / 1000;
-      if (currentOpacity > 0.3) {
-        setBackgroundOpacity(currentOpacity);
-      }
-    }
-  };
 
   // ページの起動時の処理群
   useEffect(() => {
     if (typeof window === 'object' && router.isReady) {
-      console.log('fetch');
       strapi
         .findNewsRelease(router.locale)
-        .then((e) => {
-          console.log('result', e);
-          setNews([...e.data]);
-        })
+        .then((e) => setNews([...e.data]))
         .catch((e) => console.error(e));
     }
   }, [router.query]);
-
-  useEffect(() => {
-    console.log(news);
-  }, [news]);
-
-  useEffect(() => {
-    document.addEventListener('scroll', onScrollHandle);
-  }, []);
 
   return (
     <div style={{ marginBottom: '5vh' }}>
@@ -71,21 +48,7 @@ const Home: NextPage<Props> = ({ i18nText }) => {
         <Header />
         {/* ヘッダーセクション */}
         <section>
-          <div
-            style={{
-              position: 'fixed',
-              top: 0,
-              left: 0,
-              width: '100vw',
-              height: '80vh',
-              backgroundImage: `url(${router.basePath}/assets/img/header-background.png)`,
-              backgroundRepeat: 'no-repeat',
-              backgroundSize: 'cover',
-              zIndex: -1,
-              opacity: backgroundOpacity,
-              WebkitMaskImage: 'linear-gradient(rgb(0,0,0),rgb(0,0,0),rgb(0,0,0),rgba(0,0,0,0))',
-            }}
-          ></div>
+          <MainBackground />
           <Toolbar />
           <div
             style={{
