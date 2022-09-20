@@ -19,6 +19,7 @@ import MediaCard from '../components/moleculs/MediaCard';
 import Grid from '@mui/material/Grid';
 import MediaCardWide from '../components/moleculs/MediaCardWide';
 import Typography from '@mui/material/Typography';
+import MainBackground from '../components/atom/MainBackground';
 
 const YEAR = ['2022年'];
 type Props = {
@@ -71,6 +72,7 @@ const Community: NextPage<Props> = ({ i18nText }) => {
     <div style={{ marginBottom: '5vh' }}>
       <Container maxWidth="lg" style={{ height: '100%' }}>
         <Header />
+        <MainBackground />
         <Toolbar />
         <section style={{ marginTop: '10vh' }}>
           <PageTitle>{i18nText.community.page_title}</PageTitle>

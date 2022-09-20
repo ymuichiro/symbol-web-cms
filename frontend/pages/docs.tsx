@@ -24,6 +24,7 @@ import ListItemText from '@mui/material/ListItemText';
 import InputAdornment from '@mui/material/InputAdornment';
 import SearchIcon from '@mui/icons-material/Search';
 import Button from '@mui/material/Button';
+import MainBackground from '../components/atom/MainBackground';
 
 type Props = {
   i18nText: i18n;
@@ -47,6 +48,7 @@ const Docs: NextPage<Props> = ({ i18nText }) => {
     <div style={{ marginBottom: '5vh' }}>
       <Container maxWidth="lg" style={{ height: '100%' }}>
         <Header />
+        <MainBackground />
         <Toolbar />
         <section style={{ marginTop: '10vh' }}>
           <PageTitle>{i18nText.docs.section_title_wellcom}</PageTitle>
