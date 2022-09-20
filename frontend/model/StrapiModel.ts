@@ -8,6 +8,7 @@ interface BaseFindResponse {
       createdAt: string;
       updatedAt: string;
       publishedAt: string;
+      headerImage: string;
     };
   }[];
   meta: {

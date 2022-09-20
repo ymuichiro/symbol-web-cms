@@ -74,7 +74,7 @@ const News: NextPage<Props> = ({ i18nText }) => {
                 title={item.attributes.title}
                 description={item.attributes.description}
                 date={item.attributes.publishedAt}
-                image="/assets/img/symbol-logo-white.png"
+                image={item.attributes.headerImage}
                 onClickLink={() => router.push({ pathname: `/news/${item.id}` })}
               />
             </Grid>
