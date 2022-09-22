@@ -21,6 +21,7 @@ import Typography from '@mui/material/Typography';
 import MainBackground from '../components/atom/MainBackground';
 
 const YEAR = ['2022年'];
+const DEFAULT_CAVER_IMAGE = '/assets/img/symbol-logo-default-cover.png';
 type Props = {
   i18nText: i18n;
 };
@@ -33,11 +34,15 @@ const News: NextPage<Props> = ({ i18nText }) => {
   // ページの起動時にニュースを取得する
   useEffect(() => {
     if (typeof window === 'object' && router.isReady) {
-      strapi.findNewsRelease(router.locale).then((e) => {
+      strapi.findNewsRelease(router.locale, { isIncludeMedia: true }).then((e) => {
+        console.log(e);
         setRelease([...e.data]);
       });
     }
   }, [router.query]);
+
+  // strapi の返り値より画像を取得する
+  const getImageFromResponse = () => {};
 
   return (
     <div style={{ marginBottom: '5vh' }}>
@@ -74,8 +79,13 @@ const News: NextPage<Props> = ({ i18nText }) => {
                 title={item.attributes.title}
                 description={item.attributes.description}
                 date={item.attributes.publishedAt}
-                image={item.attributes.headerImage}
-                onClickLink={() => router.push({ pathname: `/news/${item.id}` })}
+                tweetLink={`${process.env.NEXT_PUBLIC_NEXT_SERVER_URL}/news/${item.id}`}
+                link={{ pathname: `/news/${item.id}` }}
+                image={
+                  item.attributes.headerImage?.data.attributes.url
+                    ? strapi.getImageUri(item.attributes.headerImage?.data.attributes.url)
+                    : `${router.basePath}${DEFAULT_CAVER_IMAGE}`
+                }
               />
             </Grid>
           ))}

@@ -2,7 +2,7 @@
 export const ja = {
   index: {
     title_message: 'Welcome to Symbol & NEM. It is easy to install and anyone, anytime, can carve blocks under the L1 chain.',
-    history_title1: 'NEMの後継パブリックブロックチェーン',
+    history_title1: 'NEMにインスパイアされたパブリックブロックチェーン',
     history_body1: '2014年に登場したNEMに対して、性能向上・機能強化・コンセンサスアルゴリズムの改良を目的として、「Catapult」というコードネームで開発が行われていました。これが完成し Catapult を搭載して2021年にリリースされたパブリックブロックチェーンが「Symbol」です。',
     history_body1_Button: "NEM とは？",
     functionary_section_title: "高度な機能性",

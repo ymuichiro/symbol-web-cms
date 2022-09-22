@@ -226,7 +226,7 @@ const Home: NextPage<Props> = ({ i18nText }) => {
                     description={n.attributes.description}
                     date={n.attributes.publishedAt}
                     image={`${router.basePath}/assets/img/symbol-logo-white.png`}
-                    onClickLink={() => router.push({ pathname: '/news/' + n.id })}
+                    link={() => router.push({ pathname: '/news/' + n.id })}
                   />
                 </Grid>
               );

@@ -120,7 +120,7 @@ const Community: NextPage<Props> = ({ i18nText }) => {
                   description={item.attributes.description}
                   date={item.attributes.publishedAt}
                   image="/assets/img/symbol-logo-white.png"
-                  onClickLink={() => router.push({ pathname: `/community/${item.id}` })}
+                  link={() => router.push({ pathname: `/community/${item.id}` })}
                 />
               </Grid>
             ))}

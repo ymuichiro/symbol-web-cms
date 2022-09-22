@@ -52,15 +52,21 @@ export default class StrapiService {
     return json;
   }
 
-  static async findNewsRelease(locale?: string): Promise<NewsReleaseFindResponse> {
-    const sp = new URLSearchParams();
-    if(locale){
-      sp.append('locale', languageSwitchToStrapi(locale));
+  /** http:// の有無で strapi の uri を追加 */
+  static getImageUri(path:string):string{
+    if(path.match(/^http.*/) === null) {
+      return generateEndpoint(new URLSearchParams(),path);
+    } else {
+      return path;
     }
+  }
+
+  static async findNewsRelease(locale?: string,options?:{isIncludeMedia:boolean}): Promise<NewsReleaseFindResponse> {
+    const sp = new URLSearchParams();
+    if(locale) sp.append('locale', languageSwitchToStrapi(locale));
+    if(options && options.isIncludeMedia) sp.append("populate","*");
     const ep = generateEndpoint(sp, 'api', 'news-releases');
-    console.log("access uri",ep);
     const response = await fetch(ep, { method: 'GET' });
-    
     const json = await response.json();
     return json;
   }
