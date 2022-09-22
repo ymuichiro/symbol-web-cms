@@ -3,7 +3,7 @@ import { i18n } from './translations.ja';
 export const en: i18n = {
   index: {
     title_message: 'Welcome to Symbol & NEM. It is easy to install and anyone, anytime, can carve blocks under the L1 chain.',
-    history_title1: 'A public blockchain which is an evolution of the NEM',
+    history_title1: 'A public blockchain which is an inspired by NEM',
     history_body1: "After the original NEM blockchain launch in 2014, under the codename 'Catapult', development had started to improve performance, enhance functionality and the consensus algorithm. In 2021, the 'Symbol' was launched with the completed 'Catapult'.",
     history_body1_Button: "What is NEM?",
     functionary_section_title: "Advanced Functionality",
