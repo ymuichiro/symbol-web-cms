@@ -53,7 +53,8 @@ export default class StrapiService {
   }
 
   /** http:// の有無で strapi の uri を追加 */
-  static getImageUri(path:string):string{
+  static getImageUri(path?:string):string | undefined{
+    if(path === undefined) return undefined;
     if(path.match(/^http.*/) === null) {
       return generateEndpoint(new URLSearchParams(),path);
     } else {
