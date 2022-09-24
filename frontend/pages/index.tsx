@@ -218,15 +218,16 @@ const Home: NextPage<Props> = ({ i18nText }) => {
           </Typography>
           <div style={{ height: '5vh' }} />
           <Grid container spacing={5}>
-            {news.map((n, i) => {
+            {news.slice(0, 10).map((n, i) => {
               return (
-                <Grid item xs={12} sm={6} key={i}>
+                <Grid item xs={12} sm={6} md={4} key={i}>
                   <MediaCard
                     title={n.attributes.title}
                     description={n.attributes.description}
                     date={n.attributes.publishedAt}
-                    image={`${router.basePath}/assets/img/symbol-logo-white.png`}
-                    link={() => router.push({ pathname: '/news/' + n.id })}
+                    image={strapi.getImageUri(n.attributes.headerImage?.data.attributes.url)}
+                    tweetLink={`${process.env.NEXT_PUBLIC_NEXT_SERVER_URL}/news/${n.id}`}
+                    link={{ pathname: '/news/' + n.id }}
                   />
                 </Grid>
               );

@@ -9,9 +9,12 @@ import { UrlObject } from 'url';
 import UtilService from '../../service/UtilService';
 import Link from 'next/link';
 import { useTheme } from '@mui/material/styles';
+import { useRouter } from 'next/router';
+
+const DEFAULT_CAVER_IMAGE = '/assets/img/symbol-logo-default-cover.png';
 
 interface Args {
-  image: string;
+  image?: string;
   title: string;
   description: string;
   date?: string;
@@ -22,6 +25,7 @@ interface Args {
 
 export default function MediaCard(props: Args): JSX.Element {
   const theme = useTheme();
+  const router = useRouter();
 
   // tweet 投稿用URLを生成する
   const createShareLink = () => {
@@ -32,11 +36,14 @@ export default function MediaCard(props: Args): JSX.Element {
     return `${tweetUrl}${title}%0A${url}%0A${tags}`;
   };
 
-  console.log(props.link);
-
   return (
     <Card style={props.style}>
-      <CardMedia component="img" height="200" alt="card-content-image" image={props.image} />
+      <CardMedia
+        component="img"
+        height="200"
+        alt="card-content-image"
+        image={props.image || `${router.basePath}${DEFAULT_CAVER_IMAGE}`}
+      />
       <CardContent>
         <Typography gutterBottom variant="h5" component="div">
           {props.title}
