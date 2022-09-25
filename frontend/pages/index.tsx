@@ -310,6 +310,7 @@ const Home: NextPage<Props> = ({ i18nText }) => {
                         justifyContent: 'center',
                         alignItems: 'center',
                         backgroundImage: `url(${item.image})`,
+                        backgroundPosition: 'center center',
                         backgroundRepeat: 'no-repeat',
                         backgroundSize: 'cover',
                         height: '30vh',
