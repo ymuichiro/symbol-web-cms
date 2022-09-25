@@ -80,11 +80,10 @@ export default class StrapiService {
     return json;
   }
 
-  static async findCommunityRelease(locale?: string): Promise<CommunityReleaseFindResponse> {
+  static async findCommunityRelease(locale?: string,options?:{isIncludeMedia:boolean}): Promise<CommunityReleaseFindResponse> {
     const sp = new URLSearchParams();
-    if(locale){
-      sp.append('locale', languageSwitchToStrapi(locale));
-    }
+    if(locale) sp.append('locale', languageSwitchToStrapi(locale));
+    if(options && options.isIncludeMedia) sp.append("populate","*");
     const ep = generateEndpoint(sp, 'api', 'community-releases');
     const response = await fetch(ep, { method: 'GET' });
     const json = await response.json();

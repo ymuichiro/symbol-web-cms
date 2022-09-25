@@ -51,6 +51,13 @@ const Docs: NextPage<Props> = ({ i18nText }) => {
         <MainBackground />
         <Toolbar />
         <section style={{ marginTop: '10vh' }}>
+          {/* 
+            contents 
+
+            秘密鍵について
+            このBlogの更新方法について
+            
+          */}
           <PageTitle>{i18nText.docs.section_title_wellcom}</PageTitle>
           <Typography gutterBottom variant="h5" fontWeight={'bold'} style={{ marginTop: '2rem' }}>
             {i18nText.docs.advice_private_key}
