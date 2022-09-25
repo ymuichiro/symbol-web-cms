@@ -44,11 +44,17 @@ const Docs: NextPage<Props> = ({ i18nText }) => {
 
   useEffect(() => {
     if (typeof window === 'object' && router.isReady) {
-      strapi.findDocuments(router.locale).then((e) => {
+      strapi.findDocuments(router.locale, { isIncludeMedia: true }).then((e) => {
         setDocs([...e.data]);
       });
     }
   }, [router.query]);
+
+  const onSearchDocuments = () => {
+    strapi.findDocuments(router.locale, { isIncludeMedia: true, keywords: search.split(/\s|　/) }).then((e) => {
+      setDocs([...e.data]);
+    });
+  };
 
   return (
     <div style={{ marginBottom: '5vh' }}>
@@ -218,7 +224,7 @@ const Docs: NextPage<Props> = ({ i18nText }) => {
                   placeholder={i18nText.docs.search_bar_placeholder}
                   endAdornment={
                     <InputAdornment position="end">
-                      <Button variant="contained">
+                      <Button variant="contained" onClick={onSearchDocuments}>
                         <SearchIcon />
                       </Button>
                     </InputAdornment>

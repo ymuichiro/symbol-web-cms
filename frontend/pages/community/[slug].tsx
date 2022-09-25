@@ -49,14 +49,6 @@ const CommunityArticle: NextPage = () => {
         <MarkdownParser markdown={article.attributes.body} />
         <div style={{ height: '10vh' }} />
         <Divider />
-        <div style={{ paddingTop: '3em', paddingBottom: '3em' }}>
-          <Typography color={'text.primary'} variant="body1" fontWeight="bolder">
-            Created by
-          </Typography>
-          <Typography color={'text.primary'} variant="body2">
-            {'xxxx-xxxx-xxxx-xxxx-xxxx-xxxx'}
-          </Typography>
-        </div>
         <Divider />
         <Footer />
       </Container>

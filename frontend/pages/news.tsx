@@ -38,7 +38,6 @@ const News: NextPage<Props> = ({ i18nText }) => {
   useEffect(() => {
     if (typeof window === 'object' && router.isReady) {
       strapi.findNewsRelease(router.locale, { isIncludeMedia: true }).then((e) => {
-        console.log(e);
         setRelease([...e.data]);
       });
     }

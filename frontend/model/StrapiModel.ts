@@ -13,6 +13,14 @@ interface BaseFindResponse<T> {
   };
 }
 
+interface BaseFindOneResponse<T> {
+  data: {
+    id: number;
+    attributes: T;
+  };
+  meta: {  };
+}
+
 interface BaseImageResponse {
   data: {
     attributes: {
@@ -64,12 +72,12 @@ interface DocumentField {
   publishedAt: string;
 }
 
-export interface NewsReleaseFindResponse extends BaseFindResponse<NewsReleaseField> {}
-export interface CommunityReleaseFindResponse extends BaseFindResponse<CommunityReleaseField> {}
-export interface DocumentFindResponse extends BaseFindResponse<DocumentField> {}
-export interface NewsReleaseFindOneResponse extends BaseFindResponse<NewsReleaseField[]> {}
-export interface CommunityReleaseFindOneResponse extends BaseFindResponse<CommunityReleaseField[]> {}
-export interface DocumentFindOneResponse extends BaseFindResponse<DocumentField[]> {}
+export interface NewsReleaseFindResponse extends BaseFindResponse<NewsReleaseField[]> {}
+export interface CommunityReleaseFindResponse extends BaseFindResponse<CommunityReleaseField[]> {}
+export interface DocumentFindResponse extends BaseFindResponse<DocumentField[]> {}
+export interface NewsReleaseFindOneResponse extends BaseFindOneResponse<NewsReleaseField> {}
+export interface CommunityReleaseFindOneResponse extends BaseFindOneResponse<CommunityReleaseField> {}
+export interface DocumentFindOneResponse extends BaseFindOneResponse<DocumentField> {}
 
 export interface LocalesResponse {
   id: number;
