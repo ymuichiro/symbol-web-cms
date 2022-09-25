@@ -18,6 +18,9 @@ import strapi from '../service/StrapiService';
 import MediaCard from '../components/moleculs/MediaCard';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
+import MainBackground from '../components/atom/MainBackground';
+import { useTheme } from '@mui/material/styles';
+import useMediaQuery from '@mui/material/useMediaQuery';
 
 const YEAR = ['2022年'];
 type Props = {
@@ -25,6 +28,8 @@ type Props = {
 };
 
 const News: NextPage<Props> = ({ i18nText }) => {
+  const theme = useTheme();
+  const matches = useMediaQuery(theme.breakpoints.between('xs', 'md'));
   const [year, setYear] = useState<string>(`${new Date().getFullYear().toString()}年`);
   const [release, setRelease] = useState<NewsReleaseFindResponse['data']>([]);
   const router = useRouter();
@@ -32,7 +37,7 @@ const News: NextPage<Props> = ({ i18nText }) => {
   // ページの起動時にニュースを取得する
   useEffect(() => {
     if (typeof window === 'object' && router.isReady) {
-      strapi.findNewsRelease(router.locale).then((e) => {
+      strapi.findNewsRelease(router.locale, { isIncludeMedia: true }).then((e) => {
         setRelease([...e.data]);
       });
     }
@@ -42,24 +47,43 @@ const News: NextPage<Props> = ({ i18nText }) => {
     <div style={{ marginBottom: '5vh' }}>
       <Container maxWidth="lg" style={{ height: '100%' }}>
         <Header />
+        <MainBackground />
         <Toolbar />
-        <Grid container>
-          <Grid item xs={12} sm={6}>
-            <PageTitle>{i18nText.news.page_title}</PageTitle>
+        <section>
+          <Grid container spacing={1} style={{ height: '70vh' }}>
+            <Grid item xs={12} sm={12} md={1}></Grid>
+            <Grid item xs={12} sm={12} md={6}>
+              <div style={{ display: 'flex', height: '100%', flexDirection: 'column', justifyContent: 'center' }}>
+                <PageTitle style={{ textAlign: matches ? 'center' : 'left' }}>{i18nText.news.page_title}</PageTitle>
+                <Typography variant="body1" style={{ textAlign: matches ? 'center' : 'left' }}>
+                  {i18nText.news.page_title_description}
+                </Typography>
+              </div>
+            </Grid>
+            <Grid item xs={12} sm={12} md={4}>
+              <div style={{ display: 'flex', height: '100%', justifyContent: 'center', alignItems: 'center' }}>
+                <img
+                  src="/assets/img/reshot-icon-news-WGPYLFJTQ8.svg"
+                  alt="reshot icon"
+                  style={{ maxWidth: '300px' }}
+                />
+              </div>
+            </Grid>
+            <Grid item xs={12} sm={12} md={1}></Grid>
           </Grid>
-          <Grid item xs={12} sm={6} style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center' }}>
-            <Select
-              variant="standard"
-              id="year"
-              state={year}
-              setState={setYear}
-              data={YEAR.map((e) => ({ key: e, value: e }))}
-              style={{
-                fontSize: '2rem',
-              }}
-            />
-          </Grid>
-        </Grid>
+        </section>
+        <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+          <Select
+            variant="standard"
+            id="year"
+            state={year}
+            setState={setYear}
+            data={YEAR.map((e) => ({ key: e, value: e }))}
+            style={{
+              fontSize: '2rem',
+            }}
+          />
+        </div>
         <Grid container spacing={5} style={{ marginTop: '5vh' }}>
           {release.length === 0 && (
             <Grid item xs={12}>
@@ -72,8 +96,9 @@ const News: NextPage<Props> = ({ i18nText }) => {
                 title={item.attributes.title}
                 description={item.attributes.description}
                 date={item.attributes.publishedAt}
-                image="/assets/img/symbol-logo-white.png"
-                onClickLink={() => router.push({ pathname: `/news/${item.id}` })}
+                tweetLink={`${process.env.NEXT_PUBLIC_NEXT_SERVER_URL}/news/${item.id}`}
+                link={{ pathname: `/news/${item.id}` }}
+                image={strapi.getImageUri(item.attributes.headerImage?.data.attributes.url)}
               />
             </Grid>
           ))}

@@ -5,21 +5,22 @@ import { NewsReleaseFindResponse } from '../model/StrapiModel';
 import { useRouter } from 'next/router';
 import { i18n, en, ja } from '../i18n';
 import { Toolbar } from '../components/atom/Toolbar';
-import useMediaQuery from '@mui/material/useMediaQuery';
+import Image from 'next/image';
 import Header from '../components/moleculs/Header';
-import Container from '@mui/material/Container';
-import Grid from '@mui/material/Grid';
-import Typography from '@mui/material/Typography';
 import MediaCardWide from '../components/moleculs/MediaCardWide';
 import MediaCard from '../components/moleculs/MediaCard';
 import strapi from '../service/StrapiService';
 import Footer from '../components/moleculs/Footer';
-import Image from 'next/image';
-import Button from '@mui/material/Button';
+import LinkButton from '../components/atom/LinkButton';
+import MainBackground from '../components/atom/MainBackground';
+import FunctionsPresens from '../components/moleculs/FunctionsPresens';
+import useMediaQuery from '@mui/material/useMediaQuery';
+import Container from '@mui/material/Container';
+import Grid from '@mui/material/Grid';
+import Typography from '@mui/material/Typography';
+import ButtonBase from '@mui/material/ButtonBase';
 // icons
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
-import FunctionsPresens from '../components/moleculs/FunctionsPresens';
-import ButtonBase from '@mui/material/ButtonBase';
 
 type Props = {
   i18nText: i18n;
@@ -29,40 +30,17 @@ const Home: NextPage<Props> = ({ i18nText }) => {
   const theme = useTheme();
   const matches = useMediaQuery(theme.breakpoints.between('xs', 'md'));
   const [news, setNews] = useState<NewsReleaseFindResponse['data']>([]);
-  const [backgroundOpacity, setBackgroundOpacity] = useState<number>(0.6);
   const router = useRouter();
-
-  const onScrollHandle = () => {
-    const position = window.scrollY;
-    if (position.toString() !== 'NaN' && position < 1000) {
-      const currentOpacity = 0.6 - position / 1000;
-      if (currentOpacity > 0.3) {
-        setBackgroundOpacity(currentOpacity);
-      }
-    }
-  };
 
   // ページの起動時の処理群
   useEffect(() => {
     if (typeof window === 'object' && router.isReady) {
-      console.log('fetch');
       strapi
         .findNewsRelease(router.locale)
-        .then((e) => {
-          console.log('result', e);
-          setNews([...e.data]);
-        })
+        .then((e) => setNews([...e.data]))
         .catch((e) => console.error(e));
     }
   }, [router.query]);
-
-  useEffect(() => {
-    console.log(news);
-  }, [news]);
-
-  useEffect(() => {
-    document.addEventListener('scroll', onScrollHandle);
-  }, []);
 
   return (
     <div style={{ marginBottom: '5vh' }}>
@@ -70,21 +48,7 @@ const Home: NextPage<Props> = ({ i18nText }) => {
         <Header />
         {/* ヘッダーセクション */}
         <section>
-          <div
-            style={{
-              position: 'fixed',
-              top: 0,
-              left: 0,
-              width: '100vw',
-              height: '80vh',
-              backgroundImage: `url(${router.basePath}/assets/img/header-background.png)`,
-              backgroundRepeat: 'no-repeat',
-              backgroundSize: 'cover',
-              zIndex: -1,
-              opacity: backgroundOpacity,
-              WebkitMaskImage: 'linear-gradient(rgb(0,0,0),rgb(0,0,0),rgb(0,0,0),rgba(0,0,0,0))',
-            }}
-          ></div>
+          <MainBackground />
           <Toolbar />
           <div
             style={{
@@ -118,16 +82,18 @@ const Home: NextPage<Props> = ({ i18nText }) => {
               </Typography>
             </div>
             <Grid container spacing={3} style={{ maxWidth: '600px' }}>
-              {['Install Wallet', 'Start Develop'].map((item, index) => (
-                <Grid item xs={12} sm={6} key={index}>
-                  <Button variant="contained" color="primary" size="large" fullWidth>
-                    <div style={{ display: 'flex', justifyContent: 'center', gap: '3px' }}>
-                      {item}
-                      <KeyboardArrowRightIcon />
-                    </div>
-                  </Button>
-                </Grid>
-              ))}
+              <Grid item xs={12} sm={6}>
+                <LinkButton fullWidth size="large" href="/">
+                  Install wallet
+                  <KeyboardArrowRightIcon />
+                </LinkButton>
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <LinkButton fullWidth size="large" href="https://github.com/xembook/quick_learning_symbol" isNewTab>
+                  Start Develop
+                  <KeyboardArrowRightIcon />
+                </LinkButton>
+              </Grid>
             </Grid>
           </div>
         </section>
@@ -153,17 +119,14 @@ const Home: NextPage<Props> = ({ i18nText }) => {
               <Typography variant="subtitle1" style={{ marginBottom: '1rem' }}>
                 {i18nText.index.history_body1}
               </Typography>
-              <Button
-                variant="contained"
-                LinkComponent={'a'}
-                href="https://nemproject.github.io/nem-docs/pages/"
-                rel="noopener noreferrer"
-                target="_blank"
+              <LinkButton
+                isNewTab
                 fullWidth
+                href="https://nemproject.github.io/nem-docs/pages/"
                 style={{ marginTop: '2rem', marginBottom: '1rem' }}
               >
                 {i18nText.index.history_body1_Button}
-              </Button>
+              </LinkButton>
             </Grid>
           </Grid>
         </section>
@@ -255,15 +218,16 @@ const Home: NextPage<Props> = ({ i18nText }) => {
           </Typography>
           <div style={{ height: '5vh' }} />
           <Grid container spacing={5}>
-            {news.map((n, i) => {
+            {news.slice(0, 10).map((n, i) => {
               return (
-                <Grid item xs={12} sm={6} key={i}>
+                <Grid item xs={12} sm={6} md={4} key={i}>
                   <MediaCard
                     title={n.attributes.title}
                     description={n.attributes.description}
                     date={n.attributes.publishedAt}
-                    image={`${router.basePath}/assets/img/symbol-logo-white.png`}
-                    onClickLink={() => router.push({ pathname: '/news/' + n.id })}
+                    image={strapi.getImageUri(n.attributes.headerImage?.data.attributes.url)}
+                    tweetLink={`${process.env.NEXT_PUBLIC_NEXT_SERVER_URL}/news/${n.id}`}
+                    link={{ pathname: '/news/' + n.id }}
                   />
                 </Grid>
               );
@@ -292,28 +256,17 @@ const Home: NextPage<Props> = ({ i18nText }) => {
               <Typography variant="subtitle1" style={{ marginBottom: '1rem' }}>
                 {i18nText.index.easy_section_body}
               </Typography>
-              <Button
-                variant="contained"
-                LinkComponent={'a'}
-                href="https://github.com/xembook/quick_learning_symbol"
-                rel="noopener noreferrer"
-                target="_blank"
+              <LinkButton
+                isNewTab
                 fullWidth
+                href="https://github.com/xembook/quick_learning_symbol"
                 style={{ marginTop: '2rem', marginBottom: '1rem' }}
               >
                 {i18nText.index.easy_section_button}
-              </Button>
-              <Button
-                variant="contained"
-                LinkComponent={'a'}
-                href="https://docs.symbol.dev/sdk.html"
-                rel="noopener noreferrer"
-                target="_blank"
-                fullWidth
-                style={{ marginBottom: '1rem' }}
-              >
+              </LinkButton>
+              <LinkButton isNewTab fullWidth href="https://docs.symbol.dev/sdk.html" style={{ marginBottom: '1rem' }}>
                 SDK Repositories
-              </Button>
+              </LinkButton>
             </Grid>
           </Grid>
         </section>
@@ -321,7 +274,7 @@ const Home: NextPage<Props> = ({ i18nText }) => {
         <section>
           <Grid container style={{ marginTop: '20vh' }} spacing={5}>
             <Grid item xs={12} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-              <Typography variant="h4" align="center" fontWeight="bold" color="text.primary" gutterBottom>
+              <Typography align="center" variant="h4" fontWeight="bold" style={{ color: theme.palette.primary.main }}>
                 {i18nText.index.start_title}
               </Typography>
             </Grid>
@@ -329,22 +282,22 @@ const Home: NextPage<Props> = ({ i18nText }) => {
               {
                 title: i18nText.index.start_card1,
                 image: `${router.basePath}/assets/img/reshot-illustration-crypto-digital-wallet-DJLEMYZTQN-0ec78.png`,
-                onClick: () => {},
+                href: '',
               },
               {
                 title: i18nText.index.start_card2,
                 image: `${router.basePath}/assets/img/reshot-illustration-cyber-security-engineer-QRZA6W2N4U.png`,
-                onClick: () => {},
+                href: '',
               },
               {
                 title: i18nText.index.start_card3,
                 image: `${router.basePath}/assets/img/reshot-illustration-social-media-manager-R48ZCSE7KP.png`,
-                onClick: () => {},
+                href: '',
               },
               {
                 title: i18nText.index.start_card4,
                 image: `${router.basePath}/assets/img/reshot-illustration-software-developers-59RL8CT7WX.png`,
-                onClick: () => {},
+                href: '',
               },
             ].map((item, index) => {
               return (
@@ -357,11 +310,13 @@ const Home: NextPage<Props> = ({ i18nText }) => {
                         justifyContent: 'center',
                         alignItems: 'center',
                         backgroundImage: `url(${item.image})`,
+                        backgroundPosition: 'center center',
                         backgroundRepeat: 'no-repeat',
                         backgroundSize: 'cover',
                         height: '30vh',
                         borderRadius: '10px',
                       }}
+                      href="/docs"
                     />
                     <Typography color="white" style={{ position: 'relative', top: 0, left: 0 }}>
                       {item.title}
@@ -387,9 +342,10 @@ const Home: NextPage<Props> = ({ i18nText }) => {
             <Typography variant="h5" align="center" fontWeight="bold">
               {i18nText.index.end_message_title}
             </Typography>
-            <Button
-              variant="contained"
+            <LinkButton
+              isNewTab
               size="large"
+              href="https://symbol-explorer.com/"
               style={{
                 background: `linear-gradient(to right bottom, ${theme.palette.primary.dark}, ${theme.palette.secondary.dark})`,
                 color: 'white',
@@ -398,7 +354,7 @@ const Home: NextPage<Props> = ({ i18nText }) => {
               }}
             >
               {i18nText.index.end_message_body}
-            </Button>
+            </LinkButton>
           </div>
         </section>
         {/* Footer */}
