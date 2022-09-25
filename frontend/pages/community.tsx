@@ -14,14 +14,14 @@ import { useRouter } from 'next/router';
 import { useTheme } from '@mui/material/styles';
 import Header from '../components/moleculs/Header';
 import Footer from '../components/moleculs/Footer';
-import Container from '@mui/material/Container';
 import strapi from '../service/StrapiService';
 import MediaCard from '../components/moleculs/MediaCard';
+import MainBackground from '../components/atom/MainBackground';
+import AvatarLinkList from '../components/moleculs/AvatarLinkList';
+import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
-import MainBackground from '../components/atom/MainBackground';
 import useMediaQuery from '@mui/material/useMediaQuery';
-import AvatarLinkList from '../components/moleculs/AvatarLinkList';
 
 const YEAR = ['2022年'];
 type Props = {
