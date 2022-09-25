@@ -7,54 +7,30 @@ import type { NextPage } from 'next';
 import { Toolbar } from '../components/atom/Toolbar';
 import { Select } from '../components/atom/Select';
 import { useEffect, useState } from 'react';
-import { PageTitle } from '../components/atom/Titles';
+import { PageTitle, SectionTitle } from '../components/atom/Titles';
 import { CommunityReleaseFindResponse } from '../model/StrapiModel';
 import { i18n, en, ja } from '../i18n';
 import { useRouter } from 'next/router';
+import { useTheme } from '@mui/material/styles';
 import Header from '../components/moleculs/Header';
 import Footer from '../components/moleculs/Footer';
 import Container from '@mui/material/Container';
 import strapi from '../service/StrapiService';
 import MediaCard from '../components/moleculs/MediaCard';
 import Grid from '@mui/material/Grid';
-import MediaCardWide from '../components/moleculs/MediaCardWide';
 import Typography from '@mui/material/Typography';
 import MainBackground from '../components/atom/MainBackground';
+import useMediaQuery from '@mui/material/useMediaQuery';
+import AvatarLinkList from '../components/moleculs/AvatarLinkList';
 
 const YEAR = ['2022年'];
 type Props = {
   i18nText: i18n;
 };
 
-const COMMUNITIES = [
-  {
-    title: 'Community name',
-    description: new Array(10).fill('掲載するコミュニティ情報を募集します').join(' '),
-    imageUrl: '/assets/img/symbol-logo-white.png',
-  },
-  {
-    title: 'Community name',
-    description: new Array(10).fill('掲載するコミュニティ情報を募集します').join(' '),
-    imageUrl: '/assets/img/symbol-logo-white.png',
-  },
-  {
-    title: 'Community name',
-    description: new Array(10).fill('掲載するコミュニティ情報を募集します').join(' '),
-    imageUrl: '/assets/img/symbol-logo-white.png',
-  },
-  {
-    title: 'Community name',
-    description: new Array(10).fill('掲載するコミュニティ情報を募集します').join(' '),
-    imageUrl: '/assets/img/symbol-logo-white.png',
-  },
-  {
-    title: 'Community name',
-    description: new Array(10).fill('掲載するコミュニティ情報を募集します').join(' '),
-    imageUrl: '/assets/img/symbol-logo-white.png',
-  },
-];
-
 const Community: NextPage<Props> = ({ i18nText }) => {
+  const theme = useTheme();
+  const matches = useMediaQuery(theme.breakpoints.between('xs', 'md'));
   const [year, setYear] = useState<string>(`${new Date().getFullYear().toString()}年`);
   const [release, setRelease] = useState<CommunityReleaseFindResponse['data']>([]);
   const router = useRouter();
@@ -62,7 +38,8 @@ const Community: NextPage<Props> = ({ i18nText }) => {
   // ページの起動時にニュースを取得する
   useEffect(() => {
     if (typeof window === 'object' && router.isReady) {
-      strapi.findCommunityRelease(router.locale).then((e) => {
+      strapi.findCommunityRelease(router.locale, { isIncludeMedia: true }).then((e) => {
+        console.log(e);
         setRelease([...e.data]);
       });
     }
@@ -70,24 +47,158 @@ const Community: NextPage<Props> = ({ i18nText }) => {
 
   return (
     <div style={{ marginBottom: '5vh' }}>
-      <Container maxWidth="lg" style={{ height: '100%' }}>
+      <Container maxWidth="lg">
         <Header />
         <MainBackground />
         <Toolbar />
-        <section style={{ marginTop: '10vh' }}>
-          <PageTitle>{i18nText.community.page_title}</PageTitle>
-          {COMMUNITIES.map((item, index) => (
-            <MediaCardWide
-              title={item.title}
-              description={item.description}
-              imageUrl={item.imageUrl}
-              isShowMore={true}
-              showMoreLink={{ href: '/' }}
-              imageHeight={'20vh'}
-              style={{ marginTop: '3vh' }}
-              key={index}
-            />
-          ))}
+        <section>
+          <Grid container spacing={1} style={{ height: '70vh' }}>
+            <Grid item xs={12} sm={12} md={1}></Grid>
+            <Grid item xs={12} sm={12} md={6}>
+              <div style={{ display: 'flex', height: '100%', flexDirection: 'column', justifyContent: 'center' }}>
+                <PageTitle style={{ textAlign: matches ? 'center' : 'left' }}>
+                  {i18nText.community.page_title}
+                </PageTitle>
+                <Typography variant="body1" style={{ textAlign: matches ? 'center' : 'left' }}>
+                  {i18nText.community.page_title_description}
+                </Typography>
+              </div>
+            </Grid>
+            <Grid item xs={12} sm={12} md={4}>
+              <div style={{ display: 'flex', height: '100%', justifyContent: 'center', alignItems: 'center' }}>
+                <img
+                  src="/assets/img/reshot-icon-community-96NUC83B5K.svg"
+                  alt="reshot icon"
+                  style={{ maxWidth: '300px' }}
+                />
+              </div>
+            </Grid>
+            <Grid item xs={12} sm={12} md={1}></Grid>
+          </Grid>
+        </section>
+        <section>
+          <SectionTitle>{i18nText.community.community_introduce_section1}</SectionTitle>
+          <AvatarLinkList
+            items={[
+              {
+                avatar: '/assets/icons/discord.svg',
+                avatarAlt: i18nText.community.section1_title1,
+                title: i18nText.community.section1_title1,
+                body: i18nText.community.section1_body1,
+                url: i18nText.community.section1_url1,
+              },
+              {
+                avatar: '/assets/icons/discord.svg',
+                avatarAlt: i18nText.community.section1_title2,
+                title: i18nText.community.section1_title2,
+                body: i18nText.community.section1_body2,
+                url: i18nText.community.section1_url2,
+              },
+              {
+                avatar: '/assets/icons/discord.svg',
+                avatarAlt: i18nText.community.section1_title3,
+                title: i18nText.community.section1_title3,
+                body: i18nText.community.section1_body3,
+                url: i18nText.community.section1_url3,
+              },
+              {
+                avatar: '/assets/icons/discord.svg',
+                avatarAlt: i18nText.community.section1_title4,
+                title: i18nText.community.section1_title4,
+                body: i18nText.community.section1_body4,
+                url: i18nText.community.section1_url4,
+              },
+              {
+                avatar: '/assets/icons/slack.svg',
+                avatarAlt: i18nText.community.section1_title5,
+                title: i18nText.community.section1_title5,
+                body: i18nText.community.section1_body5,
+                url: i18nText.community.section1_url5,
+              },
+            ]}
+          />
+          <div style={{ height: '1rem' }} />
+          <SectionTitle>{i18nText.community.community_introduce_section2}</SectionTitle>
+          <AvatarLinkList
+            items={[
+              {
+                avatar: '/assets/icons/twitter.svg',
+                avatarAlt: i18nText.community.section2_title1,
+                title: i18nText.community.section2_title1,
+                body: i18nText.community.section2_body1,
+                url: i18nText.community.section2_url1,
+              },
+              {
+                avatar: '/assets/icons/twitter.svg',
+                avatarAlt: i18nText.community.section2_title2,
+                title: i18nText.community.section2_title2,
+                body: i18nText.community.section2_body2,
+                url: i18nText.community.section2_url2,
+              },
+              {
+                avatar: '/assets/icons/twitter.svg',
+                avatarAlt: i18nText.community.section2_title3,
+                title: i18nText.community.section2_title3,
+                body: i18nText.community.section2_body3,
+                url: i18nText.community.section2_url3,
+              },
+              {
+                avatar: '/assets/icons/twitter.svg',
+                avatarAlt: i18nText.community.section2_title4,
+                title: i18nText.community.section2_title4,
+                body: i18nText.community.section2_body4,
+                url: i18nText.community.section2_url4,
+              },
+              {
+                avatar: '/assets/icons/twitter.svg',
+                avatarAlt: i18nText.community.section2_title5,
+                title: i18nText.community.section2_title5,
+                body: i18nText.community.section2_body5,
+                url: i18nText.community.section2_url5,
+              },
+            ]}
+          />
+          <div style={{ height: '1rem' }} />
+          <SectionTitle>{i18nText.community.community_introduce_section3}</SectionTitle>
+          <AvatarLinkList
+            items={[
+              {
+                avatar: '/assets/icons/news.svg',
+                avatarAlt: i18nText.community.section3_title1,
+                title: i18nText.community.section3_title1,
+                body: i18nText.community.section3_body1,
+                url: i18nText.community.section3_url1,
+              },
+              {
+                avatar: '/assets/icons/news.svg',
+                avatarAlt: i18nText.community.section3_title2,
+                title: i18nText.community.section3_title2,
+                body: i18nText.community.section3_body2,
+                url: i18nText.community.section3_url2,
+              },
+              {
+                avatar: '/assets/icons/news.svg',
+                avatarAlt: i18nText.community.section3_title3,
+                title: i18nText.community.section3_title3,
+                body: i18nText.community.section3_body3,
+                url: i18nText.community.section3_url3,
+              },
+              {
+                avatar: '/assets/icons/github.svg',
+                avatarAlt: i18nText.community.section3_title4,
+                title: i18nText.community.section3_title4,
+                body: i18nText.community.section3_body4,
+                url: i18nText.community.section3_url4,
+              },
+              {
+                avatar: '/assets/icons/news.svg',
+                avatarAlt: i18nText.community.section3_title5,
+                title: i18nText.community.section3_title5,
+                body: i18nText.community.section3_body5,
+                url: i18nText.community.section3_url5,
+              },
+            ]}
+          />
         </section>
         <section style={{ marginTop: '10vh' }}>
           <Grid container>
@@ -119,8 +230,8 @@ const Community: NextPage<Props> = ({ i18nText }) => {
                   title={item.attributes.title}
                   description={item.attributes.description}
                   date={item.attributes.publishedAt}
-                  image="/assets/img/symbol-logo-white.png"
-                  link={() => router.push({ pathname: `/community/${item.id}` })}
+                  image={strapi.getImageUri(item.attributes.headerImage?.data.attributes?.url)}
+                  link={{ pathname: `/community/${item.id}` }}
                 />
               </Grid>
             ))}
