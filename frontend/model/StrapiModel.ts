@@ -1,14 +1,7 @@
-interface BaseFindResponse {
+interface BaseFindResponse<T> {
   data: {
     id: number;
-    attributes: {
-      title: string;
-      body: string;
-      description: string;
-      createdAt: string;
-      updatedAt: string;
-      publishedAt: string;
-    };
+    attributes: T;
   }[];
   meta: {
     pagination: {
@@ -20,20 +13,71 @@ interface BaseFindResponse {
   };
 }
 
-interface BaseFindOneResponse {
+interface BaseFindOneResponse<T> {
   data: {
     id: number;
-    attributes: { title: string; body: string; createdAt: string; updatedAt: string; publishedAt: string };
+    attributes: T;
   };
-  meta: {};
+  meta: {  };
 }
 
-export interface NewsReleaseFindResponse extends BaseFindResponse {}
-export interface CommunityReleaseFindResponse extends BaseFindResponse {}
-export interface DocumentFindResponse extends BaseFindResponse {}
-export interface NewsReleaseFindOneResponse extends BaseFindOneResponse {}
-export interface CommunityReleaseFindOneResponse extends BaseFindOneResponse {}
-export interface DocumentFindOneResponse extends BaseFindOneResponse {}
+interface BaseImageResponse {
+  data: {
+    attributes: {
+      alternativeText: string;
+      caption: string;
+      createdAt: string;
+      ext: string;
+      hash: string;
+      height: number;
+      mime: string;
+      name: string;
+      previewUrl: string | null;
+      provider: string;
+      provider_metadata: null;
+      size: number;
+      updatedAt: string;
+      url: string;
+      width: number;
+    };
+  };
+}
+
+interface NewsReleaseField {
+  title: string;
+  body: string;
+  description: string;
+  createdAt: string;
+  updatedAt: string;
+  publishedAt: string;
+  headerImage?: BaseImageResponse;
+}
+
+interface CommunityReleaseField {
+  title: string;
+  body: string;
+  description: string;
+  createdAt: string;
+  updatedAt: string;
+  publishedAt: string;
+  headerImage?: BaseImageResponse;
+}
+
+interface DocumentField {
+  title: string;
+  body: string;
+  description: string;
+  createdAt: string;
+  updatedAt: string;
+  publishedAt: string;
+}
+
+export interface NewsReleaseFindResponse extends BaseFindResponse<NewsReleaseField> {}
+export interface CommunityReleaseFindResponse extends BaseFindResponse<CommunityReleaseField> {}
+export interface DocumentFindResponse extends BaseFindResponse<DocumentField> {}
+export interface NewsReleaseFindOneResponse extends BaseFindOneResponse<NewsReleaseField> {}
+export interface CommunityReleaseFindOneResponse extends BaseFindOneResponse<CommunityReleaseField> {}
+export interface DocumentFindOneResponse extends BaseFindOneResponse<DocumentField> {}
 
 export interface LocalesResponse {
   id: number;
