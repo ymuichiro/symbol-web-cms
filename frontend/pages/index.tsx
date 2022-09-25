@@ -5,20 +5,20 @@ import { NewsReleaseFindResponse } from '../model/StrapiModel';
 import { useRouter } from 'next/router';
 import { i18n, en, ja } from '../i18n';
 import { Toolbar } from '../components/atom/Toolbar';
-import useMediaQuery from '@mui/material/useMediaQuery';
+import Image from 'next/image';
 import Header from '../components/moleculs/Header';
-import Container from '@mui/material/Container';
-import Grid from '@mui/material/Grid';
-import Typography from '@mui/material/Typography';
 import MediaCardWide from '../components/moleculs/MediaCardWide';
 import MediaCard from '../components/moleculs/MediaCard';
 import strapi from '../service/StrapiService';
 import Footer from '../components/moleculs/Footer';
-import Image from 'next/image';
-import ButtonBase from '@mui/material/ButtonBase';
 import LinkButton from '../components/atom/LinkButton';
 import MainBackground from '../components/atom/MainBackground';
 import FunctionsPresens from '../components/moleculs/FunctionsPresens';
+import useMediaQuery from '@mui/material/useMediaQuery';
+import Container from '@mui/material/Container';
+import Grid from '@mui/material/Grid';
+import Typography from '@mui/material/Typography';
+import ButtonBase from '@mui/material/ButtonBase';
 // icons
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 
