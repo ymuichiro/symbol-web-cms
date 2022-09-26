@@ -11,7 +11,7 @@ if (process.env.NODE_ENV === 'development') {
     },
     i18n: {
       locales: ['en-US', 'ja-JP'],
-      defaultLocale: 'ja-JP',
+      defaultLocale: 'en-US',
     },
   };
 } else {
@@ -26,7 +26,7 @@ if (process.env.NODE_ENV === 'development') {
     },
     i18n: {
       locales: ['en-US', 'ja-JP'],
-      defaultLocale: 'ja-JP',
+      defaultLocale: 'en-US',
     },
   });
 }
