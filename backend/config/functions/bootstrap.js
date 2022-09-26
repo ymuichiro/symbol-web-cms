@@ -35,13 +35,32 @@ async function setPublicPermissions(newPermissions) {
   await Promise.all(allPermissionsToCreate);
 }
 
+// Create the new localization
+async function setInternationalization(newLocalizations) {
+  for (const l of newLocalizations) {
+    await strapi.query("plugin::i18n.locale").create({
+      data: {
+        name: l.name,
+        code: l.code,
+      }
+    })
+  }
+
+}
+
 async function importSeedData() {
   await setPublicPermissions({
     "community-releases": ["find", "findOne"],
     "news-releases": ["find", "findOne"],
     documents: ["find", "findOne"],
   });
+  await setInternationalization([
+    { name: "Japanese (Japan) (ja-JP)", code: "ja-JP" },
+    { name: "Russian (Russia) (ru-RU)", code: "ru-RU" },
+    { name: "Korean (ko)", code: "ko" },
+  ]);
 }
+
 module.exports = async () => {
   const shouldImportSeedData = await isFirstRun();
   console.log("-".repeat(5), "Run Strapi bootstrap", "-".repeat(5))
@@ -55,6 +74,6 @@ module.exports = async () => {
       console.error(error);
     }
   }
-  console.log("-".repeat(5), "bootstrap configured", "-".repeat(5))
+  console.log("bootstrap configured")
   console.log("-".repeat(5), "end", "-".repeat(5))
 };
