@@ -16,6 +16,14 @@ export default class MyDocument extends Document {
           <link rel="icon" href="/favicon.ico" />
           <link rel="apple-touch-icon" href="/icon-192x192.png" />
           <link rel="manifest" href="/manifest.json" />
+          <meta name="twitter:card" content="summary_large_image" />
+          <meta name="twitter:site" content="@faunsu19000" />
+          <meta name="twitter:title" content="Symbol Community" />
+          <meta
+            name="twitter:description"
+            content="Next Generation Blockchain Symbol Web Site. Be the first to check the latest information. You can also get information about the active community."
+          />
+          <meta name="twitter:image" content={`${process.env.NEXT_PUBLIC_NEXT_SERVER_URL}/twitter_card.png`} />
         </Head>
         <body>
           <Main />
