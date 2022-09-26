@@ -196,6 +196,13 @@ const Community: NextPage<Props> = ({ i18nText }) => {
                 body: i18nText.community.section3_body5,
                 url: i18nText.community.section3_url5,
               },
+              {
+                avatar: '/assets/icons/news.svg',
+                avatarAlt: i18nText.community.section3_title6,
+                title: i18nText.community.section3_title6,
+                body: i18nText.community.section3_body6,
+                url: i18nText.community.section3_url6,
+              },
             ]}
           />
         </section>

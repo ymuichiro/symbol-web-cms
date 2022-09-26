@@ -97,6 +97,9 @@ export const en: i18n = {
     section3_title5: "NEMLOG",
     section3_body5: "This is a BLOG service with Symbol/NEM throwing function. Anyone can contribute.",
     section3_url5: "https://nemlog.nem.social/",
+    section3_title6: "Everyday Symbol（List of stores that accept payment）",
+    section3_body6: "A list of stores that support payment by Symbol is compiled here.",
+    section3_url6: "https://everyday-symbol.studio.site/",
   },
   docs: {
     page_title: 'document',
