@@ -96,6 +96,9 @@ export const ja = {
     section3_title5: "NEMLOG",
     section3_body5: "Symbol/NEM の投げ銭機能つき、BLOGサービスです。誰でも投稿できます。",
     section3_url5: "https://nemlog.nem.social/",
+    section3_title6: "Everyday Symbol（決済対応店一覧）",
+    section3_body6: "Symbolによる決済に対応した店舗一覧をまとめています",
+    section3_url6: "https://everyday-symbol.studio.site/",
   }, 
   docs: {
     page_title: 'ドキュメント',
