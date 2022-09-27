@@ -282,22 +282,22 @@ const Home: NextPage<Props> = ({ i18nText }) => {
               {
                 title: i18nText.index.start_card1,
                 image: `${router.basePath}/assets/img/reshot-illustration-crypto-digital-wallet-DJLEMYZTQN-0ec78.png`,
-                href: '',
+                href: i18nText.index.start_card1_link,
               },
               {
                 title: i18nText.index.start_card2,
                 image: `${router.basePath}/assets/img/reshot-illustration-cyber-security-engineer-QRZA6W2N4U.png`,
-                href: '',
+                href: i18nText.index.start_card2_link,
               },
               {
                 title: i18nText.index.start_card3,
                 image: `${router.basePath}/assets/img/reshot-illustration-social-media-manager-R48ZCSE7KP.png`,
-                href: '',
+                href: i18nText.index.start_card3_link,
               },
               {
                 title: i18nText.index.start_card4,
                 image: `${router.basePath}/assets/img/reshot-illustration-software-developers-59RL8CT7WX.png`,
-                href: '',
+                href: i18nText.index.start_card4_link,
               },
             ].map((item, index) => {
               return (
