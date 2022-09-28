@@ -46,6 +46,7 @@ const NewsArticle: NextPage = () => {
           </Typography>
         </div>
         <PageTitle>{news.attributes.title}</PageTitle>
+        <div style={{ height: '2rem' }} />
         <MarkdownParser markdown={news.attributes.body} />
         <div style={{ height: '10vh' }} />
         <Divider />

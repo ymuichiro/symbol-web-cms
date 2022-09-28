@@ -50,9 +50,9 @@ async function setInternationalization(newLocalizations) {
 
 async function importSeedData() {
   await setPublicPermissions({
-    "community-releases": ["find", "findOne"],
-    "news-releases": ["find", "findOne"],
-    documents: ["find", "findOne"],
+    "community-release": ["find", "findOne"],
+    "news-release": ["find", "findOne"],
+    document: ["find", "findOne"],
   });
   await setInternationalization([
     { name: "Japanese (Japan) (ja-JP)", code: "ja-JP" },
