@@ -54,7 +54,7 @@ export const en: i18n = {
     community_introduce_section3: "Blog & Forum",
     section1_title1: "NEM & Symbol",
     section1_body1: "A place for NEM/Symbol contributors to discuss and make announcements on a daily basis",
-    section1_url1: "https://discord.gg/NtrvH5SV",
+    section1_url1: "https://discord.gg/EEdJKBMVVb",
     section1_title2: "nem Japan User Group",
     section1_body2: "Symbol/NEM developers in Japan get together and ask questions when you get stuck in the development around Symbol/NEM.",
     section1_url2: "https://discord.gg/wa4BsYQz",

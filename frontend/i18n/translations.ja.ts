@@ -53,7 +53,7 @@ export const ja = {
     community_introduce_section3: "ブログ & フォーラム",
     section1_title1: "NEM & Symbol",
     section1_body1: "NEM/Symbol のコントリビューターが日々議論したりアナウンスを行う場です",
-    section1_url1: "https://discord.gg/NtrvH5SV",
+    section1_url1: "https://discord.gg/EEdJKBMVVb",
     section1_title2: "nem Japan User Group",
     section1_body2: "Symbol/NEM の日本の開発者が集まっています。Symbol/NEM の周辺開発で詰まった時に質問しましょう",
     section1_url2: "https://discord.gg/wa4BsYQz",
