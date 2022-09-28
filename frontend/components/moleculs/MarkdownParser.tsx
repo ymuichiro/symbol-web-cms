@@ -18,7 +18,7 @@ export default function MarkdownParser(props: { markdown: string }): JSX.Element
             variant="h1"
             fontWeight="bold"
             fontSize="2.5rem"
-            style={{ marginBottom: '1rem', marginTop: '1rem' }}
+            style={{ marginBottom: '1rem', marginTop: '1.5rem' }}
           >
             {e.children}
           </Typography>
@@ -28,7 +28,7 @@ export default function MarkdownParser(props: { markdown: string }): JSX.Element
             variant="h2"
             fontWeight="bold"
             fontSize="2rem"
-            style={{ marginBottom: '1rem', marginTop: '1rem', color: theme.palette.primary.main }}
+            style={{ marginBottom: '1rem', marginTop: '1.5rem', color: theme.palette.primary.main }}
           >
             {e.children}
           </Typography>
@@ -38,7 +38,7 @@ export default function MarkdownParser(props: { markdown: string }): JSX.Element
             variant="h3"
             fontWeight="bold"
             fontSize="1.5rem"
-            style={{ marginBottom: '1rem', marginTop: '1rem' }}
+            style={{ marginBottom: '1rem', marginTop: '1.5rem' }}
           >
             {e.children}
           </Typography>
@@ -48,7 +48,7 @@ export default function MarkdownParser(props: { markdown: string }): JSX.Element
             variant="h4"
             fontWeight="bold"
             fontSize="1rem"
-            style={{ marginBottom: '1rem', marginTop: '1rem' }}
+            style={{ marginBottom: '1rem', marginTop: '1.5rem' }}
           >
             {e.children}
           </Typography>
@@ -58,7 +58,7 @@ export default function MarkdownParser(props: { markdown: string }): JSX.Element
             variant="h5"
             fontWeight="bold"
             fontSize="0.8rem"
-            style={{ marginBottom: '0.5rem', marginTop: '0.5rem' }}
+            style={{ marginBottom: '0.5rem', marginTop: '1rem' }}
           >
             {e.children}
           </Typography>
@@ -68,7 +68,7 @@ export default function MarkdownParser(props: { markdown: string }): JSX.Element
             variant="h6"
             fontWeight="bold"
             fontSize="0.6rem"
-            style={{ marginBottom: '0.5rem', marginTop: '0.5rem' }}
+            style={{ marginBottom: '0.5rem', marginTop: '1rem' }}
           >
             {e.children}
           </Typography>
@@ -76,12 +76,14 @@ export default function MarkdownParser(props: { markdown: string }): JSX.Element
         img: (e) => (
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: '100%' }}>
             {e.src && (
-              <Image
+              <img
                 src={StrapiService.getImageUri(e.src) as string}
                 alt="Symbol-Logo-White"
                 height={500}
                 width={theme.breakpoints.values.md}
-                objectFit="contain"
+                style={{
+                  objectFit: 'contain',
+                }}
               />
             )}
           </div>
@@ -95,7 +97,7 @@ export default function MarkdownParser(props: { markdown: string }): JSX.Element
           </Typography>
         ),
         p: (e) => (
-          <Typography variant="body1" style={{ marginBottom: '0.3rem' }}>
+          <Typography variant="body1" style={{ marginBottom: '0.6rem' }}>
             {e.children}
           </Typography>
         ),
