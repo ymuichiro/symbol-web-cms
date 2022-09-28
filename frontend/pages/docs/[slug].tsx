@@ -45,10 +45,11 @@ const DocsArticle: NextPage = () => {
             Update {UtilService.formatDate(new Date(doc.attributes.updatedAt), 'yyyy/MM/dd')}
           </Typography>
         </div>
-        <PageTitle>{doc.attributes.title}</PageTitle>
-        <MarkdownParser markdown={doc.attributes.body} />
-        <div style={{ height: '10vh' }} />
-        <Divider />
+        <Container maxWidth="md">
+          <PageTitle>{doc.attributes.title}</PageTitle>
+          <MarkdownParser markdown={doc.attributes.body} />
+          <div style={{ height: '10vh' }} />
+        </Container>
         <Divider />
         <Footer />
       </Container>

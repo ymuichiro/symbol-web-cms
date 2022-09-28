@@ -1,7 +1,6 @@
 import { useTheme } from '@mui/material/styles';
 import Markdown from 'react-markdown';
 import Typography from '@mui/material/Typography';
-import Image from 'next/image';
 import Link from 'next/link';
 import CodeBlock from '../../components/atom/CodeBlock';
 import UtilService from '../../service/UtilService';
@@ -74,15 +73,24 @@ export default function MarkdownParser(props: { markdown: string }): JSX.Element
           </Typography>
         ),
         img: (e) => (
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: '100%' }}>
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              width: '100%',
+              marginTop: '1rem',
+              marginBottom: '1rem',
+            }}
+          >
             {e.src && (
               <img
                 src={StrapiService.getImageUri(e.src) as string}
-                alt="Symbol-Logo-White"
+                alt="strapi-blog-api-image"
                 height={500}
-                width={theme.breakpoints.values.md}
                 style={{
                   objectFit: 'contain',
+                  maxWidth: '90vw',
                 }}
               />
             )}

@@ -8,6 +8,7 @@ import { useTheme } from '@mui/material/styles';
 import { CSSProperties } from 'react';
 import { UrlObject } from 'url';
 import useMediaQuery from '@mui/material/useMediaQuery';
+import Image from 'next/image';
 
 interface MediaCardWideArgs {
   title: string;
@@ -50,7 +51,7 @@ export default function MediaCardWide(props: MediaCardWideArgs): JSX.Element {
         </Grid>
         <Grid item xs={12} md={5}>
           <CardMedia
-            component="img"
+            component={'img'}
             alt="card-content-image"
             image={props.imageUrl}
             style={{ height: props.imageHeight, maxHeight: matches ? '400px' : undefined }}
