@@ -4,7 +4,7 @@
 .tmp
 .cache
 build
-
+backend/public/uploads
 
 # dependencies
 node_modules
