@@ -10,6 +10,7 @@ import UtilService from '../../service/UtilService';
 import Link from 'next/link';
 import { useTheme } from '@mui/material/styles';
 import { useRouter } from 'next/router';
+import Image from 'next/image';
 
 const DEFAULT_CAVER_IMAGE = '/assets/img/symbol-logo-default-cover.png';
 
@@ -39,7 +40,7 @@ export default function MediaCard(props: Args): JSX.Element {
   return (
     <Card style={props.style}>
       <CardMedia
-        component="img"
+        component={'img'}
         height="200"
         alt="card-content-image"
         image={props.image || `${router.basePath}${DEFAULT_CAVER_IMAGE}`}
