@@ -19,19 +19,19 @@ import MarkdownParser from '../../components/moleculs/MarkdownParser';
 import Divider from '@mui/material/Divider';
 
 const CommunityArticle: NextPage = () => {
-  const [article, setArticle] = useState<CommunityReleaseFindOneResponse['data'] | null>(null);
+  const [doc, setDoc] = useState<CommunityReleaseFindOneResponse['data'] | null>(null);
   const router = useRouter();
 
   // ページの起動時にニュースを取得する
   useEffect(() => {
     if (typeof window === 'object' && router.isReady && typeof router.query.slug === 'string') {
       strapi.findOneCommunityRelease(router.query.slug).then((e) => {
-        setArticle({ ...e.data });
+        setDoc({ ...e.data });
       });
     }
   }, [router.query]);
 
-  if (article === null) {
+  if (doc === null) {
     return <div />;
   }
 
@@ -42,13 +42,15 @@ const CommunityArticle: NextPage = () => {
         <Toolbar />
         <div style={{ paddingTop: '0.5em', paddingBottom: '0.5em' }}>
           <Typography color="text.secondary" textAlign="right">
-            Update {UtilService.formatDate(new Date(article.attributes.updatedAt), 'yyyy/MM/dd')}
+            Update {UtilService.formatDate(new Date(doc.attributes.updatedAt), 'yyyy/MM/dd')}
           </Typography>
         </div>
-        <PageTitle>{article.attributes.title}</PageTitle>
-        <MarkdownParser markdown={article.attributes.body} />
-        <div style={{ height: '10vh' }} />
-        <Divider />
+        <Container maxWidth="md">
+          <PageTitle>{doc.attributes.title}</PageTitle>
+          <div style={{ height: '1rem' }} />
+          <MarkdownParser markdown={doc.attributes.body} />
+          <div style={{ height: '10vh' }} />
+        </Container>
         <Divider />
         <Footer />
       </Container>

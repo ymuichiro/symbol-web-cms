@@ -204,43 +204,47 @@ const Docs: NextPage<Props> = ({ i18nText }) => {
             </CardContent>
           </Card>
         </section>
+
+        {/* 検索セクション */}
         <section style={{ marginTop: '10vh' }}>
-          <Grid container spacing={5} style={{ marginTop: '5vh' }}>
-            <Grid item xs={12}>
-              <Divider />
+          <Container maxWidth="md">
+            <Grid container spacing={5} style={{ marginTop: '5vh' }}>
+              <Grid item xs={12}>
+                <Divider />
+              </Grid>
+              <Grid item xs={12}>
+                <Typography variant="h5" fontWeight={'bold'} align="center">
+                  {i18nText.docs.section_search_article}
+                </Typography>
+              </Grid>
+              <Grid item xs={12} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <div style={{ width: '100%', marginTop: '3rem', marginBottom: '6rem' }}>
+                  <OutlinedInput
+                    fullWidth
+                    value={search}
+                    onChange={(e) => setSearch(e.currentTarget.value)}
+                    type="text"
+                    placeholder={i18nText.docs.search_bar_placeholder}
+                    endAdornment={
+                      <InputAdornment position="end">
+                        <Button variant="contained" onClick={onSearchDocuments}>
+                          <SearchIcon />
+                        </Button>
+                      </InputAdornment>
+                    }
+                  />
+                </div>
+              </Grid>
             </Grid>
-            <Grid item xs={12}>
-              <Typography variant="h5" fontWeight={'bold'} align="center">
-                {i18nText.docs.section_search_article}
-              </Typography>
-            </Grid>
-            <Grid item xs={12} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-              <div style={{ maxWidth: '800px', width: '100%', marginTop: '3rem', marginBottom: '6rem' }}>
-                <OutlinedInput
-                  fullWidth
-                  value={search}
-                  onChange={(e) => setSearch(e.currentTarget.value)}
-                  type="text"
-                  placeholder={i18nText.docs.search_bar_placeholder}
-                  endAdornment={
-                    <InputAdornment position="end">
-                      <Button variant="contained" onClick={onSearchDocuments}>
-                        <SearchIcon />
-                      </Button>
-                    </InputAdornment>
-                  }
-                />
-              </div>
-            </Grid>
-          </Grid>
-          <List>
-            {docs.length === 0 && <Typography align="left">{i18nText.docs.no_articles}</Typography>}
-            {docs.map((item, index) => (
-              <ListItemButton divider key={index} onClick={() => router.push({ pathname: `/docs/${item.id}` })}>
-                <ListItemText primary={item.attributes.title} secondary={item.attributes.description} />
-              </ListItemButton>
-            ))}
-          </List>
+            <List>
+              {docs.length === 0 && <Typography align="left">{i18nText.docs.no_articles}</Typography>}
+              {docs.map((item, index) => (
+                <ListItemButton divider key={index} onClick={() => router.push({ pathname: `/docs/${item.id}` })}>
+                  <ListItemText primary={item.attributes.title} secondary={item.attributes.description} />
+                </ListItemButton>
+              ))}
+            </List>
+          </Container>
         </section>
         <section style={{ marginTop: '10vh' }}>
           <Footer />

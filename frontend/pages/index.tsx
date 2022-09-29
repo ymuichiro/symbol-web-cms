@@ -316,7 +316,7 @@ const Home: NextPage<Props> = ({ i18nText }) => {
                         height: '30vh',
                         borderRadius: '10px',
                       }}
-                      href="/docs"
+                      href={item.href}
                     />
                     <Typography color="white" style={{ position: 'relative', top: 0, left: 0 }}>
                       {item.title}
