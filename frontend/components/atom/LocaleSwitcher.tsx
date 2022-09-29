@@ -1,33 +1,60 @@
-import Link from 'next/link';
 import { useRouter } from 'next/router';
-import Icon from '@mui/icons-material/GTranslate';
+import { useEffect, useState } from 'react';
+import FormControl from '@mui/material/FormControl';
+import InputLabel from '@mui/material/InputLabel';
+import Select, { SelectProps } from '@mui/material/Select';
+import MenuItem from '@mui/material/MenuItem';
+import { useTheme } from '@mui/material/styles';
 
-export default function LocaleSwitcher() {
+const LANGUAGES = [
+  {
+    code: 'ja-JP',
+    label: '日本語',
+  },
+  {
+    code: 'en-US',
+    label: 'English',
+  },
+];
+
+export default function LocaleSwitcher(props: { inDrawer: boolean }) {
   const router = useRouter();
-  const { locales, locale: activeLocale } = router;
-  const otherLocales = locales?.filter((locale) => locale !== activeLocale);
+  const theme = useTheme();
+  const [state, setState] = useState<string>('en-US');
+  const { locale } = router;
+
+  useEffect(() => {
+    if (router.isReady && locale) {
+      setState(locale);
+    }
+  }, [locale]);
+
+  const onSelected: SelectProps<string>['onChange'] = (event) => {
+    setState(event.target.value);
+    router.push({ pathname: router.pathname, query: router.query }, router.asPath, { locale: event.target.value });
+  };
 
   return (
-    <div
-      style={{
-        marginTop: '0.5em',
-        display: 'flex',
-        alignItems: 'flex-start',
-        flexDirection: 'column',
-        gap: '0.5em',
-      }}
-    >
-      {otherLocales?.map((locale, index) => {
-        const { pathname, query, asPath } = router;
-        return (
-          <Link key={index} href={{ pathname, query }} as={asPath} locale={locale}>
-            <a style={{ color: 'white', textDecoration: 'none', display: 'flex', justifyContent: 'center' }}>
-              <Icon fontSize="small" style={{ marginRight: '1em' }} />
-              {locale}
-            </a>
-          </Link>
-        );
-      })}
-    </div>
+    <FormControl fullWidth>
+      <Select
+        variant="outlined"
+        id="language-select"
+        value={state}
+        onChange={onSelected}
+        size="small"
+        style={{
+          color: props.inDrawer ? theme.palette.text.primary : theme.palette.primary.contrastText,
+          border: 'grey 0px solid',
+          fontWeight: 'bold',
+          width: props.inDrawer ? '100%' : undefined,
+        }}
+      >
+        {LANGUAGES.map((lang, index) => (
+          <MenuItem key={index} value={lang.code}>
+            {lang.label}
+          </MenuItem>
+        ))}
+      </Select>
+    </FormControl>
   );
 }
