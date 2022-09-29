@@ -8,6 +8,7 @@ interface SelectProps {
   id: string;
   label?: string;
   state: string | number;
+  styleContainer?: React.CSSProperties;
   style?: React.CSSProperties;
   variant?: 'standard' | 'outlined' | 'filled';
   setState: React.Dispatch<React.SetStateAction<string>> | React.Dispatch<React.SetStateAction<number>>;
@@ -23,7 +24,7 @@ export const Select = (props: SelectProps) => {
   };
 
   return (
-    <FormControl>
+    <FormControl style={props.styleContainer}>
       <InputLabel id={props.id}>{props.label}</InputLabel>
       <MuiSelect
         autoWidth={false}
@@ -32,7 +33,7 @@ export const Select = (props: SelectProps) => {
         value={props.state}
         label={props.label}
         onChange={handleChange}
-        style={{ ...props.style }}
+        style={props.style}
       >
         {props.data.map((item, index) => (
           <MenuItem value={item.value} key={index}>

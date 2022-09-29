@@ -22,6 +22,7 @@ import NewspaperIcon from '@mui/icons-material/Newspaper';
 import ForumIcon from '@mui/icons-material/Forum';
 import TopicIcon from '@mui/icons-material/Topic';
 import LocaleSwitcher from '../atom/LocaleSwitcher';
+import ListItem from '@mui/material/ListItem';
 
 const SITELINKS = [
   { title: 'Top', link: '/', Icon: HomeIcon },
@@ -85,11 +86,13 @@ export default function Header() {
                       style={{
                         color: 'black',
                         fontWeight: 'bold',
+                        minWidth: '6rem',
                       }}
                     >
                       {item.title}
                     </Button>
                   ))}
+                  <LocaleSwitcher inDrawer={false} />
                 </div>
               )}
 
@@ -159,9 +162,12 @@ export default function Header() {
                 <ArrowRightIcon />
               </ListItemButton>
             ))}
+            <ListItem>
+              <LocaleSwitcher inDrawer={true} />
+            </ListItem>
           </List>
           <div style={{ marginTop: 'auto', paddingInline: '30px', paddingBlock: '20px' }}>
-            <Typography gutterBottom variant="body2" color="text.secondary" align="left">
+            {/* <Typography gutterBottom variant="body2" color="text.secondary" align="left">
               Language
             </Typography>
             <div
@@ -174,7 +180,7 @@ export default function Header() {
               }}
             >
               <LocaleSwitcher />
-            </div>
+            </div> */}
           </div>
         </div>
       </Drawer>
