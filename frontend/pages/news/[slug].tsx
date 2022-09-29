@@ -19,19 +19,19 @@ import MarkdownParser from '../../components/moleculs/MarkdownParser';
 import Divider from '@mui/material/Divider';
 
 const NewsArticle: NextPage = () => {
-  const [news, setNews] = useState<NewsReleaseFindOneResponse['data'] | null>(null);
+  const [doc, setDoc] = useState<NewsReleaseFindOneResponse['data'] | null>(null);
   const router = useRouter();
 
   // ページの起動時にニュースを取得する
   useEffect(() => {
     if (typeof window === 'object' && router.isReady && typeof router.query.slug === 'string') {
       strapi.findOneNewsRelease(router.query.slug).then((e) => {
-        setNews({ ...e.data });
+        setDoc({ ...e.data });
       });
     }
   }, [router.query]);
 
-  if (news === null) {
+  if (doc === null) {
     return <div />;
   }
 
@@ -42,14 +42,15 @@ const NewsArticle: NextPage = () => {
         <Toolbar />
         <div style={{ paddingTop: '0.5em', paddingBottom: '0.5em' }}>
           <Typography color="text.secondary" textAlign="right">
-            Update {UtilService.formatDate(new Date(news.attributes.updatedAt), 'yyyy/MM/dd')}
+            Update {UtilService.formatDate(new Date(doc.attributes.updatedAt), 'yyyy/MM/dd')}
           </Typography>
         </div>
-        <PageTitle>{news.attributes.title}</PageTitle>
-        <div style={{ height: '2rem' }} />
-        <MarkdownParser markdown={news.attributes.body} />
-        <div style={{ height: '10vh' }} />
-        <Divider />
+        <Container maxWidth="md">
+          <PageTitle>{doc.attributes.title}</PageTitle>
+          <div style={{ height: '1rem' }} />
+          <MarkdownParser markdown={doc.attributes.body} />
+          <div style={{ height: '10vh' }} />
+        </Container>
         <Divider />
         <Footer />
       </Container>
