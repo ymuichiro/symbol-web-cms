@@ -47,6 +47,7 @@ const DocsArticle: NextPage = () => {
         </div>
         <Container maxWidth="md">
           <PageTitle>{doc.attributes.title}</PageTitle>
+          <div style={{ height: '1rem' }} />
           <MarkdownParser markdown={doc.attributes.body} />
           <div style={{ height: '10vh' }} />
         </Container>
