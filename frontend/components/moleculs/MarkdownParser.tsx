@@ -17,7 +17,7 @@ export default function MarkdownParser(props: { markdown: string }): JSX.Element
             variant="h1"
             fontWeight="bold"
             fontSize="2.5rem"
-            style={{ marginBottom: '1rem', marginTop: '1.5rem' }}
+            style={{ marginBottom: '1rem', marginTop: '8rem' }}
           >
             {e.children}
           </Typography>
@@ -27,7 +27,7 @@ export default function MarkdownParser(props: { markdown: string }): JSX.Element
             variant="h2"
             fontWeight="bold"
             fontSize="2rem"
-            style={{ marginBottom: '1rem', marginTop: '1.5rem', color: theme.palette.primary.main }}
+            style={{ marginBottom: '1rem', marginTop: '6rem', color: theme.palette.primary.main }}
           >
             {e.children}
           </Typography>
@@ -37,7 +37,7 @@ export default function MarkdownParser(props: { markdown: string }): JSX.Element
             variant="h3"
             fontWeight="bold"
             fontSize="1.5rem"
-            style={{ marginBottom: '1rem', marginTop: '1.5rem' }}
+            style={{ marginBottom: '1rem', marginTop: '3rem' }}
           >
             {e.children}
           </Typography>
@@ -98,14 +98,12 @@ export default function MarkdownParser(props: { markdown: string }): JSX.Element
         ),
         code: CodeBlock,
         a: (e) => (
-          <Typography>
-            <Link href={new RegExp(/^http.?:\/\/.*/).test(e.href || '') ? e.href || '/' : { pathname: e.href || '/' }}>
-              <a style={{ color: theme.palette.text.primary }}>{e.children}</a>
-            </Link>
-          </Typography>
+          <Link href={new RegExp(/^http.?:\/\/.*/).test(e.href || '') ? e.href || '/' : { pathname: e.href || '/' }}>
+            <a style={{ color: theme.palette.text.primary }}>{e.children}</a>
+          </Link>
         ),
         p: (e) => (
-          <Typography variant="body1" style={{ marginBottom: '0.6rem' }}>
+          <Typography variant="body1" style={{ marginBottom: '2rem', lineHeight: '1.8rem' }}>
             {e.children}
           </Typography>
         ),

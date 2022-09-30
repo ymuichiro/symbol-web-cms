@@ -83,7 +83,7 @@ const Home: NextPage<Props> = ({ i18nText }) => {
             </div>
             <Grid container spacing={3} style={{ maxWidth: '600px' }}>
               <Grid item xs={12} sm={6}>
-                <LinkButton fullWidth size="large" href="/">
+                <LinkButton fullWidth size="large" href={i18nText.index.start_card1_link}>
                   Install wallet
                   <KeyboardArrowRightIcon />
                 </LinkButton>
@@ -212,27 +212,31 @@ const Home: NextPage<Props> = ({ i18nText }) => {
         </section>
         {/* ニュース簡易表示セクション */}
         <section>
-          <div style={{ height: '20vh' }} />
-          <Typography align="center" variant="h4" fontWeight="bold" style={{ color: theme.palette.primary.main }}>
-            {i18nText.index.news_title}
-          </Typography>
-          <div style={{ height: '5vh' }} />
-          <Grid container spacing={5}>
-            {news.slice(0, 10).map((n, i) => {
-              return (
-                <Grid item xs={12} sm={6} md={4} key={i}>
-                  <MediaCard
-                    title={n.attributes.title}
-                    description={n.attributes.description}
-                    date={n.attributes.publishedAt}
-                    image={strapi.getImageUri(n.attributes.headerImage?.data.attributes.url)}
-                    tweetLink={`${process.env.NEXT_PUBLIC_NEXT_SERVER_URL}/news/${n.id}`}
-                    link={{ pathname: '/news/' + n.id }}
-                  />
-                </Grid>
-              );
-            })}
-          </Grid>
+          {news.length !== 0 && (
+            <>
+              <div style={{ height: '20vh' }} />
+              <Typography align="center" variant="h4" fontWeight="bold" style={{ color: theme.palette.primary.main }}>
+                {i18nText.index.news_title}
+              </Typography>
+              <div style={{ height: '5vh' }} />
+              <Grid container spacing={5}>
+                {news.slice(0, 10).map((n, i) => {
+                  return (
+                    <Grid item xs={12} sm={6} md={4} key={i}>
+                      <MediaCard
+                        title={n.attributes.title}
+                        description={n.attributes.description}
+                        date={n.attributes.publishedAt}
+                        image={strapi.getImageUri(n.attributes.headerImage?.data.attributes.url)}
+                        tweetLink={`${process.env.NEXT_PUBLIC_NEXT_SERVER_URL}/news/${n.id}`}
+                        link={{ pathname: '/news/' + n.id }}
+                      />
+                    </Grid>
+                  );
+                })}
+              </Grid>
+            </>
+          )}
         </section>
         {/* 簡単に導入できると説明するセクション */}
         <section>
@@ -328,14 +332,15 @@ const Home: NextPage<Props> = ({ i18nText }) => {
           </Grid>
         </section>
         {/* Symbol Explorer */}
-        <section style={{ marginTop: '100px' }}>
+        <section>
           <div
             style={{
               display: 'flex',
               flexDirection: 'column',
               justifyContent: 'center',
               alignItems: 'center',
-              height: '10vh',
+              height: '40vh',
+              minHeight: '500px',
               gap: '3vh',
             }}
           >
@@ -356,6 +361,54 @@ const Home: NextPage<Props> = ({ i18nText }) => {
               {i18nText.index.end_message_body}
             </LinkButton>
           </div>
+        </section>
+
+        {/* サイト運営について */}
+        <section>
+          <hr />
+          <Grid container spacing={3} style={{ minHeight: '40vh' }}>
+            <Grid
+              item
+              xs={12}
+              sm={12}
+              md={8}
+              style={{
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'center',
+                alignItems: matches ? 'center' : undefined,
+                gap: '2rem',
+              }}
+            >
+              <Typography
+                align={matches ? 'center' : 'left'}
+                variant="h4"
+                fontWeight="bold"
+                style={{ color: theme.palette.primary.main }}
+              >
+                {i18nText.index.about_site_management_title}
+              </Typography>
+              <Typography align={matches ? 'center' : 'left'} variant="body1">
+                {i18nText.index.about_site_management_body}
+              </Typography>
+              <LinkButton href="/about" fullWidth style={{ maxWidth: '300px' }}>
+                {i18nText.index.about_site_management_title}
+              </LinkButton>
+            </Grid>
+            <Grid item xs={12} sm={12} md={4}>
+              <div
+                style={{
+                  display: 'flex',
+                  height: '100%',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}
+              >
+                <img src="/icon-192x192.png" alt="symbol シンボル nem logo icon" style={{ maxWidth: '300px' }} />
+              </div>
+            </Grid>
+          </Grid>
+          <hr />
         </section>
         {/* Footer */}
         <section style={{ marginTop: '100px' }}>
