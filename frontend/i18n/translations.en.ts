@@ -38,6 +38,56 @@ export const en: i18n = {
     start_card4_link:"/docs",
     end_message_title: "Let's go explorer",
     end_message_body: "Check transaction status",
+    about_site_management_title: "Abount us",
+    about_site_management_body: "Symbol Community Web is run by members of the community. Meet the team behind the site.",
+  },
+  about: {
+    page_title: 'About Us',
+    page_title_description: "Symbol Community WEB has a team that maintains and develops the site",
+    body_markdown: `
+## About the Symbol Community Web Team
+We are a team born out of a community that supports the growth of Symbol/NEM. The team is open to everyone. The site is open to the public as an open source resource and anyone can contribute. We realize the following goals in developing and maintaining Symbol Community Web.
+
+## Goals
+We have the following goals
+- New users can safely experience the blockchain,
+- Help new users get started with Symbol/NEM,
+- Bring up-to-date information about Symbol/NEM,
+- Connect new users with those already active,
+- Showcase resources created by the community,
+- Create an opportunity to face social issues with blockchain,
+
+## Principles and Philosophy
+### Symbol Community Web provides a gateway to Symbol/NEM
+Symbol Community Web provides an opportunity for newcomers to learn what Symbol/NEM is all about. It helps new users onboard by providing them with information that is relevant to them. We will integrate and make it easy to find information about people and tools working everywhere. This site is not just for existing Symbol/NEM users.
+
+We will grow with people, receiving feedback daily so that we can deliver relevant information to new users around the world.
+
+### 2. growing with people
+Symbol/NEM and the ecosystem that uses it are constantly growing and changing. In order to keep up with change, Symbol Web is open source and open to suggestions and requests for modifications. In addition, the majority of the site's content is separated from the source code so that it can flexibly adapt to changes. This mechanism allows non-technical people to contribute to the modification of the site and the creation of articles.
+
+If you would like to help us by suggesting changes or contributing to the site, please contact us via [Discord](https://discord.gg/JTxYPVTf) or, if you have an account [Portal](https://cms.symbol-community.com/admin/auth/login).
+
+## Contributions
+If you would like to contribute an article to Symbol Web, please visit our Discord. If you are writing an article in advance, please follow the style guide below. 1.
+
+1. submit a title, a summary of 30 words or less, and a header image. 
+2. File format: .md (markdown). 
+3. the following formatting is acceptable
+4. h1-6, bold, italic, underline, strikethrough, bullet/numberlist, code, image, link, quote. 
+5. Image files must be stored on this server. 
+6. Continuing authors may pay out their accounts and change them directly. 
+7. please be careful about copyright when you use free images.
+
+How to login to ## Portal
+To edit or add articles on Symbol Community Web, you need to login to the Portal, where your account is authenticated by your Symbol Blockchain account instead of the traditional ID and PW. To access the Portal, you will need the following: 1.
+
+1. an active Symbol address
+2. an [SSS Extention](https://chrome.google.com/webstore/detail/sss-extension/llildiojemakefgnhhkmiiffonembcan?hl=ja)
+
+In addition, to allow your Symbol address to access the Portal, you will need to add privileges from an existing Contributor. Please contact [Discord](https://discord.gg/JTxYPVTf) if you would like to add privileges.
+If you would like to edit any other pages other than articles, please feel free to send us a pull request via [GitHub](https://github.com/ymuichiro/symbol_web).
+`
   },
   news: {
     page_title: 'News Release',

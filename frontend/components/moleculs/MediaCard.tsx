@@ -42,7 +42,7 @@ export default function MediaCard(props: Args): JSX.Element {
       <CardMedia
         component={'img'}
         height="200"
-        alt="card-content-image"
+        alt="symbol シンボル nem card content image"
         image={props.image || `${router.basePath}${DEFAULT_CAVER_IMAGE}`}
       />
       <CardContent>
