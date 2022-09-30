@@ -21,6 +21,7 @@ import Typography from '@mui/material/Typography';
 import ButtonBase from '@mui/material/ButtonBase';
 // icons
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
+import Link from 'next/link';
 
 type Props = {
   i18nText: i18n;
@@ -306,7 +307,7 @@ const Home: NextPage<Props> = ({ i18nText }) => {
             ].map((item, index) => {
               return (
                 <Grid item xs={12} sm={6} key={index}>
-                  <div>
+                  <Link href={item.href} locale={router.locale}>
                     <ButtonBase
                       style={{
                         width: '100%',
@@ -320,12 +321,11 @@ const Home: NextPage<Props> = ({ i18nText }) => {
                         height: '30vh',
                         borderRadius: '10px',
                       }}
-                      href={item.href}
                     />
-                    <Typography color="white" style={{ position: 'relative', top: 0, left: 0 }}>
-                      {item.title}
-                    </Typography>
-                  </div>
+                  </Link>
+                  <Typography color="white" style={{ position: 'relative', top: 0, left: 0 }}>
+                    {item.title}
+                  </Typography>
                 </Grid>
               );
             })}
@@ -350,7 +350,7 @@ const Home: NextPage<Props> = ({ i18nText }) => {
             <LinkButton
               isNewTab
               size="large"
-              href="https://symbol-explorer.com/"
+              href="https://symbol.fyi/"
               style={{
                 background: `linear-gradient(to right bottom, ${theme.palette.primary.dark}, ${theme.palette.secondary.dark})`,
                 color: 'white',
