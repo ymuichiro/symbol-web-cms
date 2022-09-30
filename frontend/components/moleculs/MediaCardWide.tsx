@@ -52,7 +52,7 @@ export default function MediaCardWide(props: MediaCardWideArgs): JSX.Element {
         <Grid item xs={12} md={5}>
           <CardMedia
             component={'img'}
-            alt="card-content-image"
+            alt="symbol シンボル nem card content image card content image"
             image={props.imageUrl}
             style={{ height: props.imageHeight, maxHeight: matches ? '400px' : undefined }}
           />
