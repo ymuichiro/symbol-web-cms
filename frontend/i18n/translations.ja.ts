@@ -38,7 +38,7 @@ export const ja = {
     end_message_title: "Let's go explorer",
     end_message_body: '取引状況を確認する',
     about_site_management_title: "About Us",
-    about_site_management_body: "Symbol Community Web はコミュニティのメンバーによって運営されています。サイトを運営するチームの紹介します。",
+    about_site_management_body: "Symbol Community Web はコミュニティのメンバーによって運営されています。サイトを運営するチームを紹介します。",
   },
   about: {
     page_title: 'About Us',
@@ -70,12 +70,12 @@ Symbol/NEM やそれらを活用したエコシステムは常に成長し、変
 ## 寄稿について
 Symbol Web へ記事を寄稿したい場合は、Discordへお越し下さい。記事を事前に作成される場合は、以下のスタイルガイドに即して下さい。
 
-1. 提出物: タイトル、30文字以内の要約、ヘッダー画像,
-2. ファイルフォーマットは .md（markdown） にて作成下さい,
-3. 以下の通り書式が利用出来ます,
-4. h1-6, bold, italic, underline, strikethrough, bullet/numberlist, code, image, link, quote,
-5. 画像ファイルは本サーバー内へ保管する必要があります,
-6. 継続的な執筆者はアカウントを払い出し直接変更することも出来ます,
+1. 提出物: タイトル、30文字以内の要約、ヘッダー画像、Markdown形式の本文
+2. ファイルフォーマットは .md（markdown） にて作成下さい
+3. 以下の通り書式が利用出来ます
+4. h1-6, bold, italic, underline, strikethrough, bullet/numberlist, code, image, link, quote
+5. 画像ファイルは本サーバー内へ保管する必要があります
+6. 継続的な執筆者はアカウントを払い出し直接変更することも出来ます
 7. フリー素材の画像を用いる時は十分に著作権に注意して下さい
 
 ## Portal へのログイン方法について
