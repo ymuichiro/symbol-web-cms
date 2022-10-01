@@ -60,7 +60,7 @@ export default function Footer(): JSX.Element {
           <IconButton onClick={() => router.push('https://twitter.com/thesymbolchain')}>
             <TwitterIcon />
           </IconButton>
-          <IconButton onClick={() => router.push('https://discord.gg/xymcity')}>
+          <IconButton onClick={() => router.push('https://discord.gg/EEdJKBMVVb')}>
             <ChatIcon />
           </IconButton>
         </div>
