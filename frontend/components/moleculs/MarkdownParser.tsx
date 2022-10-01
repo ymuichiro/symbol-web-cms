@@ -91,6 +91,7 @@ export default function MarkdownParser(props: { markdown: string }): JSX.Element
                 style={{
                   objectFit: 'contain',
                   maxWidth: '90vw',
+                  width: '100%',
                 }}
               />
             )}
