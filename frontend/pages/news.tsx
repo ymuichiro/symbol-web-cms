@@ -98,7 +98,7 @@ const News: NextPage<Props> = ({ i18nText }) => {
                 date={item.attributes.publishedAt}
                 tweetLink={`${process.env.NEXT_PUBLIC_NEXT_SERVER_URL}/news/${item.id}`}
                 link={{ pathname: `/news/${item.id}` }}
-                image={strapi.getImageUri(item.attributes.headerImage?.data.attributes.url)}
+                image={strapi.getImageUri(item.attributes.headerImage?.data[0].attributes.url)}
               />
             </Grid>
           ))}
