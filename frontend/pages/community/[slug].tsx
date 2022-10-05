@@ -45,7 +45,7 @@ const CommunityArticle: NextPage = () => {
             Update {UtilService.formatDate(new Date(doc.attributes.updatedAt), 'yyyy/MM/dd')}
           </Typography>
         </div>
-        <Container maxWidth="md">
+        <Container maxWidth="md" style={{ wordWrap: 'break-word' }}>
           <PageTitle>{doc.attributes.title}</PageTitle>
           <div style={{ height: '1rem' }} />
           <MarkdownParser markdown={doc.attributes.body} />
