@@ -228,7 +228,7 @@ const Home: NextPage<Props> = ({ i18nText }) => {
                         title={n.attributes.title}
                         description={n.attributes.description}
                         date={n.attributes.publishedAt}
-                        image={strapi.getImageUri(n.attributes.headerImage?.data.attributes.url)}
+                        image={strapi.getImageUri(n.attributes.headerImage?.data[0].attributes.url)}
                         tweetLink={`${process.env.NEXT_PUBLIC_NEXT_SERVER_URL}/news/${n.id}`}
                         link={{ pathname: '/news/' + n.id }}
                       />

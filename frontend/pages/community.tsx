@@ -236,7 +236,7 @@ const Community: NextPage<Props> = ({ i18nText }) => {
                   title={item.attributes.title}
                   description={item.attributes.description}
                   date={item.attributes.publishedAt}
-                  image={strapi.getImageUri(item.attributes.headerImage?.data.attributes?.url)}
+                  image={strapi.getImageUri(item.attributes.headerImage?.data[0].attributes?.url)}
                   link={{ pathname: `/community/${item.id}` }}
                 />
               </Grid>
