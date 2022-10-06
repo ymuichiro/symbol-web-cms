@@ -1,4 +1,5 @@
 const withPWA = require('next-pwa');
+const runtimeCaching = require("next-pwa/cache");
 
 let nextConfig = undefined;
 
@@ -16,6 +17,8 @@ if (process.env.NODE_ENV === 'development') {
   };
 } else {
   nextConfig = withPWA({
+    runtimeCaching,
+    buildExcludes: [/middleware-manifest.json$/],
     reactStrictMode: true,
     swcMinify: false,
     pwa: {
