@@ -40,7 +40,7 @@ interface BaseImageResponse {
       url: string;
       width: number;
     };
-  }[];
+  };
   meta: {
     pagination: {
       page: number;
