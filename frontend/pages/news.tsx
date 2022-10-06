@@ -38,6 +38,7 @@ const News: NextPage<Props> = ({ i18nText }) => {
   useEffect(() => {
     if (typeof window === 'object' && router.isReady) {
       strapi.findNewsRelease(router.locale, { isIncludeMedia: true }).then((e) => {
+        console.log(e.data);
         setRelease([...e.data]);
       });
     }
@@ -98,7 +99,7 @@ const News: NextPage<Props> = ({ i18nText }) => {
                 date={item.attributes.publishedAt}
                 tweetLink={`${process.env.NEXT_PUBLIC_NEXT_SERVER_URL}/news/${item.id}`}
                 link={{ pathname: `/news/${item.id}` }}
-                image={strapi.getImageUri(item.attributes.headerImage?.data[0].attributes.url)}
+                image={strapi.getImageUri(item.attributes.headerImage?.data.attributes.url)}
               />
             </Grid>
           ))}
