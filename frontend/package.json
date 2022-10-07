@@ -36,8 +36,7 @@
   "scripts": {
     "dev": "next dev",
     "start": "next start",
-    "build": "next build",
-    "deploy": "next build && next export",
+    "build": "next build && next-sitemap --config next-sitemap.config.js",
     "lint": "next lint"
   }
 }
