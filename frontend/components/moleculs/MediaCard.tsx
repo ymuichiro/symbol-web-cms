@@ -60,9 +60,9 @@ export default function MediaCard(props: Args): JSX.Element {
           {props.description}
         </Typography>
       </CardContent>
-      <CardActions style={{ gap: '1rem' }}>
+      <CardContent style={{ gap: '1rem', display: "flex", flexDirection: "row" }}>
         <Link href={props.link === undefined ? '/' : props.link}>
-          <a style={{ textDecoration: 'none', color: theme.palette.primary.main }}>Learn more</a>
+          <a style={{ textDecoration: 'none', color: theme.palette.primary.main }}>View</a>
         </Link>
         <Link rel="noopener noreferrer" target="_blank" href={createShareLink()}>
           <a
@@ -73,7 +73,7 @@ export default function MediaCard(props: Args): JSX.Element {
             Share
           </a>
         </Link>
-      </CardActions>
+      </CardContent>
     </Card>
   );
 }
