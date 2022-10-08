@@ -231,6 +231,7 @@ const Home: NextPage<Props> = ({ i18nText }) => {
                         image={strapi.getImageUri(n.attributes.headerImage?.data.attributes.url)}
                         tweetLink={`${process.env.NEXT_PUBLIC_NEXT_SERVER_URL}/news/${n.id}`}
                         link={{ pathname: '/news/' + n.id }}
+                        style={{ height: "100%" }}
                       />
                     </Grid>
                   );
