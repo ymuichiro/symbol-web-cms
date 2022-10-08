@@ -238,6 +238,7 @@ const Community: NextPage<Props> = ({ i18nText }) => {
                   date={item.attributes.publishedAt}
                   image={strapi.getImageUri(item.attributes.headerImage?.data.attributes?.url)}
                   link={{ pathname: `/community/${item.id}` }}
+                  style={{ height: "100%" }}
                 />
               </Grid>
             ))}
