@@ -38,7 +38,7 @@ export default function MediaCard(props: Args): JSX.Element {
   };
 
   return (
-    <Card style={props.style}>
+    <Card style={{ display: "flex", flexDirection: "column", ...props.style }}>
       <CardMedia
         component={'img'}
         height="200"
@@ -57,10 +57,10 @@ export default function MediaCard(props: Args): JSX.Element {
         <Divider />
         <div style={{ height: '1rem' }} />
         <Typography variant="body2" color="text.secondary" gutterBottom>
-          {props.description}
+          {props.description.slice(0, 80) + (props.description.length >= 80 ? "..." : "")}
         </Typography>
       </CardContent>
-      <CardContent style={{ gap: '1rem', display: "flex", flexDirection: "row" }}>
+      <CardContent style={{ gap: '1rem', display: "flex", flexDirection: "row", marginTop: "auto" }}>
         <Link href={props.link === undefined ? '/' : props.link}>
           <a style={{ textDecoration: 'none', color: theme.palette.primary.main }}>View</a>
         </Link>
