@@ -10,7 +10,7 @@ if (process.env.NODE_ENV === 'development') {
       domains: ['localhost'],
     },
     i18n: {
-      locales: ['en-US', 'ja-JP'],
+      locales: ['en-US', 'ja-JP', 'ko-KR'],
       defaultLocale: 'en-US',
     },
   };
