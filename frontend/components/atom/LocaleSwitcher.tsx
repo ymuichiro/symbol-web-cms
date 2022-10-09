@@ -15,6 +15,10 @@ const LANGUAGES = [
     code: 'en-US',
     label: 'English',
   },
+  {
+    code: 'ko-KR',
+    label: '한국어'
+  }
 ];
 
 export default function LocaleSwitcher(props: { inDrawer: boolean }) {

@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { useTheme } from '@mui/material/styles';
 import { NewsReleaseFindResponse } from '../model/StrapiModel';
 import { useRouter } from 'next/router';
-import { i18n, en, ja } from '../i18n';
+import { i18n, en, ja, ko } from '../i18n';
 import { Toolbar } from '../components/atom/Toolbar';
 import Image from 'next/image';
 import Header from '../components/moleculs/Header';
@@ -421,7 +421,20 @@ const Home: NextPage<Props> = ({ i18nText }) => {
 };
 
 export function getStaticProps({ locale }: any) {
-  const i18nText = locale === 'en-US' ? en : ja;
+  let i18nText = en;
+  
+  switch(locale) {
+    case 'en-Us':
+      i18nText = en;
+      break;
+    case 'ja-JP':
+      i18nText = ja;
+      break;
+    case 'ko-KR':
+      i18nText = ko;
+      break;
+    default: en;
+  }
   return { props: { i18nText } };
 }
 

@@ -6,7 +6,7 @@
 import type { NextPage } from 'next';
 import { Toolbar } from '../components/atom/Toolbar';
 import { PageTitle } from '../components/atom/Titles';
-import { i18n, en, ja } from '../i18n';
+import { i18n, en, ja, ko } from '../i18n';
 import Header from '../components/moleculs/Header';
 import Footer from '../components/moleculs/Footer';
 import Container from '@mui/material/Container';
@@ -49,7 +49,20 @@ const News: NextPage<Props> = ({ i18nText }) => {
 };
 
 export function getStaticProps({ locale }: any) {
-  const i18nText = locale === 'en-US' ? en : ja;
+  let i18nText = en;
+  
+  switch(locale) {
+    case 'en-Us':
+      i18nText = en;
+      break;
+    case 'ja-JP':
+      i18nText = ja;
+      break;
+    case 'ko-KR':
+      i18nText = ko;
+      break;
+    default: en;
+  }
   return { props: { i18nText } };
 }
 
