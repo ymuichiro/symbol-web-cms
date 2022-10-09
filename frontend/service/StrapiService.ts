@@ -55,6 +55,8 @@ function languageSwitchToStrapi(locale: string) {
       return 'en';
     case 'ja-JP':
       return 'ja-JP';
+    case "ko-KR":
+      return "ko";
     default:
       return 'ja-JP';
   }
