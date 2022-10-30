@@ -4,7 +4,7 @@ export const en: i18n = {
   index: {
     title_message: 'Welcome to Symbol & NEM. Empowering the world with robust and easy-to-use Web3 infrastructure!',
     history_title1: 'A public blockchain inspired by NEM',
-    history_body1: "After the original NEM blockchain launch in 2014, redevelopment under the codename 'Catapult' began with the intention of improving performance, enhancing functionality, and the refining the consensus algorithm. In 2021, the 'Symbol' was launched with the completed 'Catapult' code.",
+    history_body1: "After the original NEM blockchain launch in 2014, redevelopment under the codename 'Catapult' began with the intention of improving performance, enhancing functionality, and the refining the consensus algorithm. In 2021, 'Symbol' was launched as a distinct blockchain using the completed 'Catapult' codebase. Several months after launch, a successful 'community hard fork' across both NEM and Symbol established a new path forward; this new direction includes an emphasis on engaged community, genuine decenteralization, and a vision of a novel protocol layer facilitating universal cross-chain collaboration that would eventually emerge from NEM and Symbol",
     history_body1_Button: "What is NEM?",
     functionary_section_title: "Advanced Functionality",
     functionary_title1: "Robustness and flexibility",
