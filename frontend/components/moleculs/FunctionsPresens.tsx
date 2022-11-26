@@ -43,7 +43,7 @@ const ItemCard = ({ item, isFocus }: { item: Item; isFocus: boolean }) => {
         <Grid item xs={2} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
           <Avatar src={item.icon} />
         </Grid>
-        <Grid item xs={10}>
+        <Grid item xs={10} style={{ display: 'flex', flexDirection: 'column', alignItems: 'start' }}>
           <Typography variant="body1" color="Highlight" fontWeight="bold" align="left" gutterBottom>
             {item.title}
           </Typography>
