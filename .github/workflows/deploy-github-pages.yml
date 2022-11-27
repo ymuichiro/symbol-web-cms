@@ -2,7 +2,7 @@ name: Deploy static content to Pages
 
 on:
   push:
-    branches: ["migrate-to-github-pages"]
+    branches: ["main"]
 
   workflow_dispatch:
 
@@ -20,8 +20,8 @@ jobs:
     runs-on: ubuntu-latest
     environment:
       name: github-pages
-      # url: https://test.symbol-community.com
-      url: ${{ steps.deployment.outputs.page_url }}
+      url: https://symbol-community.com
+      # url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - name: Checkout
         uses: actions/checkout@v3
