@@ -6,7 +6,7 @@
   "dependencies": {
     "@strapi/plugin-i18n": "4.2.3",
     "@strapi/plugin-users-permissions": "4.2.3",
-    "@strapi/strapi": "4.2.3",
+    "@strapi/strapi": "^4.5.2",
     "better-sqlite3": "7.4.6",
     "mysql": "^2.18.1",
     "pg": "^8.7.3",
@@ -14,7 +14,7 @@
     "rxjs": "^7.5.6",
     "sss-module": "^1.0.4",
     "symbol-node-util": "^1.0.9",
-    "symbol-sdk": "2.0.0"
+    "symbol-sdk": "2.0.3"
   },
   "author": {
     "name": "A Strapi developer"

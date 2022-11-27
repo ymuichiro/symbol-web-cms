@@ -12,18 +12,31 @@
     "node": "16.x",
     "yarn": "1.x"
   },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run lint"
+    }
+  },
   "scripts": {
-    "docker:build": "docker build -t symbol-web .",
-    "docker:run": "docker run -p 1337:1337 -p 3000:3000 --env-file .env  symbol-web",
-    "install": "yarn --cwd backend install && yarn --cwd frontend install",
-    "dev": "run-p dev:*",
-    "dev:backend": "yarn --cwd backend run develop",
-    "dev:frontend": "yarn --cwd frontend run dev",
-    "build": "yarn --cwd backend run build && yarn --cwd frontend run build",
-    "start": "yarn --cwd backend run start & yarn --cwd frontend run start"
+    "start": "run-p start:*",
+    "build": "run-s build:*",
+    "postinstall": "run-p install:*",
+    "clean": "run-s clean:* && rimraf node_modules",
+    "clean:frontend": "rimraf frontend/node_modules && rimraf frontend/dist",
+    "clean:backend": "rimraf backend/node_modules && rimraf backend/.tmp && rimraf backend/build",
+    "ci:frontend": "npm ci --prefix frontend",
+    "ci:backend": "npm ci --prefix backend",
+    "install:frontend": "npm install --prefix frontend",
+    "install:backend": "npm install --prefix backend",
+    "start:frontend": "npm run start --prefix frontend",
+    "start:backend": "npm run start --prefix backend",
+    "build:frontend": "npm run build --prefix frontend",
+    "build:backend": "npm run build --prefix backend",
+    "lint": "npm frontend lint --prefix"
   },
-  "dependencies": {
-    "npm-run-all": "^4.1.5"
-  },
-  "devDependencies": {}
+  "devDependencies": {
+    "husky": "^8.0.2",
+    "npm-run-all": "^4.1.5",
+    "rimraf": "^3.0.2"
+  }
 }
