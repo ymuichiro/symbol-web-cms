@@ -1,9 +1,8 @@
-FROM node:16
+FROM node:16-alpine3.16 as StrapiApp
 
-COPY . /workspace
+COPY ./backend /workspace
 WORKDIR /workspace
 
-RUN yarn run install && yarn run build
+RUN npm ci && npm run build
 EXPOSE 1337
-EXPOSE 3000
-CMD [ "yarn", "run", "start"]
+CMD [ "npm", "start"]
