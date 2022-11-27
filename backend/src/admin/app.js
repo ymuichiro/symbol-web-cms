@@ -68,7 +68,7 @@ export default {
         popupShadow: '1px 1px 10px rgba(3, 3, 5, 0.35)',
         tableShadow: '1px 1px 10px rgba(3, 3, 5, 0.2)',
       },
-    }
+    },
   },
 
   bootstrap(app) {
