@@ -1,15 +1,15 @@
 import { lazy } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { paths } from './paths';
-const About = lazy(() => import('@/components/pages/About'));
-const Community = lazy(() => import('@/components/pages/Community'));
-const Documents = lazy(() => import('@/components/pages/Documents'));
-const ErrorPage = lazy(() => import('@/components/pages/Error'));
-const Index = lazy(() => import('@/components/pages/Index'));
-const News = lazy(() => import('@/components/pages/News'));
-const CommunityArticle = lazy(() => import('@/components/pages/slug/CommunityArticle'));
-const DocumentsArticle = lazy(() => import('@/components/pages/slug/DocumentsArticle'));
-const NewsArticle = lazy(() => import('@/components/pages/slug/NewsArticle'));
+const About = lazy(() => import('@/pages/About'));
+const Community = lazy(() => import('@/pages/Community'));
+const Documents = lazy(() => import('@/pages/Documents'));
+const ErrorPage = lazy(() => import('@/pages/Error'));
+const Index = lazy(() => import('@/pages/Index'));
+const News = lazy(() => import('@/pages/News'));
+const CommunityArticle = lazy(() => import('@/pages/slug/CommunityArticle'));
+const DocumentsArticle = lazy(() => import('@/pages/slug/DocumentsArticle'));
+const NewsArticle = lazy(() => import('@/pages/slug/NewsArticle'));
 
 export const NAVIGATIONS = {
   root: {

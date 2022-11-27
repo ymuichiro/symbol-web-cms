@@ -34,32 +34,49 @@ interface Args {
 const ItemCard = ({ item, isFocus }: Args): JSX.Element => {
   const theme = useTheme();
   const matches = useMediaQuery(theme.breakpoints.between('xs', 'md'));
+  const xssMatches = useMediaQuery('@media screen and (min-width:450px)');
   return (
     <Card
       style={{
         width: '100%',
         maxWidth: '80vw',
-        padding: '1rem 1rem 1rem 0rem',
         border: `2px solid ${isFocus ? theme.palette.primary.main : theme.palette.background.paper}`,
         minHeight: matches ? '140px' : undefined,
+        height: '100%',
       }}
     >
-      <Grid container>
-        <Grid item xs={2} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-          <Avatar alt={item.title} src={item.icon} />
+      <CardContent>
+        <Grid container justifyContent={'stretch'} spacing={3}>
+          <Grid
+            item
+            xs={xssMatches ? 2 : 12}
+            style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}
+          >
+            <Avatar alt={item.title} src={item.icon} />
+          </Grid>
+          <Grid
+            item
+            xs={xssMatches ? 10 : 12}
+            style={{ display: 'flex', flexDirection: 'column', alignItems: 'start' }}
+          >
+            <Typography
+              variant={xssMatches ? 'body1' : 'body2'}
+              color='Highlight'
+              fontWeight='bold'
+              align='left'
+              gutterBottom
+            >
+              {item.title}
+            </Typography>
+            <Typography variant={xssMatches ? 'caption' : 'body2'} color='textSecondary' align='left' gutterBottom>
+              {item.subtitle}
+            </Typography>
+            <Link href={item.more} style={{ display: 'flex', alignItems: 'center', textDecoration: 'none' }}>
+              Learn more <IoChevronForwardOutline fontSize='small' />
+            </Link>
+          </Grid>
         </Grid>
-        <Grid item xs={10} style={{ display: 'flex', flexDirection: 'column', alignItems: 'start' }}>
-          <Typography variant='body1' color='Highlight' fontWeight='bold' align='left' gutterBottom>
-            {item.title}
-          </Typography>
-          <Typography variant='body2' color='textSecondary' align='left' gutterBottom>
-            {item.subtitle}
-          </Typography>
-          <Link href={item.more} style={{ display: 'flex', alignItems: 'center', textDecoration: 'none' }}>
-            Learn more <IoChevronForwardOutline fontSize='small' />
-          </Link>
-        </Grid>
-      </Grid>
+      </CardContent>
     </Card>
   );
 };
@@ -72,11 +89,13 @@ interface SwitcherArgs {
 
 const Switcher = (props: SwitcherArgs): JSX.Element => {
   return (
-    <Slider centerMode afterChange={props.onClick} dots infinite speed={500} centerPadding='20px'>
-      {props.items.map((item, index) => (
-        <ItemCard key={index} item={item} isFocus={props.currentIndex === index} />
-      ))}
-    </Slider>
+    <div style={{ width: '100%', paddingLeft: '20px', paddingRight: '20px' }}>
+      <Slider centerMode afterChange={props.onClick} infinite speed={500} centerPadding='20px'>
+        {props.items.map((item, index) => (
+          <ItemCard key={index} item={item} isFocus={props.currentIndex === index} />
+        ))}
+      </Slider>
+    </div>
   );
 };
 

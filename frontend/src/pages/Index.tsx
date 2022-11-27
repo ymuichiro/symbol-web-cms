@@ -35,7 +35,7 @@ import cyberSecurityEngineer from '@/assets/background/cyber-security-engineer.w
 import socialMediaManager from '@/assets/background/social-media-manager.webp';
 import softwareDevelopers from '@/assets/background/software-developers.webp';
 import symbol from '@/assets/logo/symbol.webp';
-import { SectionTitle, SubTitle } from '../atom/Titles';
+import { SectionTitle, SubTitle } from '../components/atom/Titles';
 
 function Home(): JSX.Element {
   const theme = useTheme();
@@ -148,11 +148,12 @@ function Home(): JSX.Element {
           </section>
           {/* 特徴説明セクション */}
           <section>
-            <div style={{ height: '20vh' }} />
+            <div style={{ height: '20vh', display: 'flex', flexDirection: 'column', alignItems: 'center' }} />
             <SubTitle align='center' style={{ color: theme.palette.primary.main }}>
               {t('index:functionary_section_title')}
             </SubTitle>
             <div style={{ height: '5vh' }} />
+
             <FunctionsPresens
               items={[
                 {
