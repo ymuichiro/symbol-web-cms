@@ -20,7 +20,7 @@ jobs:
     runs-on: ubuntu-latest
     environment:
       name: github-pages
-      url: https://symbol-community.com
+      url: symbol-community.com
       # url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - name: Checkout
