@@ -59,5 +59,5 @@ export default defineConfig({
   server: {
     port: 1337,
   },
-  base: '/symbol_web',
+  base: '/',
 });
