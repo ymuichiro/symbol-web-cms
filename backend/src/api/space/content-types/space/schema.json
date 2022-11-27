@@ -1,0 +1,72 @@
+{
+  "kind": "collectionType",
+  "collectionName": "spaces",
+  "info": {
+    "singularName": "space",
+    "pluralName": "spaces",
+    "displayName": "Space",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {
+    "i18n": {
+      "localized": true
+    }
+  },
+  "attributes": {
+    "title": {
+      "type": "string",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "body": {
+      "type": "text",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "url": {
+      "type": "string",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "category": {
+      "type": "enumeration",
+      "enum": [
+        "sns",
+        "chat",
+        "blog"
+      ],
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "platform": {
+      "type": "enumeration",
+      "enum": [
+        "discord",
+        "twitter",
+        "slack",
+        "web",
+        "github"
+      ],
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    }
+  }
+}
