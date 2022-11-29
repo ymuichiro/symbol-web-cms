@@ -12,7 +12,7 @@ const NewsArticle = lazy(() => import('@/pages/slug/NewsArticle'));
 
 export const NAVIGATIONS = {
   root: {
-    path: paths.root,
+    path: '*',
     elem: <Index />,
   },
   about: {
