@@ -4,20 +4,21 @@ import tsconfigPaths from 'vite-tsconfig-paths';
 import { VitePWA } from 'vite-plugin-pwa';
 import Sitemap from 'vite-plugin-sitemap';
 import { paths } from './src/navigation/paths';
+import axios from 'axios';
 
 async function generateDynamicRoutes(mode: string): Promise<string[]> {
   const dynamicRoutes: string[] = Object.keys(paths).map((e) => paths[e]);
 
   if (mode === 'production') {
-    await fetch('https://cms.symbol-community.com/api/news-releases?locale=all')
-      .then((e) => e.json())
-      .then((e) => e.data.forEach((a: any) => dynamicRoutes.push(`${paths.news}/${a.id}`)));
-    await fetch('https://cms.symbol-community.com/api/community-releases?locale=all')
-      .then((e) => e.json())
-      .then((e) => e.data.forEach((a: any) => dynamicRoutes.push(`${paths.community}/${a.id}`)));
-    await fetch('https://cms.symbol-community.com/api/documents?locale=all')
-      .then((e) => e.json())
-      .then((e) => e.data.forEach((a: any) => dynamicRoutes.push(`${paths.docs}/${a.id}`)));
+    await axios
+      .get('https://cms.symbol-community.com/api/news-releases?locale=all')
+      .then((e) => e.data.data.forEach((a: any) => dynamicRoutes.push(`${paths.news}/${a.id}`)));
+    await axios
+      .get('https://cms.symbol-community.com/api/community-releases?locale=all')
+      .then((e) => e.data.data.forEach((a: any) => dynamicRoutes.push(`${paths.community}/${a.id}`)));
+    await axios
+      .get('https://cms.symbol-community.com/api/documents?locale=all')
+      .then((e) => e.data.data.forEach((a: any) => dynamicRoutes.push(`${paths.docs}/${a.id}`)));
   }
 
   console.log('Generate sitemap ...', dynamicRoutes);
