@@ -4,7 +4,6 @@ import { paths } from './paths';
 const About = lazy(() => import('@/pages/About'));
 const Community = lazy(() => import('@/pages/Community'));
 const Documents = lazy(() => import('@/pages/Documents'));
-const ErrorPage = lazy(() => import('@/pages/Error'));
 const Index = lazy(() => import('@/pages/Index'));
 const News = lazy(() => import('@/pages/News'));
 const CommunityArticle = lazy(() => import('@/pages/slug/CommunityArticle'));
@@ -43,10 +42,6 @@ export const NAVIGATIONS = {
   docsArticle: {
     path: `${paths.docs}/:id`,
     elem: <DocumentsArticle />,
-  },
-  error: {
-    path: '*',
-    elem: <ErrorPage />,
   },
 };
 
