@@ -222,8 +222,8 @@ function Documents(): JSX.Element {
                       placeholder={t('docs:search_bar_placeholder')}
                       endAdornment={
                         <InputAdornment position='end'>
-                          <Button variant='contained' onClick={onSearchDocuments}>
-                            <IoSearchOutline size='100' />
+                          <Button size='large' variant='contained' onClick={onSearchDocuments}>
+                            <IoSearchOutline />
                           </Button>
                         </InputAdornment>
                       }
