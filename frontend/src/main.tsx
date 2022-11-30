@@ -12,6 +12,14 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
     <HelmetProvider>
       <Helmet>
+        <meta name='twitter:card' content='summary_large_image' />
+        <meta name='twitter:site' content='@faunsu19000' />
+        <meta name='twitter:title' content='Symbol Community' />
+        <meta
+          name='twitter:description'
+          content='Next Generation Blockchain Symbol Web Site. Be the first to check the latest information. You can also get information about the active community.'
+        />
+        <meta name='twitter:image' content={`/twitter-card.webp`} />
         <script async src={`https://www.googletagmanager.com/gtag/js?id=${import.meta.env.VITE_GA_TRACKING_ID}`} />
         <script
           dangerouslySetInnerHTML={{
@@ -35,14 +43,6 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
         <link rel='icon' href='/favicon.ico' />
         <link rel='apple-touch-icon' href='/icon-192x192.webp' />
         <link rel='manifest' href='/manifest.json' />
-        <meta name='twitter:card' content='summary_large_image' />
-        <meta name='twitter:site' content='@faunsu19000' />
-        <meta name='twitter:title' content='Symbol Community' />
-        <meta
-          name='twitter:description'
-          content='Next Generation Blockchain Symbol Web Site. Be the first to check the latest information. You can also get information about the active community.'
-        />
-        <meta name='twitter:image' content={`/twitter-card.webp`} />
       </Helmet>
       <ThemeProvider theme={theme}>
         <RecoilRoot>
