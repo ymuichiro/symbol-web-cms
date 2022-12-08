@@ -60,7 +60,7 @@ function generateFilterKeywordQuery(searchParams: URLSearchParams, keywords: str
 }
 
 function generateSortQuery(searchParams: URLSearchParams): URLSearchParams {
-  searchParams.append(`sort[0]`, 'id%3Adesc');
+  searchParams.append(`sort[0]`, 'id:desc');
   return searchParams;
 }
 
