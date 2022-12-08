@@ -1,6 +1,5 @@
 import { lazy } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import { paths } from './paths';
 const About = lazy(() => import('@/pages/About'));
 const Community = lazy(() => import('@/pages/Community'));
 const Documents = lazy(() => import('@/pages/Documents'));
@@ -10,37 +9,41 @@ const CommunityArticle = lazy(() => import('@/pages/slug/CommunityArticle'));
 const DocumentsArticle = lazy(() => import('@/pages/slug/DocumentsArticle'));
 const NewsArticle = lazy(() => import('@/pages/slug/NewsArticle'));
 
+/**
+ * Defines routing information.
+ * When adding a route path, also add `vite.config.ts` to reflect it in sitemap.
+ */
 export const NAVIGATIONS = {
   root: {
     path: '*',
     elem: <Index />,
   },
   about: {
-    path: paths.about,
+    path: '/about',
     elem: <About />,
   },
   news: {
-    path: paths.news,
+    path: '/news',
     elem: <News />,
   },
   newsArticle: {
-    path: `${paths.news}/:id`,
+    path: `/news/:id`,
     elem: <NewsArticle />,
   },
   community: {
-    path: paths.community,
+    path: '/community',
     elem: <Community />,
   },
   communityArticle: {
-    path: `${paths.community}/:id`,
+    path: `/community/:id`,
     elem: <CommunityArticle />,
   },
   docs: {
-    path: paths.docs,
+    path: '/docs',
     elem: <Documents />,
   },
   docsArticle: {
-    path: `${paths.docs}/:id`,
+    path: `/docs/:id`,
     elem: <DocumentsArticle />,
   },
 };

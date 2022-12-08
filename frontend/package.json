@@ -7,7 +7,7 @@
     "clean": "rimraf node_modules",
     "start": "vite --host",
     "build": "vite build && cp dist/index.html dist/404.html",
-    "test": "jest && tsc --noEmit && eslint './src/**/*.{ts, tsx, js, jsx, json}' && prettier --write src"
+    "test": "tsc --noEmit && eslint './src/**/*.{ts, tsx, js, jsx, json}' && prettier --write src"
   },
   "dependencies": {
     "@emotion/react": "^11.10.5",

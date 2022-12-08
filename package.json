@@ -29,7 +29,7 @@
     "install:frontend": "npm install --prefix frontend",
     "install:backend": "npm install --prefix backend",
     "start:frontend": "npm run start --prefix frontend",
-    "start:backend": "npm run start --prefix backend",
+    "start:backend": "npm run develop --prefix backend",
     "build:frontend": "npm run build --prefix frontend",
     "build:backend": "npm run build --prefix backend",
     "lint": "npm frontend lint --prefix"

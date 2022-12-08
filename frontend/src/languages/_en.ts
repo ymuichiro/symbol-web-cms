@@ -41,6 +41,7 @@ const en: typeof ja = {
     end_message_body: "Check transaction status",
     about_site_management_title: "About Us",
     about_site_management_body: "Symbol Community Web is run by members of the community. Meet the team behind the site.",
+    quick_learn_symbol_link: "https://learn.en.symbol-community.com/",
   },
   about: {
     page_title: 'About Us',
@@ -128,7 +129,7 @@ If you would like to edit any other pages other than articles, please feel free 
     advice_button4_1: "Symbol Documentation",
     advice_button4_1_link:"https://docs.symbol.dev/concepts/overview.html",
     advice_button4_2: "Getting Started with SDKs",
-    advice_button4_2_link:"https://github.com/xembook/quick_learning_symbol",
+    advice_button4_2_link:"https://learn.en.symbol-community.com/",
     advice_title5: "About this Site",
     advice_body5:"This site is maintained by volunteers from the community. Modification of content and addition of articles requires modification through GitHub or the portal site. The portal requires a signature from a Symbol address for login. For more information, please contact the 'Symbol/NEM Marketing Department'.",
     advice_button5_1: "Symbol/NEM Marketing Department",
