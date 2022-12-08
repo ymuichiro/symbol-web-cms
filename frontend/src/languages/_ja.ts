@@ -39,6 +39,7 @@ const ja = {
       end_message_body: '取引状況を確認する',
       about_site_management_title: 'About Us',
       about_site_management_body: 'Symbol Community Web はコミュニティのメンバーによって運営されています。サイトを運営するチームを紹介します。',
+      quick_learn_symbol_link: "https://learn.ja.symbol-community.com/",
   },
   about: {
     page_title: 'About Us',
@@ -126,7 +127,7 @@ Symbol Community Web の記事を編集、追加するには Portal からの操
     advice_button4_1: "Symbol Documentation",
     advice_button4_1_link:"https://docs.symbol.dev/ja/concepts/overview.html",
     advice_button4_2: "速習Symbol",
-    advice_button4_2_link:"https://github.com/xembook/quick_learning_symbol",
+    advice_button4_2_link:"https://learn.ja.symbol-community.com/",
     advice_title5: "本サイトについて",
     advice_body5:"本サイトはコミュニティの有志により運営されています。内容の修正や記事の追加にはGitHub、もしくはポータルサイトからの修正が必要となります。またポータルサイトのログインにはSymbolアドレスからの署名を必要とします。詳細は 「Symbol/NEM マーケティング部」へお問い合わせ下さい。",
     advice_button5_1: "Symbol/NEM マーケティング部",

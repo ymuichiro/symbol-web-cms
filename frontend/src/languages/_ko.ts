@@ -41,6 +41,7 @@ const ko: typeof ja = {
     end_message_body: "트랜잭션 상태 확인하기ㄴ",
     about_site_management_title: "About us",
     about_site_management_body: "Symbol Community Web은 커뮤니티 회원이 운영합니다. 사이트 뒤에서 팀을 만나보십시오.",
+    quick_learn_symbol_link: "https://learn.ja.symbol-community.com/",
   },
   about: {
     page_title: 'About Us',
@@ -128,7 +129,7 @@ Symbol Community Web에서 기사를 편집하거나 추가하려면 포털에 �
     advice_button4_1: "Symbol 공식 문서",
     advice_button4_1_link:"https://docs.symbol.dev/concepts/overview.html",
     advice_button4_2: "SDK를 사용해 시작하기",
-    advice_button4_2_link:"https://github.com/xembook/quick_learning_symbol",
+    advice_button4_2_link:"https://learn.en.symbol-community.com/",
     advice_title5: "해당 사이트에 대해 알아보기",
     advice_body5:"이 사이트는 커뮤니티의 자원 봉사자가 유지 관리합니다. 내용 수정 및 기사 추가는 GitHub 또는 포털 사이트를 통한 수정이 필요합니다. 포털은 로그인을 위해 Symbol 주소의 서명이 필요합니다. 자세한 사항은 'Symbol/NEM Marketing Department'로 문의하시기 바랍니다.",
     advice_button5_1: "Symbol/NEM Marketing Department",

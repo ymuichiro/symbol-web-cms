@@ -104,7 +104,7 @@ function Home(): JSX.Element {
                   </LinkButton>
                 </Grid>
                 <Grid item xs={12} sm={6}>
-                  <LinkButton fullWidth size='large' href='https://github.com/xembook/quick_learning_symbol' isNewTab>
+                  <LinkButton fullWidth size='large' href={t('index:quick_learn_symbol_link')} isNewTab>
                     Start Develop
                     <IoChevronForwardOutline />
                   </LinkButton>
@@ -282,7 +282,7 @@ function Home(): JSX.Element {
                 <LinkButton
                   isNewTab
                   fullWidth
-                  href='https://github.com/xembook/quick_learning_symbol'
+                  href={t('index:quick_learn_symbol_link')}
                   style={{ marginTop: '2rem', marginBottom: '1rem' }}
                 >
                   {t('index:easy_section_button')}

@@ -3,10 +3,15 @@ import react from '@vitejs/plugin-react';
 import tsconfigPaths from 'vite-tsconfig-paths';
 import { VitePWA } from 'vite-plugin-pwa';
 import Sitemap from 'vite-plugin-sitemap';
-import { paths } from './src/navigation/paths';
 import axios from 'axios';
 
 async function generateDynamicRoutes(mode: string): Promise<string[]> {
+  const paths = {
+    news: '/news',
+    community: '/community',
+    docs: '/docs',
+  };
+
   const dynamicRoutes: string[] = Object.keys(paths).map((e) => paths[e]);
 
   if (mode === 'production') {
@@ -78,7 +83,7 @@ export default defineConfig(async ({ mode }) => {
       }),
     ],
     server: {
-      port: 1337,
+      port: 3000,
     },
     base: '/',
   };

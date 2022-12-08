@@ -118,7 +118,6 @@ export default function MarkdownParser(props: { markdown: string }): JSX.Element
           return <>{elements}</>;
         },
         li: (e) => {
-          console.log(e);
           return (
             <li>
               <Typography>{e.children}</Typography>
