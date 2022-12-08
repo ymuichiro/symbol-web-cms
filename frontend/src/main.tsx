@@ -19,6 +19,10 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
           name='twitter:description'
           content='Next Generation Blockchain Symbol Web Site. Be the first to check the latest information. You can also get information about the active community.'
         />
+        <meta
+          name='twitter:image'
+          content='https://repository-images.githubusercontent.com/516228155/99966876-52c5-4f20-a7b9-f19dc3c85c7b'
+        />
         <script async src={`https://www.googletagmanager.com/gtag/js?id=${import.meta.env.VITE_GA_TRACKING_ID}`} />
         <script
           dangerouslySetInnerHTML={{
