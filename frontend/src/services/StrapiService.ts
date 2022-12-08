@@ -59,6 +59,11 @@ function generateFilterKeywordQuery(searchParams: URLSearchParams, keywords: str
   }
 }
 
+function generateSortQuery(searchParams: URLSearchParams): URLSearchParams {
+  searchParams.append(`sort[0]`, 'id%3Adesc');
+  return searchParams;
+}
+
 /**
  * Convert the i18n language key on the front end side and the language key on the Strapi side
  */
@@ -127,6 +132,7 @@ export async function findNewsRelease(locale?: string, options?: StrapiFindOptio
     if (options?.isIncludeMedia ?? false) {
       sp.append('populate', '*');
     }
+    generateSortQuery(sp);
     const ep = getBackendApiUrl(sp, 'api', 'news-releases');
     const response = await fetch(ep, { method: 'GET' });
     if (response.status >= 400) throw new Error(`${findNewsRelease.name}: An error has occurred on the server.`);
@@ -169,6 +175,7 @@ export async function findCommunityRelease(locale?: string, options?: StrapiFind
     if (options?.isIncludeMedia ?? false) {
       sp.append('populate', '*');
     }
+    generateSortQuery(sp);
     const ep = getBackendApiUrl(sp, 'api', 'community-releases');
     const response = await fetch(ep, { method: 'GET' });
     if (response.status >= 400) throw new Error(`${findCommunityRelease.name}: An error has occurred on the server.`);
@@ -217,6 +224,7 @@ export async function findDocuments(locale?: string, options?: StrapiFindOptions
         generateFilterKeywordQuery(sp, options.keywords);
       }
     }
+    generateSortQuery(sp);
     const ep = getBackendApiUrl(sp, 'api', 'documents');
     const response = await fetch(ep, { method: 'GET' });
     if (response.status >= 400) throw new Error(`${findDocuments.name}: An error has occurred on the server.`);
