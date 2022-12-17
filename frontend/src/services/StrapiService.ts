@@ -75,6 +75,8 @@ export function languageSwitchToStrapi(locale: string): string {
       return 'ja-JP';
     case 'ko':
       return 'ko';
+    case 'zh':
+      return 'zh';
     default:
       return 'ja-JP';
   }

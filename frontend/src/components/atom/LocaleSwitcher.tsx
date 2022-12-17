@@ -18,6 +18,10 @@ const LANGUAGES = [
     code: 'ko',
     label: '한국어',
   },
+  {
+    code: 'zh',
+    label: '中文',
+  },
 ];
 
 export default function LocaleSwitcher(props: { inDrawer: boolean }): JSX.Element {
