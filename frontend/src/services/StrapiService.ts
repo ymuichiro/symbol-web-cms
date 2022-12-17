@@ -93,6 +93,8 @@ export function languageSwitchToFrontend(locale: string): string {
       return 'ja';
     case 'ko':
       return 'ko';
+    case 'zh':
+      return 'zh';
     default:
       return 'ja';
   }
