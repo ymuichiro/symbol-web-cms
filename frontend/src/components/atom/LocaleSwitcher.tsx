@@ -20,7 +20,11 @@ const LANGUAGES = [
   },
   {
     code: 'zh',
-    label: '中文',
+    label: '中文簡体',
+  },
+  {
+    code: 'zh-Hant-TW',
+    label: '中文繁体',
   },
 ];
 
