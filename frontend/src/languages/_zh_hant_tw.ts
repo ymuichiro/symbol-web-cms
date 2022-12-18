@@ -1,7 +1,7 @@
 import ja from './_ja';
 
 // prettier-ignore
-const cn: typeof ja = {
+const zhHantTw: typeof ja = {
   index: {
     title_message: '歡迎來到 Symbol & NEM。每個人都能隨時在第一層區塊鏈上輕鬆地安裝和創建區塊！',
     history_title1: '啟發於 NEM 的公共區塊鏈',
@@ -131,7 +131,7 @@ Symbol/NEM 和使用它的生態系統在不斷發展和變化。為了跟上變
     advice_button4_2: "開始使用SDKs",
     advice_button4_2_link:"https://learn.en.symbol-community.com/",
     advice_title5: "關於本網站",
-    advice_body5:"該網站由社區志願者維護。修改內容和增加文章需要通過 GitHub 或門戶網站進行修改。該網站需要來自 Symbol 地址的簽名才能登錄。如需更多信息，請聯繫 'Symbol/NEM營銷部門'。,
+    advice_body5:"該網站由社區志願者維護。修改內容和增加文章需要通過 GitHub 或門戶網站進行修改。該網站需要來自 Symbol 地址的簽名才能登錄。如需更多信息，請聯繫 'Symbol/NEM營銷部門'。",
     advice_button5_1: "Symbol/NEM營銷部門",
     advice_button5_1_link:"https://discord.gg/JTxYPVTf",
     advice_button5_2: "Symbol WEB GitHub",
@@ -144,4 +144,4 @@ Symbol/NEM 和使用它的生態系統在不斷發展和變化。為了跟上變
   },
 };
 
-export default tw;
+export default zhHantTw;

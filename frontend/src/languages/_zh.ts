@@ -1,7 +1,7 @@
 import ja from './_ja';
 
 // prettier-ignore
-const cn: typeof ja = {
+const zh: typeof ja = {
   index: {
     title_message: '欢迎来到 Symbol & NEM。每个人都能随时在第一层区块链上轻松地安装和创建区块！',
     history_title1: '启发于 NEM 的公共区块链',
@@ -131,7 +131,7 @@ Symbol/NEM 和使用它的生态系统在不断发展和变化。 为了跟上�
     advice_button4_2: "开始使用SDKs",
     advice_button4_2_link:"https://learn.en.symbol-community.com/",
     advice_title5: "关于本网站",
-    advice_body5:"该网站由社区志愿者维护。修改内容和增加文章需要通过 GitHub 或门户网站进行修改。该网站需要来自 Symbol 地址的签名才能登录。如需更多信息，请联系 'Symbol/NEM营销部门'。,
+    advice_body5:"该网站由社区志愿者维护。修改内容和增加文章需要通过 GitHub 或门户网站进行修改。该网站需要来自 Symbol 地址的签名才能登录。如需更多信息，请联系 'Symbol/NEM营销部门'。",
     advice_button5_1: "Symbol/NEM营销部门",
     advice_button5_1_link:"https://discord.gg/JTxYPVTf",
     advice_button5_2: "Symbol WEB GitHub",
@@ -144,4 +144,4 @@ Symbol/NEM 和使用它的生态系统在不断发展和变化。 为了跟上�
   },
 };
 
-export default cn;
+export default zh;
