@@ -4,6 +4,8 @@ import LanguageDetector from 'i18next-browser-languagedetector';
 import en from '@/languages/_en';
 import ja from '@/languages/_ja';
 import ko from '@/languages/_ko';
+import zhHantTw from '@/languages/_zh_hant_tw';
+import zh from '@/languages/_zh';
 
 declare module 'i18next' {
   interface CustomTypeOptions {
@@ -19,6 +21,8 @@ i18n
       en,
       ja,
       ko,
+      zh,
+      'zh-Hant-TW': zhHantTw,
     },
     fallbackLng: 'en',
     detection: {

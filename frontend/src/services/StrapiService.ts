@@ -75,6 +75,10 @@ export function languageSwitchToStrapi(locale: string): string {
       return 'ja-JP';
     case 'ko':
       return 'ko';
+    case 'zh':
+      return 'zh';
+    case 'zh-Hant-TW':
+      return 'zh-Hant-TW';
     default:
       return 'ja-JP';
   }
@@ -91,6 +95,10 @@ export function languageSwitchToFrontend(locale: string): string {
       return 'ja';
     case 'ko':
       return 'ko';
+    case 'zh':
+      return 'zh';
+    case 'zh-Hant-TW':
+      return 'zh-Hant-TW';
     default:
       return 'ja';
   }
