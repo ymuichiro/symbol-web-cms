@@ -5,6 +5,27 @@ import { VitePWA } from 'vite-plugin-pwa';
 import Sitemap from 'vite-plugin-sitemap';
 import axios from 'axios';
 
+const generateUri = (path: string) => `https://cms.symbol-community.com/api/${path}`;
+
+async function getPages(uri: string, category: string, store: string[]): Promise<string[]> {
+  let res = await axios.get(`${uri}?locale=all`);
+  for (let i = 0; i < res.data.data.length; i++) {
+    store.push(`${category}/${res.data.data[i].id}`);
+  }
+  const pageCount = Number(res.data.meta.pagination.pageCount);
+  if (!pageCount || pageCount === 1 || pageCount === 0 || pageCount.toString() === 'NaN') {
+    return store;
+  }
+  for (let i = 2; i <= pageCount; i++) {
+    res = await axios.get(`${uri}?locale=all&pagination[page]=${i}`);
+    for (let k = 0; k < res.data.data.length; k++) {
+      store.push(`${category}/${res.data.data[k].id}`);
+    }
+  }
+
+  return store;
+}
+
 async function generateDynamicRoutes(mode: string): Promise<string[]> {
   const paths = {
     news: '/news',
@@ -15,15 +36,9 @@ async function generateDynamicRoutes(mode: string): Promise<string[]> {
   const dynamicRoutes: string[] = Object.keys(paths).map((e) => paths[e]);
 
   if (mode === 'production') {
-    await axios
-      .get('https://cms.symbol-community.com/api/news-releases?locale=all')
-      .then((e) => e.data.data.forEach((a: any) => dynamicRoutes.push(`${paths.news}/${a.id}`)));
-    await axios
-      .get('https://cms.symbol-community.com/api/community-releases?locale=all')
-      .then((e) => e.data.data.forEach((a: any) => dynamicRoutes.push(`${paths.community}/${a.id}`)));
-    await axios
-      .get('https://cms.symbol-community.com/api/documents?locale=all')
-      .then((e) => e.data.data.forEach((a: any) => dynamicRoutes.push(`${paths.docs}/${a.id}`)));
+    await getPages(generateUri('news-releases'), paths.news, dynamicRoutes);
+    await getPages(generateUri('community-releases'), paths.community, dynamicRoutes);
+    await getPages(generateUri('documents'), paths.docs, dynamicRoutes);
   }
 
   console.log('Generate sitemap ...', dynamicRoutes);
