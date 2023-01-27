@@ -1,5 +1,6 @@
 import { FC, useEffect, useState } from 'react';
 import backgroundImage from '@/assets/background/header-background.webp';
+import Image from 'next/image';
 
 /**
  * Top page background.
@@ -23,21 +24,20 @@ const MainBackground: FC = () => {
   }, []);
 
   return (
-    <div
-      style={{
-        position: 'fixed',
-        top: 0,
-        left: 0,
-        width: '100vw',
-        height: '80vh',
-        backgroundImage: `url(${backgroundImage})`,
-        backgroundRepeat: 'no-repeat',
-        backgroundSize: 'cover',
-        zIndex: -1,
-        opacity: backgroundOpacity,
-        WebkitMaskImage: 'linear-gradient(rgb(0,0,0),rgb(0,0,0),rgb(0,0,0),rgba(0,0,0,0))',
-      }}
-    />
+    <div style={{ position: 'fixed', top: 0, left: 0, width: '100vw', height: '80vh', zIndex: -1 }}>
+      <Image
+        fill
+        priority={true}
+        alt='symbol シンボル XYM ジム NEM ネム blockchain'
+        src={backgroundImage}
+        sizes='100vw'
+        style={{
+          objectFit: 'cover',
+          opacity: backgroundOpacity,
+          WebkitMaskImage: 'linear-gradient(rgb(0,0,0),rgb(0,0,0),rgb(0,0,0),rgba(0,0,0,0))',
+        }}
+      />
+    </div>
   );
 };
 

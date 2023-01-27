@@ -1,17 +1,17 @@
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
-import CardMedia from '@mui/material/CardMedia';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
-import Link from '@mui/material/Link';
 import { useTheme } from '@mui/material/styles';
 import { CSSProperties } from 'react';
 import useMediaQuery from '@mui/material/useMediaQuery';
+import Image, { StaticImageData } from 'next/image';
+import Link from 'next/link';
 
 interface MediaCardWideArgs {
   title: string;
   description: string;
-  imageUrl: string;
+  image: StaticImageData;
   isShowMore?: boolean;
   showMoreLink?: string;
   style?: CSSProperties;
@@ -41,8 +41,7 @@ export default function MediaCardWide(props: MediaCardWideArgs): JSX.Element {
                 href={props.showMoreLink ?? '/'}
                 rel='noopener noreferrer'
                 target='_blank'
-                color={theme.palette.primary.main}
-                style={{ textDecoration: 'none' }}
+                style={{ textDecoration: 'none', color: theme.palette.primary.main }}
               >
                 &gt;&gt; show more
               </Link>
@@ -50,15 +49,17 @@ export default function MediaCardWide(props: MediaCardWideArgs): JSX.Element {
           </CardContent>
         </Grid>
         <Grid item xs={12} md={5}>
-          <CardMedia
-            component={'img'}
-            alt='symbol シンボル nem card content image card content image'
-            image={props.imageUrl}
-            style={{
-              objectFit: 'cover',
-              height: matches ? '400px' : '100%',
-            }}
-          />
+          <div style={{ position: 'relative', width: '100%', height: matches ? '500px' : '100%' }}>
+            <Image
+              fill
+              src={props.image}
+              alt='symbol シンボル nem card content image card content image'
+              sizes={props.imageHeight}
+              style={{
+                objectFit: 'cover',
+              }}
+            />
+          </div>
         </Grid>
       </Grid>
     </Card>

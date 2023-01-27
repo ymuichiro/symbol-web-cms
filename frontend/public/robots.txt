@@ -1,3 +1,10 @@
-# To prevent search engines from seeing the site altogether, uncomment the next two lines:
-# User-Agent: *
-# Disallow: /
+# *
+User-agent: *
+Allow: /
+
+# Host
+Host: https://symbol-community.com
+
+# Sitemaps
+Sitemap: https://symbol-community.com/sitemap.xml
+Sitemap: https://symbol-community.com/server-sitemap.xml

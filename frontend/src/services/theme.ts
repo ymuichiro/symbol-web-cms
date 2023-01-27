@@ -1,6 +1,6 @@
-import createTheme from '@mui/material/styles/createTheme';
+import { createTheme } from '@mui/material/styles';
 
-export const theme = createTheme({
+const theme = createTheme({
   components: {
     MuiButton: {
       defaultProps: {
@@ -12,3 +12,5 @@ export const theme = createTheme({
     mode: 'dark',
   },
 });
+
+export default theme;

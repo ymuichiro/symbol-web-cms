@@ -3,10 +3,11 @@ import ButtonBase from '@mui/material/ButtonBase';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Grid from '@mui/material/Grid';
-import Link from '@mui/material/Link';
 import { useTheme } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
 import useMediaQuery from '@mui/material/useMediaQuery';
+import Image, { StaticImageData } from 'next/image';
+import Link from 'next/link';
 import { useState } from 'react';
 import { IoChevronForwardOutline } from 'react-icons/io5';
 import Slider from 'react-slick';
@@ -17,8 +18,8 @@ interface Item {
   title: string;
   subtitle: string;
   body: string;
-  icon: string;
-  background: string;
+  icon: StaticImageData;
+  background: StaticImageData;
   more: string;
 }
 
@@ -52,7 +53,9 @@ const ItemCard = ({ item, isFocus }: Args): JSX.Element => {
             xs={xssMatches ? 2 : 12}
             style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}
           >
-            <Avatar alt={item.title} src={item.icon} />
+            <Avatar>
+              <Image width={50} height={50} alt={item.title} src={item.icon} />
+            </Avatar>
           </Grid>
           <Grid
             item
@@ -71,7 +74,15 @@ const ItemCard = ({ item, isFocus }: Args): JSX.Element => {
             <Typography variant={xssMatches ? 'caption' : 'body2'} color='textSecondary' align='left' gutterBottom>
               {item.subtitle}
             </Typography>
-            <Link href={item.more} style={{ display: 'flex', alignItems: 'center', textDecoration: 'none' }}>
+            <Link
+              href={item.more}
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                textDecoration: 'none',
+                color: theme.palette.primary.main,
+              }}
+            >
               Learn more <IoChevronForwardOutline fontSize='small' />
             </Link>
           </Grid>
@@ -149,16 +160,19 @@ export default function FunctionsPresens(props: FunctionsPresensArgs): JSX.Eleme
               minHeight: matches ? '400px' : undefined,
             }}
           >
-            <div
+            <Image
+              width={300}
+              height={300}
+              src={props.items[currentIndex].background}
+              alt='symbol nem functionary background'
               style={{
                 position: 'absolute',
-                width: '100%',
-                height: '100%',
-                backgroundImage: `url(${props.items[currentIndex].background})`,
-                backgroundRepeat: 'no-repeat',
-                backgroundSize: 'contain',
-                backgroundPosition: 'center center',
-                opacity: 0.08,
+                top: '50%',
+                left: '50%',
+                transform: 'translate(-50%, -50%)',
+                WebkitTransform: 'translate(-50%, -50%)',
+                msTransform: 'translate(-50%, -50%)',
+                opacity: 0.07,
               }}
             />
             <CardContent

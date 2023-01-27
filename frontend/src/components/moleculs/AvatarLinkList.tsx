@@ -5,13 +5,15 @@ import ListItemText from '@mui/material/ListItemText';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
 import Avatar from '@mui/material/Avatar';
 import ListItemButton from '@mui/material/ListItemButton';
+import Link from 'next/link';
+import Image, { StaticImageData } from 'next/image';
 
 interface AvatarListItemsArgs {
-  avatar?: string;
-  avatarAlt?: string;
+  avatar: StaticImageData;
   title: string;
   body: string;
   url: string;
+  avatarAlt?: string;
 }
 
 export default function AvatarLinkList(props: { items: AvatarListItemsArgs[] }): JSX.Element {
@@ -22,12 +24,20 @@ export default function AvatarLinkList(props: { items: AvatarListItemsArgs[] }):
           <ListItemButton
             href={item.url}
             alignItems='flex-start'
-            LinkComponent='a'
+            LinkComponent={Link}
             rel='noopener noreferrer'
             target='_blank'
           >
             <ListItemAvatar>
-              <Avatar alt={item.avatarAlt} src={item.avatar} />
+              <Avatar style={{ backgroundColor: 'transparent' }}>
+                <Image
+                  fill
+                  src={item.avatar}
+                  alt={item.avatarAlt || ''}
+                  sizes={'5vw'}
+                  style={{ objectFit: 'contain' }}
+                />
+              </Avatar>
             </ListItemAvatar>
             <ListItemText primary={item.title} secondary={item.body} />
           </ListItemButton>

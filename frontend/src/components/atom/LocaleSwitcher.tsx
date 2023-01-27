@@ -1,68 +1,92 @@
-import { useEffect, useState } from 'react';
-import FormControl from '@mui/material/FormControl';
-import Select, { SelectProps } from '@mui/material/Select';
-import MenuItem from '@mui/material/MenuItem';
-import { useTheme } from '@mui/material/styles';
-import { useTranslation } from 'react-i18next';
+import { useState } from 'react';
+import { useRouter } from 'next/router';
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import Popover from '@mui/material/Popover';
+import Link from 'next/link';
+import Button from '@mui/material/Button';
+import { languages, languageSwitchToStrapi } from '@/languages';
+import ListItemButton from '@mui/material/ListItemButton';
 
-const LANGUAGES = [
-  {
-    code: 'ja',
-    label: '日本語',
-  },
-  {
-    code: 'en',
-    label: 'English',
-  },
-  {
-    code: 'ko',
-    label: '한국어',
-  },
-  {
-    code: 'zh',
-    label: '中文簡体',
-  },
-  {
-    code: 'zh-Hant-TW',
-    label: '中文繁体',
-  },
-];
+export interface ArticleIdByLanguage {
+  lang: string;
+  id: number;
+}
 
-export default function LocaleSwitcher(props: { inDrawer: boolean }): JSX.Element {
-  const theme = useTheme();
-  const { i18n } = useTranslation();
-  const [state, setState] = useState<string>(i18n.language);
+type Props = {
+  articleIdByLanguage?: ArticleIdByLanguage[];
+};
 
-  useEffect(() => {
-    setState(i18n.language);
-  }, [i18n.language]);
+export default function LocaleSwitcher(props: Props): JSX.Element {
+  const router = useRouter();
+  const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
+  const open = Boolean(anchorEl);
+  const id = open ? 'simple-popover' : undefined;
+  const { locales, locale } = router;
+  const otherLocales = (locales || []).filter((l) => l !== locale);
 
-  const onSelected: SelectProps<string>['onChange'] = (event) => {
-    setState(event.target.value);
-    i18n.changeLanguage(event.target.value).catch(console.error);
+  const onClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(e.currentTarget);
+  };
+
+  const onClose = () => {
+    setAnchorEl(null);
   };
 
   return (
-    <FormControl fullWidth>
-      <Select
-        variant='outlined'
-        id='language-select'
-        value={state}
-        onChange={onSelected}
-        size='small'
-        style={{
-          color: props.inDrawer ? theme.palette.text.primary : theme.palette.primary.contrastText,
-          border: 'grey 0px solid',
-          fontWeight: 'bold',
-          width: props.inDrawer ? '100%' : undefined,
+    <>
+      <Button
+        fullWidth
+        variant='contained'
+        color='inherit'
+        aria-describedby={id}
+        onClick={onClick}
+        style={{ color: 'black', fontWeight: 'bold' }}
+      >
+        {languages.find((e) => e.code === locale)?.label}
+      </Button>
+      <Popover
+        id={id}
+        open={open}
+        anchorEl={anchorEl}
+        onClose={onClose}
+        anchorOrigin={{
+          vertical: 'bottom',
+          horizontal: 'left',
         }}
       >
-        {LANGUAGES.map((lang, index) => (
-          <MenuItem key={index} value={lang.code}>
-            {lang.label}
-          </MenuItem>
-        ))}
-      </Select>
-    </FormControl>
+        <List style={{ backgroundColor: 'rgba(255,255,255,0.8)' }}>
+          {otherLocales.map((l, index) => {
+            if (props.articleIdByLanguage) {
+              const articleId = props.articleIdByLanguage.find((e) => e.lang === languageSwitchToStrapi(l))?.id;
+              const label = languages.find((e) => e.code === l)?.label;
+              const { pathname, query } = router;
+              const q = articleId ? { id: articleId.toString() } : query;
+              return (
+                <ListItemButton
+                  key={index}
+                  style={{ color: 'black', fontWeight: 'bold' }}
+                  onClick={() => router.push({ pathname, query: q }, undefined, { locale: l }).then(router.reload)}
+                >
+                  {label}
+                </ListItemButton>
+              );
+            } else {
+              const label = languages.find((e) => e.code === l)?.label;
+              const { pathname, query, asPath } = router;
+              return (
+                <ListItemButton
+                  key={index}
+                  style={{ color: 'black', fontWeight: 'bold' }}
+                  onClick={() => router.push({ pathname, query }, asPath, { locale: l }).then(router.reload)}
+                >
+                  {label}
+                </ListItemButton>
+              );
+            }
+          })}
+        </List>
+      </Popover>
+    </>
   );
 }
