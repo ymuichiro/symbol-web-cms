@@ -1,7 +1,5 @@
-import SymbolLogoDark from '@/assets/logo/symbol-logo-with-dark-text.webp';
-import SymbolLogoLight from '@/assets/logo/symbol-logo-with-light-text.webp';
-import symbol from '@/assets/logo/symbol.webp';
-import LocaleSwitcher from '@/components/atom/LocaleSwitcher';
+import Image from 'next/image';
+import LocaleSwitcher, { ArticleIdByLanguage } from '@/components/atom/LocaleSwitcher';
 import AppBar from '@mui/material/AppBar';
 import Button from '@mui/material/Button';
 import ButtonBase from '@mui/material/ButtonBase';
@@ -15,7 +13,7 @@ import ListItemText from '@mui/material/ListItemText';
 import { useTheme } from '@mui/material/styles';
 import Toolbar from '@mui/material/Toolbar';
 import useMediaQuery from '@mui/material/useMediaQuery';
-import { Fragment, useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   IoChatbubblesSharp,
   IoChevronForwardOutline,
@@ -24,6 +22,11 @@ import {
   IoMenuOutline,
   IoNewspaperSharp,
 } from 'react-icons/io5';
+import SymbolLogoDark from '@/assets/logo/symbol-logo-with-dark-text.webp';
+import SymbolLogoLight from '@/assets/logo/symbol-logo-with-light-text.webp';
+import symbol from '@/assets/logo/symbol.webp';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
 
 const SITELINKS = [
   { title: 'Top', link: '/', Icon: IoHomeSharp },
@@ -32,21 +35,23 @@ const SITELINKS = [
   { title: 'Docs', link: '/docs', Icon: IoDocumentTextSharp },
 ];
 
-export default function Header(): JSX.Element {
+export default function Header(props: { articleIdByLanguage?: ArticleIdByLanguage[] }): JSX.Element {
+  const router = useRouter();
   const theme = useTheme();
-
   const matches = useMediaQuery(theme.breakpoints.between('xs', 'md'));
   const xssMatches = useMediaQuery('@media screen and (min-width:250px)');
   const [open, setOpen] = useState<boolean>(false);
 
+  useEffect(() => {
+    setOpen(false);
+  }, [router.locale]);
+
   return (
-    <Fragment>
+    <>
       <div
         style={{
           width: '100%',
           position: 'sticky',
-          display: 'flex',
-          justifyContent: 'center',
           zIndex: theme.zIndex.appBar,
           top: '20px',
         }}
@@ -57,16 +62,21 @@ export default function Header(): JSX.Element {
             backgroundColor: 'rgba(255,255,255,0.8)',
             color: theme.palette.text.primary,
             borderRadius: '10px',
+            width: '96%',
+            left: '50%',
+            transform: 'translateX(-50%)',
+            WebkitTransform: 'translateX(-50%)',
+            msTransform: 'translateX(-50%)',
           }}
         >
           <Toolbar>
             <>
               <div style={{ flexGrow: 1, display: 'flex', justifyContent: 'flex-start', alignItems: 'center' }}>
-                <ButtonBase aria-label='logo' LinkComponent={'a'} href='/'>
+                <ButtonBase aria-label='logo' LinkComponent={Link} href='/'>
                   {xssMatches ? (
-                    <img src={SymbolLogoDark} height={35} width={155} alt='Symbol-Logo' />
+                    <Image src={SymbolLogoDark} height={35} width={155} priority={true} alt='Symbol-Logo' />
                   ) : (
-                    <img src={symbol} height={35} width={35} alt='Symbol-Logo' />
+                    <Image src={symbol} height={35} width={35} alt='Symbol-Logo' />
                   )}
                 </ButtonBase>
               </div>
@@ -84,7 +94,7 @@ export default function Header(): JSX.Element {
                     <Button
                       variant='text'
                       key={index}
-                      LinkComponent={'a'}
+                      LinkComponent={Link}
                       href={item.link}
                       style={{
                         color: 'black',
@@ -95,7 +105,7 @@ export default function Header(): JSX.Element {
                       {item.title}
                     </Button>
                   ))}
-                  <LocaleSwitcher inDrawer={false} />
+                  <LocaleSwitcher articleIdByLanguage={props.articleIdByLanguage} />
                 </div>
               )}
 
@@ -132,8 +142,8 @@ export default function Header(): JSX.Element {
               marginBottom: '20px',
             }}
           >
-            <ButtonBase aria-label='logo' LinkComponent={'a'} href={'/'}>
-              <img
+            <ButtonBase aria-label='logo' LinkComponent={Link} href={'/'}>
+              <Image
                 src={theme.palette.mode === 'dark' ? SymbolLogoLight : SymbolLogoDark}
                 height={35}
                 width={155}
@@ -149,8 +159,9 @@ export default function Header(): JSX.Element {
               <ListItemButton
                 key={index}
                 style={{ width: '70vh', maxWidth: '300px' }}
-                LinkComponent={'a'}
+                component={Link}
                 href={item.link}
+                onClick={() => setOpen(!open)}
               >
                 <item.Icon />
                 <ListItemText primary={item.title} style={{ marginLeft: '1rem' }} />
@@ -158,11 +169,11 @@ export default function Header(): JSX.Element {
               </ListItemButton>
             ))}
             <ListItem>
-              <LocaleSwitcher inDrawer={true} />
+              <LocaleSwitcher articleIdByLanguage={props.articleIdByLanguage} />
             </ListItem>
           </List>
         </div>
       </Drawer>
-    </Fragment>
+    </>
   );
 }

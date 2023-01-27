@@ -2,9 +2,9 @@ import { useTheme } from '@mui/material/styles';
 import Markdown from 'react-markdown';
 import Typography from '@mui/material/Typography';
 import CodeBlock from '@/components/atom/CodeBlock';
-import Link from '@mui/material/Link';
-import { getImageUri } from '@/services/StrapiService';
 import { Fragment } from 'react';
+import Image from 'next/image';
+import Link from 'next/link';
 
 export default function MarkdownParser(props: { markdown: string }): JSX.Element {
   const theme = useTheme();
@@ -78,28 +78,25 @@ export default function MarkdownParser(props: { markdown: string }): JSX.Element
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              width: '100%',
               marginTop: '1rem',
               marginBottom: '1rem',
             }}
           >
             {e.src !== undefined && (
-              <img
-                src={getImageUri(e.src) as string}
+              <Image
+                width={1980}
+                height={1150}
+                sizes='100vw'
+                src={e.src.startsWith('/') ? `${process.env.NEXT_PUBLIC_API_URL}${e.src}` : e.src}
                 alt='strapi-blog-api-image'
-                style={{
-                  objectFit: 'contain',
-                  maxHeight: '500px',
-                  maxWidth: '90vw',
-                  width: '100%',
-                }}
+                style={{ width: '100%', height: 'auto', borderRadius: '8px' }}
               />
             )}
           </div>
         ),
         code: CodeBlock,
         a: (e) => (
-          <Link href={e.href} style={{ color: theme.palette.text.primary }}>
+          <Link href={e.href || '/'} style={{ color: theme.palette.primary.main }}>
             {e.children}
           </Link>
         ),

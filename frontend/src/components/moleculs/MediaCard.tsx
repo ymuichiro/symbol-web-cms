@@ -1,11 +1,10 @@
-import { formatDate } from '@/services/UtilService';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Divider from '@mui/material/Divider';
-import Link from '@/components/atom/Link';
 import { useTheme } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
+import Link from 'next/link';
 import { CSSProperties } from 'react';
 
 const DEFAULT_CAVER_IMAGE = '/assets/img/symbol-logo-default-cover.webp';
@@ -14,7 +13,8 @@ interface Args {
   image?: string;
   title: string;
   description: string;
-  date?: string;
+  date: string;
+  locale: string;
   style?: CSSProperties;
   link?: string;
   tweetLink?: string;
@@ -44,14 +44,11 @@ export default function MediaCard(props: Args): JSX.Element {
         <Typography gutterBottom variant='h5' component='div'>
           {props.title}
         </Typography>
-        {props.date !== undefined && (
-          <Typography variant='body2' color='text.secondary' align='left' gutterBottom>
-            {formatDate(new Date(props.date), 'yyyy/MM/dd')}
-          </Typography>
-        )}
+        <Typography variant='body2' color='text.secondary' align='left' gutterBottom>
+          {new Date(props.date).toLocaleDateString(props.locale, { timeZone: 'Asia/Tokyo' })}
+        </Typography>
         <Divider />
-        <div style={{ height: '1rem' }} />
-        <Typography variant='body2' color='text.secondary' gutterBottom>
+        <Typography variant='body2' color='text.secondary' gutterBottom style={{ marginTop: '1.5rem' }}>
           {props.description.slice(0, 80) + (props.description.length >= 80 ? '...' : '')}
         </Typography>
       </CardContent>

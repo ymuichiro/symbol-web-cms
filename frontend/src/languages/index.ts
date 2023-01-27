@@ -1,38 +1,91 @@
-import i18n from 'i18next';
-import { initReactI18next } from 'react-i18next';
-import LanguageDetector from 'i18next-browser-languagedetector';
-import en from '@/languages/_en';
 import ja from '@/languages/_ja';
+import en from '@/languages/_en';
 import ko from '@/languages/_ko';
 import zhHantTw from '@/languages/_zh_hant_tw';
 import zh from '@/languages/_zh';
 
-declare module 'i18next' {
-  interface CustomTypeOptions {
-    resources: typeof ja;
+export type lang = typeof ja;
+
+export const languages = [
+  {
+    code: 'ja',
+    label: '日本語',
+  },
+  {
+    code: 'en',
+    label: 'English',
+  },
+  {
+    code: 'ko',
+    label: '한국어',
+  },
+  {
+    code: 'zh',
+    label: '中文簡体',
+  },
+  {
+    code: 'zh-Hant-TW',
+    label: '中文繁体',
+  },
+];
+
+/**
+ * Convert the i18n language key on the front end side and the language key on the Strapi side
+ */
+export function languageSwitchToStrapi(locale: string): string {
+  switch (locale) {
+    case 'en':
+      return 'en';
+    case 'ja':
+      return 'ja-JP';
+    case 'ko':
+      return 'ko';
+    case 'zh':
+      return 'zh';
+    case 'zh-Hant-TW':
+      return 'zh-Hant-TW';
+    case 'all':
+      return 'all';
+    default:
+      return 'ja-JP';
   }
 }
 
-i18n
-  .use(initReactI18next)
-  .use(LanguageDetector)
-  .init({
-    resources: {
-      en,
-      ja,
-      ko,
-      zh,
-      'zh-Hant-TW': zhHantTw,
-    },
-    fallbackLng: 'en',
-    detection: {
-      order: ['localStorage', 'cookie'],
-      caches: ['localStorage', 'cookie'],
-    },
-    interpolation: {
-      escapeValue: false,
-    },
-  })
-  .catch(console.error);
+/**
+ * Convert the i18n language key on the front end side and the language key on the Strapi side
+ */
+export function languageSwitchToFrontend(locale: string): string {
+  switch (locale) {
+    case 'en':
+      return 'en';
+    case 'ja-JP':
+      return 'ja';
+    case 'ko':
+      return 'ko';
+    case 'zh':
+      return 'zh';
+    case 'zh-Hant-TW':
+      return 'zh-Hant-TW';
+    case 'all':
+      return 'all';
+    default:
+      return 'ja';
+  }
+}
 
-export default i18n;
+export const langSelecter = (locale?: string): lang => {
+  switch (locale) {
+    case 'en':
+      return en;
+    case 'ja':
+      return ja;
+    case 'ko':
+      return ko;
+    case 'zh':
+      return zh;
+    case 'zh-Hant-TW':
+      return zhHantTw;
+    default:
+      return en;
+  }
+};

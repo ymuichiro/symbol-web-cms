@@ -4,19 +4,10 @@ import IconGithub from '@/assets/logo/github.svg';
 import IconSlack from '@/assets/logo/slack.svg';
 import IconTwitter from '@/assets/logo/twitter.svg';
 import IconNews from '@/assets/logo/news.svg';
-
-export function formatDate(date: Date, type: 'yyyy/MM/dd' | 'yyyy-MM-dd'): string {
-  if (type === 'yyyy-MM-dd') {
-    return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
-  } else if (type === 'yyyy/MM/dd') {
-    return `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}`;
-  } else {
-    return `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}`;
-  }
-}
+import { StaticImageData } from 'next/image';
 
 /** Return illustrations to be displayed by platform out of the list displayed in the community list. */
-export function switchCommunityPlatformToLogo(platform: SpaceField['platform']): string {
+export function switchCommunityPlatformToLogo(platform: SpaceField['platform']): StaticImageData {
   switch (platform) {
     case 'discord':
       return IconDiscord;

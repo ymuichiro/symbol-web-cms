@@ -5,6 +5,8 @@
 .cache
 build
 backend/public/uploads
+sitemap*.xml
+robots.txt
 
 # dependencies
 node_modules

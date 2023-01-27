@@ -1,4 +1,5 @@
 import Button from '@mui/material/Button';
+import Link from 'next/link';
 import { CSSProperties, FC, ReactNode } from 'react';
 
 interface LinkButtonArgs {
@@ -20,7 +21,7 @@ const LinkButton: FC<LinkButtonArgs> = (props: LinkButtonArgs) => {
         fullWidth={props.fullWidth}
         style={props.style}
         variant='contained'
-        LinkComponent={'a'}
+        LinkComponent={Link}
         href={props.href}
         rel='noopener noreferrer'
         target='_blank'
@@ -35,7 +36,7 @@ const LinkButton: FC<LinkButtonArgs> = (props: LinkButtonArgs) => {
         fullWidth={props.fullWidth}
         style={props.style}
         variant='contained'
-        LinkComponent={'a'}
+        LinkComponent={Link}
         href={props.href}
       >
         {props.children}

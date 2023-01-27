@@ -1,7 +1,7 @@
 import { lazy } from 'react';
 import { CodeComponent, CodeProps } from 'react-markdown/lib/ast-to-react';
-import coldarkDark from 'react-syntax-highlighter/dist/esm/styles/prism/coldark-dark';
-const SyntaxHighlighter = lazy(() => import('react-syntax-highlighter/dist/esm/prism'));
+import coldarkDark from 'react-syntax-highlighter/dist/cjs/styles/prism/coldark-dark';
+const SyntaxHighlighter = lazy(() => import('react-syntax-highlighter/dist/cjs/prism'));
 
 const CodeBlock: CodeComponent = ({ inline, className, children }: CodeProps) => {
   if (inline !== undefined && Boolean(inline)) {

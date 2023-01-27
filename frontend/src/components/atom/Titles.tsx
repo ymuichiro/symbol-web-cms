@@ -23,17 +23,19 @@ export const PageTitle: React.FC<Props> = (props) => {
     </Typography>
   );
 };
+
 export const SubTitle: React.FC<Props> = (props) => {
   const xssMatches = useMediaQuery('@media screen and (min-width:300px)');
 
   return (
     <Typography
       gutterBottom
+      color='primary'
       variant={xssMatches ? 'h4' : 'h5'}
-      component={'h2'}
+      component='h2'
       align={props.align ?? 'left'}
       fontWeight='bold'
-      style={{ marginTop: '10px', overflow: 'hidden', ...props.style }}
+      style={{ marginTop: '25vh', overflow: 'hidden', ...props.style }}
     >
       {props.children}
     </Typography>
