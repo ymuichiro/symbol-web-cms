@@ -8,9 +8,6 @@
   "repository": {
     "url": "https://github.com/ymuichiro/symbol-web"
   },
-  "engines": {
-    "node": "16.x"
-  },
   "husky": {
     "hooks": {
       "pre-commit": "npm run lint"

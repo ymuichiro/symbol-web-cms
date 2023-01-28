@@ -1,3 +1,5 @@
+[![Netlify Status](https://api.netlify.com/api/v1/badges/3048a429-4241-4779-81ab-cdcbea31b4a3/deploy-status)](https://app.netlify.com/sites/symbol-web/deploys)
+
 # Introduction
 
 Symbol's information will be consolidated and a site will be built for newcomers and outsiders to come into contact with it.

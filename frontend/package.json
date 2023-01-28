@@ -10,6 +10,9 @@
     "lint": "next lint",
     "test": "tsc --noEmit && eslint './src/**/*.{ts, tsx, js, jsx, json}' && prettier --write src"
   },
+  "engines": {
+    "node": "18.x"
+  },
   "dependencies": {
     "@emotion/react": "^11.10.5",
     "@emotion/server": "^11.10.0",
