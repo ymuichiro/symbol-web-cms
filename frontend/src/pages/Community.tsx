@@ -60,6 +60,7 @@ const Community: NextPage<Props> = ({ i18n, communityReleases, spaces }) => {
               </div>
             </Grid>
           </Grid>
+          {/* List of chat room */}
           <SectionTitle>{i18n.community_introduce_section1}</SectionTitle>
           <AvatarLinkList
             items={spaces
@@ -74,8 +75,8 @@ const Community: NextPage<Props> = ({ i18n, communityReleases, spaces }) => {
                 };
               })}
           />
-          <div style={{ height: '1rem' }} />
-          <SectionTitle>{i18n.community_introduce_section2}</SectionTitle>
+          {/* List of twitter */}
+          <SectionTitle style={{ marginTop: '2rem' }}>{i18n.community_introduce_section2}</SectionTitle>
           <AvatarLinkList
             items={spaces
               .filter((e) => e.attributes.category === 'sns')
@@ -89,8 +90,8 @@ const Community: NextPage<Props> = ({ i18n, communityReleases, spaces }) => {
                 };
               })}
           />
-          <div style={{ height: '1rem' }} />
-          <SectionTitle>{i18n.community_introduce_section3}</SectionTitle>
+          {/* List of blog & forum */}
+          <SectionTitle style={{ marginTop: '2rem' }}>{i18n.community_introduce_section3}</SectionTitle>
           <AvatarLinkList
             items={spaces
               .filter((e) => e.attributes.category === 'blog')
@@ -104,6 +105,7 @@ const Community: NextPage<Props> = ({ i18n, communityReleases, spaces }) => {
                 };
               })}
           />
+          {/* community release list */}
           <PageTitle>{i18n.section_title_release}</PageTitle>
           <Grid container spacing={5} style={{ marginTop: '5vh' }}>
             {communityReleases.length === 0 && (

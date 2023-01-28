@@ -23,6 +23,7 @@ export const PageTitle: React.FC<Props> = (props) => {
     </Typography>
   );
 };
+
 export const SubTitle: React.FC<Props> = (props) => {
   const xssMatches = useMediaQuery('@media screen and (min-width:300px)');
 
