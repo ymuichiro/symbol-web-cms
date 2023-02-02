@@ -4,6 +4,7 @@ import IconButton from '@mui/material/IconButton';
 import { IoChatbubbleSharp, IoLogoGithub, IoLogoTwitter } from 'react-icons/io5';
 import { CSSProperties } from 'react';
 import Link from 'next/link';
+import { NAVIGATIONS } from '@/types/navigations';
 
 type Props = {
   style?: CSSProperties;
@@ -28,10 +29,9 @@ export default function Footer(props: Props): JSX.Element {
       }}
     >
       {[
-        { href: '/news', title: 'News' },
-        { href: '/community', title: 'Community' },
-        { href: '/documents', title: 'Docs' },
-        { href: '/news', title: 'News' },
+        { href: NAVIGATIONS.NEWS, title: 'News' },
+        { href: NAVIGATIONS.COMMUNITY, title: 'Community' },
+        { href: NAVIGATIONS.DOCS, title: 'Docs' },
       ].map((e, i) => (
         <div key={i}>
           <Link href={e.href} style={{ textDecoration: 'none', color: theme.palette.primary.main }}>

@@ -21,6 +21,7 @@ import Image from 'next/image';
 import news from '@/assets/icon/news.svg';
 import Toolbar from '@mui/material/Toolbar';
 import Header from '@/components/moleculs/Header';
+import { NAVIGATIONS } from '@/types/navigations';
 
 interface Props {
   i18n: lang['news'];
@@ -71,8 +72,8 @@ const News: NextPage<Props> = ({ i18n, newsReleases, locale }) => {
                 date={item.attributes.publishedAt}
                 locale={locale}
                 image={`${process.env.NEXT_PUBLIC_API_URL}${item.attributes.headerImage?.data.attributes.url}`}
-                tweetLink={`${process.env.NEXT_PUBLIC_HOSTING_URL}/news/${item.id}`}
-                link={`/news/${item.id}`}
+                tweetLink={`${process.env.NEXT_PUBLIC_HOSTING_URL}${NAVIGATIONS.NEWS}/${item.id}`}
+                link={`${NAVIGATIONS.NEWS}/${item.id}`}
                 style={{ height: '100%' }}
               />
             </Grid>

@@ -5,6 +5,7 @@ import { GetServerSideProps, NextPage } from 'next/types';
 import { findOneCommunityRelease } from '@/services/StrapiService';
 import Toolbar from '@mui/material/Toolbar';
 import Header from '@/components/moleculs/Header';
+import { NAVIGATIONS } from '@/types/navigations';
 
 interface ArticleIdByLanguage {
   lang: string;
@@ -69,7 +70,7 @@ export const getServerSideProps: GetServerSideProps<Props> = async ({ query, loc
     return {
       props: {} as any,
       redirect: {
-        destination: '/community',
+        destination: NAVIGATIONS.COMMUNITY,
       },
     };
   }

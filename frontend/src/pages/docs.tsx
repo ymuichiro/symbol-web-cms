@@ -34,6 +34,7 @@ import { useRouter } from 'next/router';
 import Image from 'next/image';
 import Header from '@/components/moleculs/Header';
 import Toolbar from '@mui/material/Toolbar';
+import { NAVIGATIONS } from '@/types/navigations';
 
 interface Props {
   i18n: lang['docs'];
@@ -237,7 +238,7 @@ const Documents: NextPage<Props> = ({ i18n, documentReleases, initLocale }) => {
               <List>
                 {docs.length === 0 && <Typography align='left'>{i18n.no_articles}</Typography>}
                 {docs.map((item, index) => (
-                  <ListItemButton component={Link} divider key={index} href={`/docs/${item.id}`}>
+                  <ListItemButton component={Link} divider key={index} href={`${NAVIGATIONS.DOCS}/${item.id}`}>
                     <ListItemText primary={item.attributes.title} secondary={item.attributes.description} />
                   </ListItemButton>
                 ))}

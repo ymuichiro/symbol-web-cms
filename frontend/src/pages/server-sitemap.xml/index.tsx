@@ -1,5 +1,6 @@
 import { languageSwitchToFrontend } from '@/languages';
 import { findCommunityRelease, findDocuments, findNewsRelease } from '@/services/StrapiService';
+import { NAVIGATIONS } from '@/types/navigations';
 import { GetServerSideProps } from 'next';
 import { getServerSideSitemap, ISitemapField } from 'next-sitemap';
 
@@ -10,7 +11,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
   await Promise.all(
     newsRelease.data.map(({ id, attributes }) => {
       const locale = languageSwitchToFrontend(attributes.locale);
-      const loc = `${process.env.NEXT_PUBLIC_HOSTING_URL}/${locale}/news/${id}`;
+      const loc = `${process.env.NEXT_PUBLIC_HOSTING_URL}/${locale}${NAVIGATIONS.NEWS}/${id}`;
       store.push({ loc, lastmod: attributes.updatedAt });
     })
   );
@@ -19,7 +20,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
     await Promise.all(
       _newsRelease.data.map(({ attributes, id }) => {
         const locale = languageSwitchToFrontend(attributes.locale);
-        const loc = `${process.env.NEXT_PUBLIC_HOSTING_URL}/${locale}/news/${id}`;
+        const loc = `${process.env.NEXT_PUBLIC_HOSTING_URL}/${locale}${NAVIGATIONS.NEWS}/${id}`;
         store.push({ loc, lastmod: attributes.updatedAt });
       })
     );
@@ -29,7 +30,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
   await Promise.all(
     communityRelease.data.map(({ id, attributes }) => {
       const locale = languageSwitchToFrontend(attributes.locale);
-      const loc = `${process.env.NEXT_PUBLIC_HOSTING_URL}/${locale}/community/${id}`;
+      const loc = `${process.env.NEXT_PUBLIC_HOSTING_URL}/${locale}${NAVIGATIONS.COMMUNITY}/${id}`;
       store.push({ loc, lastmod: attributes.updatedAt });
     })
   );
@@ -38,7 +39,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
     await Promise.all(
       _communityRelease.data.map(({ attributes, id }) => {
         const locale = languageSwitchToFrontend(attributes.locale);
-        const loc = `${process.env.NEXT_PUBLIC_HOSTING_URL}/${locale}/community/${id}`;
+        const loc = `${process.env.NEXT_PUBLIC_HOSTING_URL}/${locale}${NAVIGATIONS.COMMUNITY}/${id}`;
         const lastmod = attributes.updatedAt;
         store.push({ loc, lastmod });
       })
@@ -49,7 +50,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
   await Promise.all(
     documentRelease.data.map(({ id, attributes }) => {
       const locale = languageSwitchToFrontend(attributes.locale);
-      const loc = `${process.env.NEXT_PUBLIC_HOSTING_URL}/${locale}/docs/${id}`;
+      const loc = `${process.env.NEXT_PUBLIC_HOSTING_URL}/${locale}${NAVIGATIONS.DOCS}/${id}`;
       store.push({ loc, lastmod: attributes.updatedAt });
     })
   );
@@ -58,7 +59,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
     await Promise.all(
       _documentRelease.data.map(({ attributes, id }) => {
         const locale = languageSwitchToFrontend(attributes.locale);
-        const loc = `${process.env.NEXT_PUBLIC_HOSTING_URL}/${locale}/docs/${id}`;
+        const loc = `${process.env.NEXT_PUBLIC_HOSTING_URL}/${locale}${NAVIGATIONS.DOCS}/${id}`;
         store.push({ loc, lastmod: attributes.updatedAt });
       })
     );

@@ -13,6 +13,7 @@ import MediaCard from '@/components/moleculs/MediaCard';
 import { lang, langSelecter } from '@/languages';
 import { findCommunityRelease, findSpaceRelease } from '@/services/StrapiService';
 import { switchCommunityPlatformToLogo } from '@/services/UtilService';
+import { NAVIGATIONS } from '@/types/navigations';
 import { CommunityReleaseFindResponse, SpaceFindResponse } from '@/types/StrapiModel';
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
@@ -122,8 +123,8 @@ const Community: NextPage<Props> = ({ i18n, communityReleases, spaces, locale })
                   date={item.attributes.publishedAt}
                   locale={locale}
                   image={`${process.env.NEXT_PUBLIC_API_URL}${item.attributes.headerImage?.data.attributes.url}`}
-                  tweetLink={`${process.env.NEXT_PUBLIC_HOSTING_URL}/community/${item.id}`}
-                  link={`/community/${item.id}`}
+                  tweetLink={`${process.env.NEXT_PUBLIC_HOSTING_URL}${NAVIGATIONS.COMMUNITY}/${item.id}`}
+                  link={`${NAVIGATIONS.COMMUNITY}/${item.id}`}
                   style={{ height: '100%' }}
                 />
               </Grid>

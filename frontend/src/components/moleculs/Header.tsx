@@ -27,12 +27,13 @@ import SymbolLogoLight from '@/assets/logo/symbol-logo-with-light-text.webp';
 import symbol from '@/assets/logo/symbol.webp';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
+import { NAVIGATIONS } from '@/types/navigations';
 
 const SITELINKS = [
-  { title: 'Top', link: '/', Icon: IoHomeSharp },
-  { title: 'News', link: '/news', Icon: IoNewspaperSharp },
-  { title: 'Community', link: '/community', Icon: IoChatbubblesSharp },
-  { title: 'Docs', link: '/docs', Icon: IoDocumentTextSharp },
+  { title: 'Top', link: NAVIGATIONS.HOME, Icon: IoHomeSharp },
+  { title: 'News', link: NAVIGATIONS.NEWS, Icon: IoNewspaperSharp },
+  { title: 'Community', link: NAVIGATIONS.COMMUNITY, Icon: IoChatbubblesSharp },
+  { title: 'Docs', link: NAVIGATIONS.DOCS, Icon: IoDocumentTextSharp },
 ];
 
 export default function Header(props: { articleIdByLanguage?: ArticleIdByLanguage[] }): JSX.Element {

@@ -36,6 +36,7 @@ import token from '@/assets/icon/token.webp';
 import nemLogo from '@/assets/logo/nem.webp';
 import Header from '@/components/moleculs/Header';
 import Toolbar from '@mui/material/Toolbar';
+import { NAVIGATIONS } from '@/types/navigations';
 
 interface Props {
   i18n: lang['index'];
@@ -214,7 +215,7 @@ const Home: NextPage<Props> = ({ i18n, newsReleases, locale }) => {
                           date={n.attributes.publishedAt}
                           locale={locale}
                           image={`${process.env.NEXT_PUBLIC_API_URL}${n.attributes.headerImage?.data.attributes.url}`}
-                          tweetLink={`${process.env.NEXT_PUBLIC_HOSTING_URL}/news/${n.id}`}
+                          tweetLink={`${process.env.NEXT_PUBLIC_HOSTING_URL}${NAVIGATIONS.NEWS}/${n.id}`}
                           link={`news/${n.id}`}
                           style={{ height: '100%' }}
                         />
@@ -368,7 +369,7 @@ const Home: NextPage<Props> = ({ i18n, newsReleases, locale }) => {
                 <Typography align={matches ? 'center' : 'left'} variant='body1'>
                   {i18n.about_site_management_body}
                 </Typography>
-                <LinkButton href='/about' fullWidth style={{ maxWidth: '300px' }}>
+                <LinkButton href={NAVIGATIONS.ABOUT} fullWidth style={{ maxWidth: '300px' }}>
                   {i18n.about_site_management_title}
                 </LinkButton>
               </Grid>
