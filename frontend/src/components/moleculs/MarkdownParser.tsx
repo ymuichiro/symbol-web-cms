@@ -5,6 +5,9 @@ import CodeBlock from '@/components/atom/CodeBlock';
 import { Fragment } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
+import List from '@mui/material/List';
+import ListItemText from '@mui/material/ListItemText';
+import ListItem from '@mui/material/ListItem';
 
 export default function MarkdownParser(props: { markdown: string }): JSX.Element {
   const theme = useTheme();
@@ -100,30 +103,38 @@ export default function MarkdownParser(props: { markdown: string }): JSX.Element
             {e.children}
           </Link>
         ),
+        br: (e) => {
+          console.log(e);
+          return <br />;
+        },
+        span: (e) => {
+          console.log('span', e);
+          return <span>{e.children}</span>;
+        },
+
         p: (e) => {
-          // Added processing that img tags are not enclosed in p tags when children are objects, because they are enclosed in p tags.
           const elements = e.children.map((child, index) => {
+            // Added processing that img tags are not enclosed in p tags when children are objects, because they are enclosed in p tags.
             if (typeof child !== 'string') {
               return <Fragment key={index}>{child}</Fragment>;
             }
             return (
-              <Typography key={index} variant='body1' style={{ marginBottom: '2rem', lineHeight: '1.8rem' }}>
+              <Typography key={index} variant='body1' component={'span'} style={{ whiteSpace: 'pre-wrap' }}>
                 {child}
               </Typography>
             );
           });
-          return <>{elements}</>;
+          return <div style={{ marginBottom: '1rem' }}>{elements}</div>;
         },
-        li: (e) => {
-          return (
-            <li>
-              <Typography>{e.children}</Typography>
-            </li>
-          );
-        },
+        ul: (e) => <List sx={{ listStyleType: 'disc', pl: 2 }}>{e.children}</List>,
+        li: (e) => (
+          <ListItem disableGutters disablePadding style={{ display: 'list-item' }}>
+            <ListItemText primary={e.children} />
+          </ListItem>
+        ),
       }}
     >
-      {props.markdown}
+      {props.markdown.replace(/\n\n\n/gi, '\n\n &nbsp; \n')}
     </Markdown>
   );
 }
