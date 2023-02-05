@@ -3,8 +3,12 @@ import ja from './_ja';
 // prettier-ignore
 const ko: typeof ja = {
   index: {
+    meta_page_title: 'Blockchain Symbol Community | NEM으로 부터 영감을 받은 블록체인',
+    meta_page_description: '차세대 블록체인 심볼 웹 사이트. 최신 정보를 가장 먼저 확인하세요. 활성 커뮤니티에 대한 정보도 얻을 수 있습니다.',
     title_message: 'Symbol & NEM에 오신걸 환영합니다. 누구든지, 언제든지 쉽게 설치하여 L1 체인에 블록을 만들어 낼 수 있습니다.',
     history_title1: 'NEM으로 부터 영감을 받은 블록체인',
+    title_button1: 'Install wallet',
+    title_button2: 'Start Development',
     history_body1: "2014년 NEM 블록체인이 출시된 후 코드명 'Catapult'로 성능 및 기능 향상과 함께 새로운 합의 알고리즘을 개발 하였습닌다. 2021년에 완성된 'Catapult'를 성공 적으로 구동시켜 'Symbol'의 메인넷이 런칭되었습니다.",
     history_body1_Button: "NEM이 무엇인가요?",
     functionary_section_title: "고급 기능",
@@ -26,7 +30,8 @@ const ko: typeof ja = {
     secure_body3: "합의 알고리즘은 블록체인에서 노드별로 블록을 생성하는 합의 논리입니다. Symbol에서는 NEM에서 사용되는 PoI(Proof of Importance)의 개선된 버전으로 PoS+(Proof of Stake Plus) 합의 알고리즘을 채택했습니다. Symbol PoS+ 메커니즘에는 블록체인 유지에 기여하는 노드와 지갑에 분배되는 'Harvesting'(Staking과 유사)이라는 블록 보상이 있습니다. PoS+ 메커니즘은 '스테이킹 금액'뿐만 아니라 '지갑이 사용한 총 수수료'와 '과거 보상 횟수'를 통해 계산된 활동 점수에 따라 참가자에게 보상함으로써 생태계의 건강을 증진합니다. , 특정 계정에 부의 지속적인 집중을 억제하기 위해 사용합니다. 또한 '중요도'에 기반한 블록 생성 알고리즘은 해시레이트 방식보다 오히려 친환경적이기 때문에 지속가능한 시스템을 구현할 수도 있다.",
     easy_section_title: '기존 시스템과의 스무스한 통합',
     easy_section_body: 'Symbol은 사용자에게 지갑과 개발 도구 SDK 및 Rest API를 제공합니다. 사용자는 새로운 특정 프로그래밍 언어를 배울 필요가 없으며 Javascript/Typescript, Java, Python 및 기타 기존 언어를 사용하여 Rest API를 통해 블록체인에서 트랜잭션을 요청하고 읽을 수 있습니다. 고급 다중 서명 및 다양한 트랜잭션과 같은 기본 내장 기능을 SDK 또는 API를 통해 즉시 통합할 수 있습니다.',
-    easy_section_button: "SDK를 사용해 시작하기",
+    easy_section_button1: "SDK를 사용해 시작하기",
+    easy_section_button2: "SDKs Repository",
     news_title: 'News Release',
     start_title: 'Symbol 시작하기',
     start_card1: '지갑 선택 방법',
@@ -44,6 +49,8 @@ const ko: typeof ja = {
     quick_learn_symbol_link: "https://learn.ja.symbol-community.com/",
   },
   about: {
+    meta_page_title: 'Blockchain Symbol Community | About Us',
+    meta_page_description: '차세대 블록체인 심볼 웹 사이트. 최신 정보를 가장 먼저 확인하세요. 활성 커뮤니티에 대한 정보도 얻을 수 있습니다.',
     page_title: 'About Us',
     page_title_description: "Symbol Community WEB에는 사이트를 유지 및 개발하는 팀이 있습니다.",
     body_markdown: `
@@ -92,11 +99,15 @@ Symbol Community Web에서 기사를 편집하거나 추가하려면 포털에 �
 `
   },
   news: {
+    meta_page_title: 'Blockchain Symbol Community | News Release',
+    meta_page_description: '차세대 블록체인 심볼 웹 사이트. 최신 정보를 가장 먼저 확인하세요. 활성 커뮤니티에 대한 정보도 얻을 수 있습니다.',
     page_title: 'News Release',
     page_title_description: "Symbol & NEM으로 부터 게시 된 토픽",
     no_articles: '아티클을 찾을 수 없습니다',
   },
   community: {
+    meta_page_title: 'Blockchain Symbol Community | 커뮤니티',
+    meta_page_description: '차세대 블록체인 심볼 웹 사이트. 최신 정보를 가장 먼저 확인하세요. 활성 커뮤니티에 대한 정보도 얻을 수 있습니다.',
     page_title: '커뮤니티',
     section_title_release: '커뮤니티로 부터 온 뉴스',
     page_title_description: "Symbol과 NEM에 대한 정보를 알려주는 사이트와 계정을 팔로우하세요!",
@@ -106,6 +117,8 @@ Symbol Community Web에서 기사를 편집하거나 추가하려면 포털에 �
     community_introduce_section3: "블로그 & 포럼",
   },
   docs: {
+    meta_page_title: 'Blockchain Symbol Community | 문서',
+    meta_page_description: '차세대 블록체인 심볼 웹 사이트. 최신 정보를 가장 먼저 확인하세요. 활성 커뮤니티에 대한 정보도 얻을 수 있습니다.',
     page_title: '문서',
     page_title_description: "Symbol & NEM에 대해 배울 수 있는 곳",
     section_title_wellcom: '처음 방문하는 사용자 분들에게',
@@ -142,6 +155,9 @@ Symbol Community Web에서 기사를 편집하거나 추가하려면 포털에 �
     search_bar_placeholder: '찾아보고 싶은 내용을 입력하기',
     no_articles: '아티클을 찾을 수 없습니다',
   },
+  common:{
+    meta_page_title: 'Blockchain Symbol Community',
+  }
 };
 
 export default ko;

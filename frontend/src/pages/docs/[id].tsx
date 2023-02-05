@@ -6,6 +6,7 @@ import { findOneDocuments } from '@/services/StrapiService';
 import Toolbar from '@mui/material/Toolbar';
 import Header from '@/components/moleculs/Header';
 import { NAVIGATIONS } from '@/types/navigations';
+import { lang, langSelecter } from '@/languages';
 
 interface ArticleIdByLanguage {
   lang: string;
@@ -13,13 +14,14 @@ interface ArticleIdByLanguage {
 }
 
 interface Props {
+  i18n: lang['common'];
   article: DocumentFindOneResponse['data'];
   articleIdByLanguage: ArticleIdByLanguage[];
   locale: string;
 }
 
 /** get news article */
-const DocumsntArticle: NextPage<Props> = ({ article, articleIdByLanguage, locale }) => {
+const DocumsntArticle: NextPage<Props> = ({ i18n, article, articleIdByLanguage, locale }) => {
   if (!article) {
     return <></>;
   }
@@ -27,7 +29,7 @@ const DocumsntArticle: NextPage<Props> = ({ article, articleIdByLanguage, locale
   return (
     <>
       <Head>
-        <title>{`${process.env.NEXT_PUBLIC_SITE_NAME}: ${article?.attributes.title ?? 'Documents'}`}</title>
+        <title>{`${i18n.meta_page_title}: ${article?.attributes.title ?? 'Documents'}`}</title>
         <meta name='description' content={article?.attributes.body.slice(0, 200) || ''} />
         <meta name='twitter:card' content='summary_large_image' />
         <meta name='twitter:image' content='/twitter-card.png' />
@@ -50,6 +52,7 @@ export const getServerSideProps: GetServerSideProps<Props> = async ({ query, loc
           locale: locale || defaultLocale || 'en',
           lang: e.attributes.locale,
           id: e.id,
+          i18n: langSelecter(locale).common,
         };
       })
     );
@@ -58,6 +61,7 @@ export const getServerSideProps: GetServerSideProps<Props> = async ({ query, loc
         locale: locale || defaultLocale || 'en',
         article: article.data,
         articleIdByLanguage,
+        i18n: langSelecter(locale).common,
       },
     };
   } catch (_) {

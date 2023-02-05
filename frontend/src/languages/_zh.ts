@@ -3,8 +3,12 @@ import ja from './_ja';
 // prettier-ignore
 const zh: typeof ja = {
   index: {
+    meta_page_title: 'Blockchain Symbol Community | 启发于 NEM 的公共区块链',
+    meta_page_description: '下一代区块链符号网站。 成为第一个检查最新信息的人。 您还可以获得有关活跃社区的信息。',
     title_message: '欢迎来到 Symbol & NEM。每个人都能随时在第一层区块链上轻松地安装和创建区块！',
     history_title1: '启发于 NEM 的公共区块链',
+    title_button1: 'Install wallet',
+    title_button2: 'Start Development',
     history_body1: "于 2014 年推出最初的 NEM 区块链后，代号 “Catapult” 重新开发，目的是提高性能、增强功能、完善共识算法。在2021 年，“Symbol” 使用完整的 “Catapult” 代码库作为一个独特的区块链启动。而发布几个月后，跨越 NEM 和 Symbol 的 “社区硬分叉” 成功地开辟了一条新的道路； 这个新方向包括强调参与社区、真正的去中心化，以及促进最终从 NEM 和 Symbol 出现的通用跨链协作的新型协议层愿景",
     history_body1_Button: "什么是NEM?",
     functionary_section_title: "高级功能",
@@ -26,7 +30,8 @@ const zh: typeof ja = {
     secure_body3: "共识算法由网络中的所有参与节点共享或相互同意，并用于生成新块。 Symbol采用 PoS+（权益证明+）共识算法作为NEM的 PoI（重要性证明）算法改良版。 Symbol的 PoS+ 机制允许节点定期 '收获' 与其 '重要性' 成比例的新块。 PoS+ 机制不仅考虑 '质押量'，还通过根据 '钱包使用的总费用' 和 '过去奖励次数' 计算的活动分数以奖励参与者，从而促进生态系统的健康 ，用来阻止财富继续集中在某些账户中。 POS+ 算法避免了不必要的能源浪费，并且比保护许多区块链的工作量证明算法更加环保。节点运营商和委托人通过收获奖励为维护区块链做出贡献而获得奖励。这些奖励来自为此目的分配的大量XYM池，并遵循与比特币区块奖励模型相关的奖励率递减计划。",
     easy_section_title: '与现有系统无缝集成',
     easy_section_body: 'Symbol的设计考虑了可用性和可扩展性； 虽然钱包极大地支持普通用户，但 SDK、CLI、Rest API 集成进阶多重签名和聚合交易等原生内置功能，提供扩展性有效地打破了开发障碍。您无需学习密码学或特定的编程语言即可与区块链进行深入互动； 即使是初级开发人员和业余爱好者也可以轻松构建。',
-    easy_section_button: "开始使用 SDKs 吧",
+    easy_section_button1: "开始使用 SDKs 吧",
+    easy_section_button2: "SDKs Repository",
     news_title: '新闻发布',
     start_title: 'Symbol入门',
     start_card1: '如何选择钱包',
@@ -44,6 +49,8 @@ const zh: typeof ja = {
     quick_learn_symbol_link: "https://learn.ja.symbol-community.com/",
   },
   about: {
+    meta_page_title: 'Blockchain Symbol Community | About Us',
+    meta_page_description: '下一代区块链符号网站。 成为第一个检查最新信息的人。 您还可以获得有关活跃社区的信息。',
     page_title: 'About Us',
     page_title_description: "Symbol社区网站有一个维护和开发的团队",
     body_markdown: `
@@ -92,11 +99,15 @@ Symbol/NEM 和使用它的生态系统在不断发展和变化。 为了跟上�
 `
   },
   news: {
+    meta_page_title: 'Blockchain Symbol Community | 新闻发布',
+    meta_page_description: '下一代区块链符号网站。 成为第一个检查最新信息的人。 您还可以获得有关活跃社区的信息。',
     page_title: '新闻发布',
     page_title_description: "来自 Symbol/NEM 的主题将被发布",
     no_articles: '没有找到相关文章',
   },
   community: {
+    meta_page_title: 'Blockchain Symbol Community | 社区',
+    meta_page_description: '下一代区块链符号网站。 成为第一个检查最新信息的人。 您还可以获得有关活跃社区的信息。',
     page_title: '社区',
     section_title_release: '来自社区的消息',
     page_title_description: "关注以了解 Symbol 和 NEM 相关的网站和帐户！",
@@ -106,6 +117,8 @@ Symbol/NEM 和使用它的生态系统在不断发展和变化。 为了跟上�
     community_introduce_section3: "博客和论坛"
   },
   docs: {
+    meta_page_title: 'Blockchain Symbol Community | 文档',
+    meta_page_description: '下一代区块链符号网站。 成为第一个检查最新信息的人。 您还可以获得有关活跃社区的信息。',
     page_title: '文档',
     page_title_description: "了解 Symbol/NEM",
     section_title_wellcom: '对于初次来访者',
@@ -142,6 +155,9 @@ Symbol/NEM 和使用它的生态系统在不断发展和变化。 为了跟上�
     search_bar_placeholder: '请输入您要搜索的内容',
     no_articles: '没有找到相关文章',
   },
+  common:{
+    meta_page_title: 'Blockchain Symbol Community',
+  }
 };
 
 export default zh;

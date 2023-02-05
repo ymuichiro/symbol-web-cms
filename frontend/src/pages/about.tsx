@@ -23,7 +23,10 @@ const About: NextPage<Props> = ({ i18n }) => {
   return (
     <>
       <Head>
-        <title>{`${process.env.NEXT_PUBLIC_SITE_NAME}: About Team`}</title>
+        <title>{i18n.meta_page_title}</title>
+        <meta name='description' content={i18n.meta_page_description} />
+        <meta name='twitter:title' content={i18n.meta_page_title} />
+        <meta name='twitter:description' content={i18n.meta_page_description} />
       </Head>
       <div style={{ marginBottom: '5vh' }}>
         <Container maxWidth='lg' style={{ height: '100%' }}>

@@ -1,20 +1,24 @@
 import Head from 'next/head';
 import Link from 'next/link';
-import { GetStaticProps } from 'next/types';
+import { GetStaticProps, NextPage } from 'next/types';
 import { useTheme } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
+
+interface Props {}
 
 /**
  * 404 Error page
  */
-function ErrorPage(): JSX.Element {
+const ErrorPage: NextPage<Props> = ({}) => {
   const theme = useTheme();
 
   return (
     <>
       <Head>
-        <title>{`${process.env.NEXT_PUBLIC_SITE_NAME}: page not found`}</title>
-        <meta name='description' content='page not found' />
+        <title>Blockchain Symbol Community | Error</title>
+        <meta name='description' content={'page not found'} />
+        <meta name='twitter:title' content={'Blockchain Symbol Community | Error'} />
+        <meta name='twitter:description' content={'page not found'} />
       </Head>
       <div
         style={{
@@ -36,7 +40,7 @@ function ErrorPage(): JSX.Element {
       </div>
     </>
   );
-}
+};
 
 // 各言語別に SSG する
 const getStaticProps: GetStaticProps = async () => {

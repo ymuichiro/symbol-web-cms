@@ -1,7 +1,11 @@
 // prettier-ignore
 const ja = {
   index: {
-      title_message: 'Welcome to Symbol & NEM. It is easy to install and anyone, anytime, can carve blocks under the L1 chain.',
+      meta_page_title: 'ブロックチェーン シンボル コミュニティ | NEM に新たな思想を吹き込んだパブリックブロックチェーン',
+      meta_page_description: '次世代ブロックチェーン シンボル のウェブサイト。最新情報をいち早くチェックできます。また、コミュニティーの情報を得ることができます。',
+      title_message: 'Symbol/NEM へようこそ。導入が簡単で、いつでも、誰でも使える L1 チェーン',
+      title_button1: 'ウォレットのインストール',
+      title_button2: '開発を始める',
       history_title1: 'NEMに新たな思想を吹き込んだパブリックブロックチェーン',
       history_body1: '2014年に登場したNEMに対して、性能向上・機能強化・コンセンサスアルゴリズムの改良を目的として、「Catapult」というコードネームで開発が行われていました。これが完成し Catapult を搭載して2021年にリリースされたパブリックブロックチェーンが「Symbol」です。',
       history_body1_Button: 'NEM とは？',
@@ -24,7 +28,8 @@ const ja = {
       secure_body3: 'コンセンサスアルゴリズムはブロックチェーン内のノードがブロックを生成する為の合意形成ロジックです。NEMで採用されていたPoIの改良版としてPoS＋（Proof of Stake Plus）を採用致しました。Symbolではブロックチェーンの維持に貢献したノード、ウォレットに対して「ハーベスティング」（ステーキング）と呼ばれる報酬が分配されます。報酬分配先の決定には “保持するトークン総量” “ウォレットが支払った手数料総量” “過去報酬を得た回数” を考慮した重要度スコアが用いられ、特定のアカウントに富が集中し続ける事を抑止します。こうしたウォレットの「信用度」でブロックが生成される為、ハッシュレートに基づくタイプに比べ、環境にも優しいアルゴリズムとなっております。',
       easy_section_title: '手軽に既存のシステムへ導入可能',
       easy_section_body: 'Symbolでは利用者に対してウォレットの他に、「SDK」と「Rest API」といったツールが提供されています。専用のプログラミング言語を新たに覚える必要はなく、利用中の「Javascript/Typescript」や「Java」「Python」また、それ以外の言語でもRest APIを経由してブロックチェーンへの取引要求や読み取りを可能としています。高度なマルチシグやトランザクションもビルトインの形式である為、SDKやAPIを介して即座に組み込みが可能です。',
-      easy_section_button: 'SDKに入門する',
+      easy_section_button1: 'SDKに入門する',
+      easy_section_button2: 'SDK レポジトリ',
       news_title: 'ニュースリリース',
       start_title: 'はじめよう Symbol',
       start_card1: 'ウォレットの選び方',
@@ -42,6 +47,8 @@ const ja = {
       quick_learn_symbol_link: "https://learn.ja.symbol-community.com/",
   },
   about: {
+    meta_page_title: 'ブロックチェーン シンボル コミュニティ | チームについて',
+    meta_page_description: '次世代ブロックチェーン シンボル のウェブサイト。最新情報をいち早くチェックできます。また、コミュニティーの情報を得ることができます。',
     page_title: 'About Us',
     page_title_description: "Symbol Community Web は サイトの維持と開発を行うチームがあります",
     body_markdown: `
@@ -90,11 +97,15 @@ Symbol Community Web の記事を編集、追加するには Portal からの操
 `,
   },
   news: {
+    meta_page_title: 'ブロックチェーン シンボル コミュニティ | ニュース',
+    meta_page_description: '次世代ブロックチェーン シンボル のウェブサイト。最新情報をいち早くチェックできます。また、コミュニティーの情報を得ることができます。',
     page_title: 'ニュースリリース',
     page_title_description: "Symbol/NEM からのトピックスを掲載します",
     no_articles: '記事がありませんでした',
   },
   community: {
+    meta_page_title: 'ブロックチェーン シンボル コミュニティ | コミュニティ',
+    meta_page_description: '次世代ブロックチェーン シンボル のウェブサイト。最新情報をいち早くチェックできます。また、コミュニティーの情報を得ることができます。',
     page_title: 'コミュニティ',
     page_title_description: "SymbolやNEMの情報を発信しているサイト、アカウントをフォローしよう",
     section_title_release: 'コミュニティからのお知らせ',
@@ -104,6 +115,8 @@ Symbol Community Web の記事を編集、追加するには Portal からの操
     community_introduce_section3: "ブログ & フォーラム"
   }, 
   docs: {
+    meta_page_title: 'ブロックチェーン シンボル コミュニティ | ドキュメント',
+    meta_page_description: '次世代ブロックチェーン シンボル のウェブサイト。最新情報をいち早くチェックできます。また、コミュニティーの情報を得ることができます。',  
     page_title: 'ドキュメント',
     page_title_description: "Symbol/NEM に関する学びを得よう",
     section_title_wellcom: '初めてお越しの方へ',
@@ -126,7 +139,7 @@ Symbol Community Web の記事を編集、追加するには Portal からの操
     advice_body4:"本サイトはSymbol/NEMやブロックチェーンに触れ始めた方や、各種ニュースの発信に特化しています。開発者やクリエイターの方で、活動の為の情報をお探しの際には以下のリンクからより詳細なサイトへアクセス下さい。もしくはコミュニティのチャットルームにて質問内容について投稿下さい。",
     advice_button4_1: "Symbol Documentation",
     advice_button4_1_link:"https://docs.symbol.dev/ja/concepts/overview.html",
-    advice_button4_2: "速習Symbol",
+    advice_button4_2: "SDK の使い方入門",
     advice_button4_2_link:"https://learn.ja.symbol-community.com/",
     advice_title5: "本サイトについて",
     advice_body5:"本サイトはコミュニティの有志により運営されています。内容の修正や記事の追加にはGitHub、もしくはポータルサイトからの修正が必要となります。またポータルサイトのログインにはSymbolアドレスからの署名を必要とします。詳細は 「Symbol/NEM マーケティング部」へお問い合わせ下さい。",
@@ -140,6 +153,9 @@ Symbol Community Web の記事を編集、追加するには Portal からの操
     search_bar_placeholder: '検索したい事を入力して下さい',
     no_articles: '記事がありませんでした',
   },
+  common:{
+    meta_page_title: 'ブロックチェーン シンボル コミュニティ',
+  }
 };
 
 export default ja;

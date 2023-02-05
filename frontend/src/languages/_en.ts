@@ -3,7 +3,11 @@ import ja from './_ja';
 // prettier-ignore
 const en: typeof ja = {
   index: {
+    meta_page_title: 'Blockchain Symbol Community | A public blockchain inspired by NEM',
+    meta_page_description: 'Next Generation Blockchain Symbol Web Site. Be the first to check the latest information. You can also get information about the active community.',
     title_message: 'Welcome to Symbol & NEM. Empowering the world with robust and easy-to-use Web3 infrastructure!',
+    title_button1: 'Install wallet',
+    title_button2: 'Start Development',
     history_title1: 'A public blockchain inspired by NEM',
     history_body1: "After the original NEM blockchain launch in 2014, redevelopment under the codename 'Catapult' began with the intention of improving performance, enhancing functionality, and the refining the consensus algorithm. In 2021, 'Symbol' was launched as a distinct blockchain using the completed 'Catapult' codebase. Several months after launch, a successful 'community hard fork' across both NEM and Symbol established a new path forward; this new direction includes an emphasis on engaged community, genuine decenteralization, and a vision of a novel protocol layer facilitating universal cross-chain collaboration that would eventually emerge from NEM and Symbol",
     history_body1_Button: "What is NEM?",
@@ -26,7 +30,8 @@ const en: typeof ja = {
     secure_body3: "Consensus algorithms are shared or mutually agreed upon by all participating nodes in a network, and is used in the generation of new blocks. In Symbol, the PoS+ (Proof of Stake Plus) consensus algorithm is adopted as an improved version of NEM's PoI (Proof of Importance) algorithm. Symbol's PoS+ mechanism allows nodes to periodically 'Harvest' new blocks proportionate to their 'importance'. The PoS+ mechanism considers not only 'amount of staking', but it also promotes the ecosystem’s health by rewarding participants based on their activity score which are counted through 'total fees used by the wallet' and 'number of times of reward in the past', using to discourage the continued concentration of wealth in certain accounts. The POS+ algorithm avoids unnecessary energy waste, and is much more environmentally friendly than the Proof of Work algorythms that secure many blockchains. Node operators and delegators are rewarded for their contribution to the maintainance of the chain via harvesting rewards. These rewards draw from a signifigant pool of XYM allocated for this purpose, and follow a declining reward rate schedule linked to Bitcoin's block reward model.",
     easy_section_title: 'Smooth integration into existing systems',
     easy_section_body: 'The core contributors behind NEM learned countless lessons along the way, and these lessons have heavily influenced Symbol. Symbol was designed with usability and extensibility in mind; while wallets profoundly enable the average user, the boundless extensibility provided by the SDK, CLI, and Rest API effectively shatter barriers to development. You do not need to learn cryptography nor a specific programming language in order to profoundly interact with the blockchain; even junior developers and hobbiests can build with ease.',
-    easy_section_button: "Getting Started with SDKs",
+    easy_section_button1: "Getting Started with SDKs",
+    easy_section_button2: "SDKs Repository",
     news_title: 'News Release',
     start_title: 'Start Symbol',
     start_card1: 'How to Choose a Wallet',
@@ -44,6 +49,8 @@ const en: typeof ja = {
     quick_learn_symbol_link: "https://learn.en.symbol-community.com/",
   },
   about: {
+    meta_page_title: 'Blockchain Symbol Community | About Us',
+    meta_page_description: 'Next Generation Blockchain Symbol Web Site. Be the first to check the latest information. You can also get information about the active community.',
     page_title: 'About Us',
     page_title_description: "Symbol Community WEB has a team that maintains and develops the site",
     body_markdown: `
@@ -92,11 +99,15 @@ If you would like to edit any other pages other than articles, please feel free 
 `
   },
   news: {
+    meta_page_title: 'Blockchain Symbol Community | News Release',
+    meta_page_description: 'Next Generation Blockchain Symbol Web Site. Be the first to check the latest information. You can also get information about the active community.',
     page_title: 'News Release',
     page_title_description: "Topics from Symbol/NEM will be posted",
     no_articles: 'No article was found',
   },
   community: {
+    meta_page_title: 'Blockchain Symbol Community | Community',
+    meta_page_description: 'Next Generation Blockchain Symbol Web Site. Be the first to check the latest information. You can also get information about the active community.',
     page_title: 'Community',
     section_title_release: 'News from the Community',
     page_title_description: "Follow the sites and accounts that are disseminating information about Symbol and NEM!",
@@ -106,6 +117,8 @@ If you would like to edit any other pages other than articles, please feel free 
     community_introduce_section3: "Blog & Forum"
   },
   docs: {
+    meta_page_title: 'Blockchain Symbol Community | Document',
+    meta_page_description: 'Next Generation Blockchain Symbol Web Site. Be the first to check the latest information. You can also get information about the active community.',
     page_title: 'document',
     page_title_description: "Learn about Symbol/NEM",
     section_title_wellcom: 'For first time visitor',
@@ -142,6 +155,9 @@ If you would like to edit any other pages other than articles, please feel free 
     search_bar_placeholder: 'Please enter what you want to search for',
     no_articles: 'No article was found',
   },
+  common:{
+    meta_page_title: 'Blockchain Symbol Community',
+  }
 };
 
 export default en;

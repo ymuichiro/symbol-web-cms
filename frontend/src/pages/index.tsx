@@ -37,6 +37,7 @@ import nemLogo from '@/assets/logo/nem.webp';
 import Header from '@/components/moleculs/Header';
 import Toolbar from '@mui/material/Toolbar';
 import { NAVIGATIONS } from '@/types/navigations';
+import Head from 'next/head';
 
 interface Props {
   i18n: lang['index'];
@@ -51,6 +52,12 @@ const Home: NextPage<Props> = ({ i18n, newsReleases, locale }) => {
 
   return (
     <>
+      <Head>
+        <title>{i18n.meta_page_title}</title>
+        <meta name='description' content={i18n.meta_page_description} />
+        <meta name='twitter:title' content={i18n.meta_page_title} />
+        <meta name='twitter:description' content={i18n.meta_page_description} />
+      </Head>
       <Header />
       <Toolbar style={{ marginTop: '20px' }} />
       <div style={{ marginBottom: '5vh' }}>
@@ -92,13 +99,13 @@ const Home: NextPage<Props> = ({ i18n, newsReleases, locale }) => {
               <Grid container spacing={3} style={{ maxWidth: '600px' }}>
                 <Grid item xs={12} sm={6}>
                   <LinkButton fullWidth size='large' href={i18n.start_card1_link}>
-                    Install wallet
+                    {i18n.title_button1}
                     <IoChevronForwardOutline />
                   </LinkButton>
                 </Grid>
                 <Grid item xs={12} sm={6}>
                   <LinkButton isNewTab fullWidth size='large' href={i18n.quick_learn_symbol_link}>
-                    Start Develop
+                    {i18n.title_button2}
                     <IoChevronForwardOutline />
                   </LinkButton>
                 </Grid>
@@ -249,10 +256,10 @@ const Home: NextPage<Props> = ({ i18n, newsReleases, locale }) => {
                   href={i18n.quick_learn_symbol_link}
                   style={{ marginTop: '2rem', marginBottom: '1rem' }}
                 >
-                  {i18n.easy_section_button}
+                  {i18n.easy_section_button1}
                 </LinkButton>
                 <LinkButton isNewTab fullWidth href='https://docs.symbol.dev/sdk.html' style={{ marginBottom: '1rem' }}>
-                  SDK Repositories
+                  {i18n.easy_section_button2}
                 </LinkButton>
               </Grid>
             </Grid>

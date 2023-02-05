@@ -6,6 +6,7 @@ import { findOneCommunityRelease } from '@/services/StrapiService';
 import Toolbar from '@mui/material/Toolbar';
 import Header from '@/components/moleculs/Header';
 import { NAVIGATIONS } from '@/types/navigations';
+import { lang, langSelecter } from '@/languages';
 
 interface ArticleIdByLanguage {
   lang: string;
@@ -13,13 +14,14 @@ interface ArticleIdByLanguage {
 }
 
 interface Props {
+  i18n: lang['common'];
   article: CommunityReleaseFindOneResponse['data'];
   articleIdByLanguage: ArticleIdByLanguage[];
   locale: string;
 }
 
 /** get news article */
-const CommunityArticle: NextPage<Props> = ({ article, articleIdByLanguage, locale }) => {
+const CommunityArticle: NextPage<Props> = ({ i18n, article, articleIdByLanguage, locale }) => {
   if (!article) {
     return <></>;
   }
@@ -27,7 +29,7 @@ const CommunityArticle: NextPage<Props> = ({ article, articleIdByLanguage, local
   return (
     <>
       <Head>
-        <title>{`${process.env.NEXT_PUBLIC_SITE_NAME}: ${article?.attributes.title ?? 'Community'}`}</title>
+        <title>{`${i18n.meta_page_title}: ${article?.attributes.title ?? 'Community'}`}</title>
         <meta name='description' content={article?.attributes.body.slice(0, 200)} />
         <meta name='twitter:card' content='summary_large_image' />
         <meta name='twitter:title' content={article.attributes.title} />
@@ -56,6 +58,7 @@ export const getServerSideProps: GetServerSideProps<Props> = async ({ query, loc
           locale: locale || defaultLocale || 'en',
           lang: e.attributes.locale,
           id: e.id,
+          i18n: langSelecter(locale).common,
         };
       })
     );
@@ -64,6 +67,7 @@ export const getServerSideProps: GetServerSideProps<Props> = async ({ query, loc
         locale: locale || defaultLocale || 'en',
         article: article.data,
         articleIdByLanguage,
+        i18n: langSelecter(locale).common,
       },
     };
   } catch (_) {

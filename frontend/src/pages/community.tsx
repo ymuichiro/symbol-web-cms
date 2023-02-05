@@ -39,7 +39,10 @@ const Community: NextPage<Props> = ({ i18n, communityReleases, spaces, locale })
   return (
     <>
       <Head>
-        <title>{`${process.env.NEXT_PUBLIC_SITE_NAME}: Community`}</title>
+        <title>{i18n.meta_page_title}</title>
+        <meta name='description' content={i18n.meta_page_description} />
+        <meta name='twitter:title' content={i18n.meta_page_title} />
+        <meta name='twitter:description' content={i18n.meta_page_description} />
       </Head>
       <Header />
       <Toolbar style={{ marginTop: '20px' }} />
