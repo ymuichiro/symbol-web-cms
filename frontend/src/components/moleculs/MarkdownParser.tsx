@@ -8,12 +8,21 @@ import Link from 'next/link';
 import List from '@mui/material/List';
 import ListItemText from '@mui/material/ListItemText';
 import ListItem from '@mui/material/ListItem';
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import Paper from '@mui/material/Paper';
+import remarkGfm from 'remark-gfm';
 
 export default function MarkdownParser(props: { markdown: string }): JSX.Element {
   const theme = useTheme();
 
   return (
     <Markdown
+      remarkPlugins={[remarkGfm]}
       components={{
         h1: (e) => (
           <Typography
@@ -103,15 +112,36 @@ export default function MarkdownParser(props: { markdown: string }): JSX.Element
             {e.children}
           </Link>
         ),
-        br: (e) => {
-          console.log(e);
+        br: () => {
           return <br />;
         },
         span: (e) => {
-          console.log('span', e);
           return <span>{e.children}</span>;
         },
-
+        table: (e) => {
+          return (
+            <TableContainer component={Paper}>
+              <Table sx={{ minWidth: 650 }} aria-label={'article-table'}>
+                {e.children}
+              </Table>
+            </TableContainer>
+          );
+        },
+        thead: (e) => {
+          return <TableHead style={{ backgroundColor: theme.palette.common.white }}>{e.children}</TableHead>;
+        },
+        tbody: (e) => {
+          return <TableBody>{e.children}</TableBody>;
+        },
+        tr: (e) => {
+          return <TableRow>{e.children}</TableRow>;
+        },
+        th: (e) => {
+          return <TableCell style={{ color: theme.palette.common.black, fontWeight: 'bold' }}>{e.children}</TableCell>;
+        },
+        td: (e) => {
+          return <TableCell>{e.children}</TableCell>;
+        },
         p: (e) => {
           const elements = e.children.map((child, index) => {
             // Added processing that img tags are not enclosed in p tags when children are objects, because they are enclosed in p tags.
