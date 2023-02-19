@@ -24,7 +24,6 @@ import {
 } from 'react-icons/io5';
 import SymbolLogoDark from '@/assets/logo/symbol-logo-with-dark-text.webp';
 import SymbolLogoLight from '@/assets/logo/symbol-logo-with-light-text.webp';
-import symbol from '@/assets/logo/symbol.webp';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { NAVIGATIONS } from '@/types/navigations';
@@ -74,11 +73,7 @@ export default function Header(props: { articleIdByLanguage?: ArticleIdByLanguag
             <>
               <div style={{ flexGrow: 1, display: 'flex', justifyContent: 'flex-start', alignItems: 'center' }}>
                 <ButtonBase aria-label='logo' LinkComponent={Link} href='/'>
-                  {xssMatches ? (
-                    <Image src={SymbolLogoDark} height={35} width={155} priority={true} alt='Symbol-Logo' />
-                  ) : (
-                    <Image src={symbol} height={35} width={35} alt='Symbol-Logo' />
-                  )}
+                  <Image src={SymbolLogoDark} height={35} width={155} priority alt='Symbol-Logo' />
                 </ButtonBase>
               </div>
               {matches || (
