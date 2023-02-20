@@ -3,8 +3,8 @@ import ja from './_ja';
 // prettier-ignore
 const en: typeof ja = {
   index: {
-    meta_page_title: 'Blockchain Symbol Community | A public blockchain inspired by NEM',
-    meta_page_description: 'Next Generation Blockchain Symbol Web Site. Be the first to check the latest information. You can also get information about the active community.',
+    meta_page_title: 'Blockchain Symbol Community',
+    meta_page_description: 'The website of the public blockchain symbol that breathes new thought into NEM. You can be the first to check out the latest news. You can also get information about the community.',
     title_message: 'Welcome to Symbol & NEM. Empowering the world with robust and easy-to-use Web3 infrastructure!',
     title_button1: 'Install wallet',
     title_button2: 'Start Development',

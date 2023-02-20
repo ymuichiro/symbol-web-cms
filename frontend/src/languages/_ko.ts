@@ -3,8 +3,8 @@ import ja from './_ja';
 // prettier-ignore
 const ko: typeof ja = {
   index: {
-    meta_page_title: 'Blockchain Symbol Community | NEM으로 부터 영감을 받은 블록체인',
-    meta_page_description: '차세대 블록체인 심볼 웹 사이트. 최신 정보를 가장 먼저 확인하세요. 활성 커뮤니티에 대한 정보도 얻을 수 있습니다.',
+    meta_page_title: 'Blockchain Symbol Community',
+    meta_page_description: 'NEM에 새로운 생각을 불어넣는 퍼블릭 블록체인 심볼의 웹사이트. 최신 소식을 가장 먼저 확인하실 수 있습니다. 커뮤니티에 대한 정보도 얻을 수 있습니다.',
     title_message: 'Symbol & NEM에 오신걸 환영합니다. 누구든지, 언제든지 쉽게 설치하여 L1 체인에 블록을 만들어 낼 수 있습니다.',
     history_title1: 'NEM으로 부터 영감을 받은 블록체인',
     title_button1: 'Install wallet',

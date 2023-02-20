@@ -4,7 +4,7 @@ import ja from './_ja';
 const zh: typeof ja = {
   index: {
     meta_page_title: 'Blockchain Symbol Community | 启发于 NEM 的公共区块链',
-    meta_page_description: '下一代区块链符号网站。 成为第一个检查最新信息的人。 您还可以获得有关活跃社区的信息。',
+    meta_page_description: '为 NEM 注入新思想的公共区块链符号的网站。 您可以成为第一个查看最新消息的人。 您还可以获得有关社区的信息。',
     title_message: '欢迎来到 Symbol & NEM。每个人都能随时在第一层区块链上轻松地安装和创建区块！',
     history_title1: '启发于 NEM 的公共区块链',
     title_button1: 'Install wallet',

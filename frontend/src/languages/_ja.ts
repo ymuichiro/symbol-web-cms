@@ -1,8 +1,8 @@
 // prettier-ignore
 const ja = {
   index: {
-      meta_page_title: 'ブロックチェーン シンボル コミュニティ | NEM に新たな思想を吹き込んだパブリックブロックチェーン',
-      meta_page_description: '次世代ブロックチェーン シンボル のウェブサイト。最新情報をいち早くチェックできます。また、コミュニティーの情報を得ることができます。',
+      meta_page_title: 'ブロックチェーン シンボル コミュニティ',
+      meta_page_description: 'The website of the public blockchain symbol that breathes new thought into NEM. You can be the first to check out the latest news. You can also get information about the community.',
       title_message: 'Symbol/NEM へようこそ。導入が簡単で、いつでも、誰でも使える L1 チェーン',
       title_button1: 'ウォレットのインストール',
       title_button2: '開発を始める',
