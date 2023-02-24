@@ -2,7 +2,7 @@
 const ja = {
   index: {
       meta_page_title: 'ブロックチェーン シンボル コミュニティ',
-      meta_page_description: 'The website of the public blockchain symbol that breathes new thought into NEM. You can be the first to check out the latest news. You can also get information about the community.',
+      meta_page_description: 'NEMに新しい思想を吹き込んだパブリックブロックチェーン Symbol のウェブサイトです。コミュニティより最新のニュースや情報をお届けします。',
       title_message: 'Symbol/NEM へようこそ。導入が簡単で、いつでも、誰でも使える L1 チェーン',
       title_button1: 'ウォレットのインストール',
       title_button2: '開発を始める',
@@ -48,7 +48,7 @@ const ja = {
   },
   about: {
     meta_page_title: 'ブロックチェーン シンボル コミュニティ | チームについて',
-    meta_page_description: '次世代ブロックチェーン シンボル のウェブサイト。最新情報をいち早くチェックできます。また、コミュニティーの情報を得ることができます。',
+    meta_page_description: 'シンボルコミュニティウェブを運営するチームについて紹介します。',
     page_title: 'About Us',
     page_title_description: "Symbol Community Web は サイトの維持と開発を行うチームがあります",
     body_markdown: `
@@ -98,14 +98,14 @@ Symbol Community Web の記事を編集、追加するには Portal からの操
   },
   news: {
     meta_page_title: 'ブロックチェーン シンボル コミュニティ | ニュース',
-    meta_page_description: '次世代ブロックチェーン シンボル のウェブサイト。最新情報をいち早くチェックできます。また、コミュニティーの情報を得ることができます。',
+    meta_page_description: 'ブロックチェーンシンボルやネムの最新ニュースをお届けします。',
     page_title: 'ニュースリリース',
     page_title_description: "Symbol/NEM からのトピックスを掲載します",
     no_articles: '記事がありませんでした',
   },
   community: {
     meta_page_title: 'ブロックチェーン シンボル コミュニティ | コミュニティ',
-    meta_page_description: '次世代ブロックチェーン シンボル のウェブサイト。最新情報をいち早くチェックできます。また、コミュニティーの情報を得ることができます。',
+    meta_page_description: '次ブロックチェーンシンボルやネムのコミュニティを紹介します',
     page_title: 'コミュニティ',
     page_title_description: "SymbolやNEMの情報を発信しているサイト、アカウントをフォローしよう",
     section_title_release: 'コミュニティからのお知らせ',
@@ -116,7 +116,7 @@ Symbol Community Web の記事を編集、追加するには Portal からの操
   }, 
   docs: {
     meta_page_title: 'ブロックチェーン シンボル コミュニティ | ドキュメント',
-    meta_page_description: '次世代ブロックチェーン シンボル のウェブサイト。最新情報をいち早くチェックできます。また、コミュニティーの情報を得ることができます。',  
+    meta_page_description: 'ブロックチェーンシンボルやネムに関するドキュメントを掲載しています。',  
     page_title: 'ドキュメント',
     page_title_description: "Symbol/NEM に関する学びを得よう",
     section_title_wellcom: '初めてお越しの方へ',
