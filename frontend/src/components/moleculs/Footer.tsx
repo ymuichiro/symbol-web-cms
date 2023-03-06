@@ -47,7 +47,7 @@ export default function Footer(props: Props): JSX.Element {
           target='_blank'
           style={{ textDecoration: 'none', color: theme.palette.primary.main }}
         >
-          Contract
+          Contact
         </Link>
       </div>
       <div style={{ flexGrow: 1, width: '100%', display: 'flex', justifyContent: 'flex-end' }}>
