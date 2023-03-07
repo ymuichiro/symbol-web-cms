@@ -1,6 +1,6 @@
 FROM node:16-alpine3.16 as StrapiApp
 
-COPY ./backend /workspace
+COPY ./ /workspace
 WORKDIR /workspace
 
 RUN npm ci && npm run build

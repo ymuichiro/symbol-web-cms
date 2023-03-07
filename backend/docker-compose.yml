@@ -1,0 +1,20 @@
+version: '3'
+
+services:
+  app:
+    container_name: strapi
+    image: ghcr.io/ymuichiro/symbol_web:latest
+    tty: true
+    env_file:
+      - symbol-cloud.env
+    volumes:
+      - ./public/uploads:/workspace/public/uploads
+      - ./.tmp:/workspace/.tmp
+    networks:
+      - app-network
+    ports:
+      - '1337:1337'
+
+networks:
+  app-network:
+    driver: bridge
