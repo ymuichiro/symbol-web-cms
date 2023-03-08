@@ -23,4 +23,5 @@ jobs:
         uses: docker/build-push-action@v3
         with:
           push: true
+          context: ./backend
           tags: ghcr.io/ymuichiro/symbol_web:latest
