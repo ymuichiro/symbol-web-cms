@@ -39,6 +39,31 @@
         }
       },
       "type": "string"
+    },
+    "type1": {
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      },
+      "type": "enumeration",
+      "enum": [
+        "node",
+        "general",
+        "programing"
+      ]
+    },
+    "type2": {
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      },
+      "type": "enumeration",
+      "enum": [
+        "symbol",
+        "nem"
+      ]
     }
   }
 }
