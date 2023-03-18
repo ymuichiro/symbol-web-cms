@@ -38,7 +38,7 @@ import Header from '@/components/moleculs/Header';
 import Toolbar from '@mui/material/Toolbar';
 import { NAVIGATIONS } from '@/types/navigations';
 import Head from 'next/head';
-
+import NodeStatics from '@/components/moleculs/NodeStatics';
 interface Props {
   i18n: lang['index'];
   newsReleases: NewsReleaseFindResponse['data'];
@@ -316,6 +316,10 @@ const Home: NextPage<Props> = ({ i18n, newsReleases, locale }) => {
               })}
             </Grid>
           </section>
+          {/* Symbol Statics */}
+          <section>
+            <NodeStatics />
+          </section>
           {/* Symbol Explorer */}
           <section>
             <div
@@ -347,7 +351,6 @@ const Home: NextPage<Props> = ({ i18n, newsReleases, locale }) => {
               </LinkButton>
             </div>
           </section>
-
           {/* サイト運営について */}
           <section>
             <hr />
