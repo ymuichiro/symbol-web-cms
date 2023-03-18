@@ -318,6 +318,9 @@ const Home: NextPage<Props> = ({ i18n, newsReleases, locale }) => {
           </section>
           {/* Symbol Statics */}
           <section>
+            <SubTitle align='center' style={{ color: theme.palette.primary.main }}>
+              Status
+            </SubTitle>
             <NodeStatics />
           </section>
           {/* Symbol Explorer */}
@@ -354,7 +357,7 @@ const Home: NextPage<Props> = ({ i18n, newsReleases, locale }) => {
           {/* サイト運営について */}
           <section>
             <hr />
-            <Grid container spacing={3} style={{ minHeight: '40vh' }}>
+            <Grid container spacing={5} style={{ minHeight: '40vh' }}>
               <Grid
                 item
                 xs={12}
@@ -376,25 +379,26 @@ const Home: NextPage<Props> = ({ i18n, newsReleases, locale }) => {
                 >
                   {i18n.about_site_management_title}
                 </Typography>
-                <Typography align={matches ? 'center' : 'left'} variant='body1'>
+                <Typography align={matches ? 'center' : 'left'} variant='body1' style={{ maxWidth: '600px' }}>
                   {i18n.about_site_management_body}
                 </Typography>
                 <LinkButton href={NAVIGATIONS.ABOUT} fullWidth style={{ maxWidth: '300px' }}>
                   {i18n.about_site_management_title}
                 </LinkButton>
               </Grid>
-              <Grid item xs={12} sm={12} md={4}>
-                <div
-                  style={{
-                    display: 'flex',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    paddingTop: '1rem',
-                    paddingBottom: '1rem',
-                  }}
-                >
-                  <Image src={symbol} alt='symbol シンボル nem logo icon' width={200} height={200} />
-                </div>
+              <Grid
+                item
+                xs={12}
+                sm={12}
+                md={4}
+                style={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  justifyContent: 'center',
+                  alignItems: matches ? 'center' : undefined,
+                }}
+              >
+                <Image src={symbol} alt='symbol シンボル nem logo icon' width={200} height={200} />
               </Grid>
             </Grid>
             <hr />
