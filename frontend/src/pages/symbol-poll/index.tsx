@@ -12,13 +12,33 @@ import Image from 'next/image';
 import IconSelection from '@/assets/icon/selection.svg';
 import LinkButton from '@/components/atom/LinkButton';
 import Footer from '@/components/moleculs/Footer';
+import { useEffect } from 'react';
+import { Address } from 'symbol-sdk/dist/src/model/account/Address';
+import { NetworkType } from 'symbol-sdk/dist/src/model/network/NetworkType';
 
 interface Props {}
+
+// これは だいさんの NODE 一覧APIから都度とってくるがいいかも
+const NODE = 'https://symbolnode.blockchain-authn.app:3001/';
 
 const SymbolPollHome: NextPage<Props> = ({}) => {
   const theme = useTheme();
   const matches = useMediaQuery(theme.breakpoints.between('xs', 'md'));
   const xssMatches = useMediaQuery('@media screen and (min-width:400px)');
+
+  useEffect(() => {
+    // 取り急ぎ confirmed な tx を引いてくるサンプル
+    const address = Address.createFromPublicKey(
+      'C1D4385CB20FD8D1E93F95DE7E64B22302E0978B1D1585DAA361C4CB02D241FC',
+      NetworkType.MAIN_NET
+    );
+    console.log(address);
+    fetch(`${NODE}transactions/confirmed?address:${address.plain()}`, {
+      method: 'GET',
+    })
+      .then((e) => e.json())
+      .then((e) => console.log(e));
+  }, []);
 
   return (
     <>
