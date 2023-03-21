@@ -9,7 +9,6 @@
     "@strapi/strapi": "4.2.3",
     "better-sqlite3": "7.4.6",
     "mysql": "^2.18.1",
-    "node-cron": "^3.0.2",
     "rxjs": "^7.5.6",
     "sss-module": "^1.0.4",
     "symbol-node-util": "^1.0.9",
