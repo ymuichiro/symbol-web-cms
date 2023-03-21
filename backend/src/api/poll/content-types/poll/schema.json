@@ -1,0 +1,40 @@
+{
+  "kind": "collectionType",
+  "collectionName": "polls",
+  "info": {
+    "singularName": "poll",
+    "pluralName": "polls",
+    "displayName": "Poll",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "title": {
+      "type": "string"
+    },
+    "description": {
+      "type": "text"
+    },
+    "options": {
+      "type": "string"
+    },
+    "publicKey": {
+      "type": "string"
+    },
+    "openPollDate": {
+      "type": "datetime"
+    },
+    "result": {
+      "type": "json"
+    },
+    "hash": {
+      "type": "string"
+    },
+    "startHeight": {
+      "type": "integer"
+    }
+  }
+}
