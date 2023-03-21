@@ -28,9 +28,9 @@ const SymbolPoll: NextPage<Props> = ({}) => {
   const xssMatches = useMediaQuery('@media screen and (min-width:400px)')
   const router = useRouter();
   
-  const [hash, setHash] = useState<string | null>(null);
+  const [urlHash, setUrlHash] = useState<string | null>(null);
   const handleHashChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setHash(event.target.value);
+    setUrlHash(event.target.value);
   };
 
   const [showPollData, setShowPollData] = useState(false);
@@ -50,60 +50,85 @@ const SymbolPoll: NextPage<Props> = ({}) => {
   const [options, setOptions] = useState([{ name: '' }]);
   const [openDate, setOpenDate] = useState<string>("");
   const [option, setOption] = useState<string>("未選択");
+  const [warningText, setWarningText] = useState<string>("");
+  const [symbolService, setSymbolService] = useState<SymbolService>();
 
-  const symbolService = new SymbolService();
-  symbolService.init()
-  
   useEffect(() => {
     const { hash } = router.query;
     if (typeof hash === 'string') {
       if(hash.length == 64) {
-        setHash(hash);
+        setUrlHash(hash);
       }
     }
   }, [router.query]);
-
+  useEffect(() => {
+    if (urlHash) {
+      handleSubmit()
+    }
+  }, [urlHash]);
+  useEffect(() => {
+    const initSymbolService = async () => {
+      const service = new SymbolService();
+      await service.init();
+      setSymbolService(service);
+    };
+    initSymbolService();
+  }, []);
   
   const selectOption = (_option: string) => {
     setOption(_option);
   }
 
   function validate() {
-    if(option == "未選択") return false;
+    if(option == "未選択") {
+      setWarningText("選択されていません");
+      return false;
+    };
     return true;
   }
 
   const createTransaction = async () => {
-    if(!validate()) return;
-    if(hash != null) {
-      const type = voteType == "SSS" ? VoteType.SSS : VoteType.QR;
-      const result = await symbolService.voteTransaction(title, hash, option, type);
-      if(type == VoteType.QR) {
-        setQrcode(result);
-        setShowQr(true);
+    try {
+      if(!validate()) return;
+      if(urlHash != null) {
+        const type = voteType == "SSS" ? VoteType.SSS : VoteType.QR;
+        if(symbolService==undefined) throw new Error("symbolService is undefind");
+        const result = await symbolService.voteTransaction(title, urlHash, option, type);
+        if(type == VoteType.QR) {
+          setQrcode(result);
+          setShowQr(true);
+        }
+      } else{
+        throw new Error("hash is null");
       }
-    } else{
-      throw new Error("hash is null");
+    } catch(e:any) {
+      setWarningText(e.message);
+      console.error(e.message);
     }
   }
 
   const handleSubmit = () =>{
-    const url = process.env.NEXT_PUBLIC_API_URL + "/api/polls?filters[hash][$eq]=" + hash;
-    fetch(url)
-    .then((response)=> response.json()
-      ).then((responseJson) =>{
-        handleClick();
-        console.log(responseJson.data[0].attributes.openPollDate)
-        setOpenDate(responseJson.data[0].attributes.openPollDate)
-        setTitle(responseJson.data[0].attributes.title)
-        setDescription(responseJson.data[0].attributes.description)
-        const arr = (responseJson.data[0].attributes.options as string).split(',');
-        const d = [];
-        for(let i = 0; i < arr.length; i++){
-          d.push({name: arr[i]});
-        }
-        setOptions(d);
-      })
+    try{
+      const url = process.env.NEXT_PUBLIC_API_URL + "/api/polls?filters[hash][$eq]=" + urlHash;
+      fetch(url)
+      .then((response)=> response.json()
+        ).then((responseJson) =>{
+          handleClick();
+          console.log(responseJson.data[0].attributes.openPollDate)
+          setOpenDate(responseJson.data[0].attributes.openPollDate)
+          setTitle(responseJson.data[0].attributes.title)
+          setDescription(responseJson.data[0].attributes.description)
+          const arr = (responseJson.data[0].attributes.options as string).split(',');
+          const d = [];
+          for(let i = 0; i < arr.length; i++){
+            d.push({name: arr[i]});
+          }
+          setOptions(d);
+        })
+      } catch(e:any) {
+        setWarningText(e.message);
+        console.error(e.message);
+      }
   }
   return (
     <>
@@ -121,7 +146,7 @@ const SymbolPoll: NextPage<Props> = ({}) => {
                 label="Hash"
                 variant="outlined"
                 fullWidth
-                value={hash ?? ''}
+                value={urlHash ?? ''}
                 onChange={handleHashChange}
               />
               </Grid>
@@ -191,6 +216,7 @@ const SymbolPoll: NextPage<Props> = ({}) => {
                 </RadioGroup>
                 <Button onClick={createTransaction}>Create Transaction</Button>
               </FormControl>
+              <div style={{ color: "#FF0000", padding: "20px", fontSize: "20px"}}>{warningText}</div>
               <div>
               <Image
                 style={{display: showQr ? "block" : "none", marginTop: "20px"}}

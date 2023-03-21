@@ -41,12 +41,19 @@ const SymbolPollCreate: NextPage<Props> = ({}) => {
   const [openDate, setOpenDate] = useState<Date>(new Date());
   const [showHash, setShowHash] = useState(false);
   const [hash, setHash] = useState<string>("");
+  const [warningText, setWarningText] = useState<string>("");
   const [currentUTCDate, setCurrentUTCDate] = useState<Date>(new Date());
-  const symbolService = new SymbolService();
-  symbolService.init()
+  const [symbolService, setSymbolService] = useState<SymbolService>();
   
   useEffect(() => {
     setCurrentUTCDate(new Date(Date.now() + new Date().getTimezoneOffset() * 60 * 1000));
+    const initSymbolService = async () => {
+      const service = new SymbolService();
+      await service.init();
+      setSymbolService(service);
+    };
+
+    initSymbolService();
   }, []);
 
   const handleTitle = (title: string) => {
@@ -93,6 +100,7 @@ const SymbolPollCreate: NextPage<Props> = ({}) => {
         publicKey: getActivePublicKey(),
         openPollDate: openDate,
       }
+      if(symbolService==undefined) throw new Error("symbolService is undefind");
       const hash = await symbolService.createPollTransaction(JSON.stringify(pollData));
       pollData.hash = hash;
       pollData.startHeight = await symbolService.getCurrentHeight();
@@ -129,6 +137,7 @@ const SymbolPollCreate: NextPage<Props> = ({}) => {
 
       await fetch(urlForCronJob,requestOptionsForCronJob);
     } catch (e: any) {
+      setWarningText(e.message);
       console.error(e.message);
     }
   };
@@ -206,6 +215,7 @@ const SymbolPollCreate: NextPage<Props> = ({}) => {
             <Grid item xs={12} style={{ marginTop: '10px' }}>
               <Button onClick={handleSubmit}>Submit</Button>
             </Grid>
+            <div style={{ color: "#FF0000", padding: "20px", fontSize: "20px"}}>{warningText}</div>
 
             <div id = "hash" style={{ display: showHash ? "block" : "none", marginTop: '40px', marginBottom: '10px' }}>
             <Grid item xs={12}>
