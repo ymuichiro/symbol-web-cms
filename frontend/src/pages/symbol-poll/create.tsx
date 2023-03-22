@@ -1,6 +1,7 @@
 import MainBackground from '@/components/atom/MainBackground';
-import { PageTitle, SectionTitle, SubTitle } from '@/components/atom/Titles';
+import { PageTitle } from '@/components/atom/Titles';
 import Header from '@/components/moleculs/Header';
+import Footer from '@/components/moleculs/Footer';
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
 import { useTheme } from '@mui/material/styles';
@@ -8,7 +9,6 @@ import Toolbar from '@mui/material/Toolbar';
 import FormLabel from '@mui/material/FormLabel';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { GetStaticProps, NextPage } from 'next/types';
-import Footer from '@/components/moleculs/Footer';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import { useState, useEffect } from 'react';
@@ -31,10 +31,10 @@ interface PollData {
   startHeight: number | undefined;
 }
 
-const SymbolPollCreate: NextPage<Props> = ({}) => {
+const CreateSymbolPoll: NextPage<Props> = ({}) => {
   const theme = useTheme();
-  const matches = useMediaQuery(theme.breakpoints.between('xs', 'md'));
-  const xssMatches = useMediaQuery('@media screen and (min-width:400px)');
+  const isMediumScreen = useMediaQuery(theme.breakpoints.between('xs', 'md'));
+  const isXsScreen = useMediaQuery('@media screen and (min-width:400px)');
   const [options, setOptions] = useState([{ name: '' }]);
   const [title, setTitle] = useState<string>("");
   const [description, setDescription] = useState<string>("");
@@ -47,48 +47,49 @@ const SymbolPollCreate: NextPage<Props> = ({}) => {
   
   useEffect(() => {
     setCurrentUTCDate(new Date(Date.now() + new Date().getTimezoneOffset() * 60 * 1000));
-    const initSymbolService = async () => {
+    const initializeSymbolService = async () => {
       const service = new SymbolService();
       await service.init();
       setSymbolService(service);
     };
 
-    initSymbolService();
+    initializeSymbolService();
   }, []);
 
-  const handleTitle = (title: string) => {
+  const handleTitleChange = (title: string) => {
     setTitle(title);
   }
-  const handleDescription = (description: string) => {
+  const handleDescriptionChange = (description: string) => {
     setDescription(description);
   }
-  const handleAddItem = () => {
+  const handleAddOption = () => {
     setOptions([...options, { name: '' }]);
   };
 
-  const handleRemoveItem = (index: number) => {
-    const newItems = [...options];
-    newItems.splice(index, 1);
-    setOptions(newItems);
+  const handleRemoveOption = (index: number) => {
+    const newOptions = [...options];
+    newOptions.splice(index, 1);
+    setOptions(newOptions);
   };
 
-  const handleItemChange = (index: number, field: 'name', name: string) => {
-    const newItems = [...options];
-    newItems[index][field] = name;
-    setOptions(newItems);
+  const handleOptionChange = (index: number, field: 'name', name: string) => {
+    const newOptions = [...options];
+    newOptions[index][field] = name;
+    setOptions(newOptions);
   };
 
-  const handleSubmit = async () => {
+  const handleFormSubmit = async () => {
     try {
       options.forEach(option=>{
         option.name
       })
-      const itemObjects = options
+      const optionStrings = options
         .filter(option => option.name)
         .map(option => (option.name));
-      let str = "";
-      for(let i = 0; i < itemObjects.length; i++){
-        str += i == 0 ? itemObjects[i] : "," + itemObjects[i];
+      let concatenatedOptions = "";
+      for
+      (let i = 0; i < optionStrings.length; i++) {
+        concatenatedOptions += i === 0 ? optionStrings[i] : "," + optionStrings[i];
       }
       
       const pollData: PollData = {
@@ -96,55 +97,55 @@ const SymbolPollCreate: NextPage<Props> = ({}) => {
         startHeight: undefined,
         title,
         description,
-        options: str,
+        options: concatenatedOptions,
         publicKey: getActivePublicKey(),
         openPollDate: openDate,
       }
-      if(symbolService==undefined) throw new Error("symbolService is undefind");
-      const hash = await symbolService.createPollTransaction(JSON.stringify(pollData));
-      pollData.hash = hash;
+      if (symbolService === undefined) throw new Error("symbolService is undefined");
+      const generatedHash = await symbolService.createPollTransaction(JSON.stringify(pollData));
+      pollData.hash = generatedHash;
       pollData.startHeight = await symbolService.getCurrentHeight();
-      setHash(process.env.NEXT_PUBLIC_HOSTING_URL+"/ja/symbol-poll/poll?&hash="+pollData.hash);
+      setHash(process.env.NEXT_PUBLIC_HOSTING_URL + "/ja/symbol-poll/poll?&hash=" + pollData.hash);
       setShowHash(true);
       
-      const requestOptions ={
+      const postRequestOptions = {
         method: 'POST',
-        headers:{'Content-Type': 'application/json'},
-        body: JSON.stringify({ data: pollData})
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ data: pollData })
       };
-      const url = process.env.NEXT_PUBLIC_API_URL + "/api/polls";
+      const apiUrl = process.env.NEXT_PUBLIC_API_URL + "/api/polls";
       
-      const postPollResponce = await fetch(url,requestOptions)
-      const responseJson = await postPollResponce.json();
-      console.log(responseJson.data)
+      const postPollResponse = await fetch(apiUrl, postRequestOptions);
+      const responseJson = await postPollResponse.json();
+      console.log(responseJson.data);
       const urlForCronJob = process.env.NEXT_PUBLIC_API_URL + "/api/set-open-poll";
-      const res = responseJson.data;
-      const attributes = res.attributes;
-      const targetDate = new Date(attributes.openPollDate);      
-      const utcCurrentDate = new Date(Date.now() + new Date().getTimezoneOffset() * 60 * 1000)
-
-      const requestOptionsForCronJob ={
+      const responseData = responseJson.data;
+      const pollAttributes = responseData.attributes;
+      const targetDate = new Date(pollAttributes.openPollDate);      
+      const utcCurrentDate = new Date(Date.now() + new Date().getTimezoneOffset() * 60 * 1000);
+    
+      const requestOptionsForCronJob = {
         method: 'POST',
-        headers:{'Content-Type': 'application/json'},
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          id: res.id,
-          hash: attributes.hash,
-          startHeight: attributes.startHeight,
-          options: attributes.options.split(","),
+          id: responseData.id,
+          hash: pollAttributes.hash,
+          startHeight: pollAttributes.startHeight,
+          options: pollAttributes.options.split(","),
           time: targetDate.getTime() - utcCurrentDate.getTime()
         })
       };
-
-      await fetch(urlForCronJob,requestOptionsForCronJob);
+    
+      await fetch(urlForCronJob, requestOptionsForCronJob);
     } catch (e: any) {
       setWarningText(e.message);
       console.error(e.message);
-    }
+    }    
   };
 
-  const handleChangeOpenDate = (newValue: Date | null) => {
-    if(newValue == null) return;
-    setOpenDate(newValue)
+  const handleOpenDateChange = (newValue: Date | null) => {
+    if (newValue === null) return;
+    setOpenDate(newValue);
   }
 
   return (
@@ -153,40 +154,40 @@ const SymbolPollCreate: NextPage<Props> = ({}) => {
       <Toolbar style={{ marginTop: '20px' }} />
       <div style={{ marginBottom: '5vh' }}>
         <Container maxWidth='lg' style={{ height: '100%' }}>
-          {/* ヘッダーセクション */}
+          {/* Header section */}
           <section>
             <MainBackground />
             <PageTitle>Create a New Poll</PageTitle>
             <Grid container spacing={3}>
               <Grid item xs={12}>
-                <TextField 
-                  label='Title' 
-                  onChange={event => handleTitle(event.target.value)}
+                <TextField
+                  label='Title'
+                  onChange={event => handleTitleChange(event.target.value)}
                   fullWidth />
               </Grid>
               <Grid item xs={12}>
-                <TextField 
+                <TextField
                   label='Description'
-                  onChange={event => handleDescription(event.target.value)}
+                  onChange={event => handleDescriptionChange(event.target.value)}
                   fullWidth multiline rows={4}/>
               </Grid>
             </Grid>
             <Grid container spacing={2} style={{ marginTop: '10px', marginBottom: '10px' }} >
-              <FormLabel style={{ paddingLeft: '16px' }} >options</FormLabel>
-              {options.map((option, index) => (
-                <Grid item xs={12} md={12} key={index}>
-                  <Grid container spacing={2} alignItems="flex-end">
-                    <Grid item xs={3}>
-                      <TextField
-                        label={`Option ${index + 1} name`}
-                        value={option.name}
-                        fullWidth
-                        onChange={event => handleItemChange(index, 'name', event.target.value)}
-                      />
-                    </Grid>
+              <FormLabel style={{ paddingLeft: '16px' }} >Options</FormLabel>
+                {options.map((option, index) => (
+                  <Grid item xs={12} md={12} key={index}>
+                    <Grid container spacing={2} alignItems="flex-end">
+                      <Grid item xs={3}>
+                        <TextField
+                          label={`Option ${index + 1} name`}
+                          value={option.name}
+                          fullWidth
+                          onChange={event => handleOptionChange(index, 'name', event.target.value)}
+                        />
+                      </Grid>
                     <Grid item xs={1}>
                       <IconButton
-                        onClick={() => handleRemoveItem(index)}
+                        onClick={() => handleRemoveOption(index)}
                         disabled={options.length === 1}
                       >
                         <DeleteIcon />
@@ -197,35 +198,34 @@ const SymbolPollCreate: NextPage<Props> = ({}) => {
               ))}
             </Grid>
             <Grid item xs={12}>
-              <Button onClick={handleAddItem} style={{ marginRight: '10px' }}>Add Option</Button>
+              <Button onClick={handleAddOption} style={{ marginRight: '10px' }}>Add Option</Button>
             </Grid>
             <Grid container spacing={3} style={{ marginTop: '20px', marginBottom: '10px' }} >
               <Grid item xs={12}>
-              <LocalizationProvider dateAdapter={AdapterDateFns}>
-              <DateTimePicker
-                label="Open poll date"
-                value={openDate}
-                onChange={handleChangeOpenDate}
-                minDateTime={currentUTCDate}
-                sx={{ width: "100%", maxWidth: "300px" }}
-              />
-              </LocalizationProvider>
+                <LocalizationProvider dateAdapter={AdapterDateFns}>
+                  <DateTimePicker
+                    label="Open poll date"
+                    value={openDate}
+                    onChange={handleOpenDateChange}
+                    minDateTime={currentUTCDate}
+                    sx={{ width: "100%", maxWidth: "300px" }}
+                  />
+                </LocalizationProvider>
               </Grid>
             </Grid>
             <Grid item xs={12} style={{ marginTop: '10px' }}>
-              <Button onClick={handleSubmit}>Submit</Button>
+              <Button onClick={handleFormSubmit}>Submit</Button>
             </Grid>
             <div style={{ color: "#FF0000", padding: "20px", fontSize: "20px"}}>{warningText}</div>
-
-            <div id = "hash" style={{ display: showHash ? "block" : "none", marginTop: '40px', marginBottom: '10px' }}>
-            <Grid item xs={12}>
-              <TextField
-                label="poll url"
-                variant="outlined"
-                fullWidth
-                value={hash}
-                disabled
-              />
+            <div id="hash" style={{ display: showHash ? "block" : "none", marginTop: '40px', marginBottom: '10px' }}>
+              <Grid item xs={12}>
+                <TextField
+                  label="Poll URL"
+                  variant="outlined"
+                  fullWidth
+                  value={hash}
+                  disabled
+                />
               </Grid>
             </div>
           </section>
@@ -241,10 +241,10 @@ const SymbolPollCreate: NextPage<Props> = ({}) => {
 const getStaticProps: GetStaticProps<Props> = async ({ locale, defaultLocale }) => {
   return {
     props: {
-      locale: locale || defaultLocale || 'en',
+    locale: locale || defaultLocale || 'en',
     },
   };
 };
 
 export { getStaticProps };
-export default SymbolPollCreate;
+export default CreateSymbolPoll;

@@ -18,22 +18,26 @@ module.exports = {
         data: {
           password,
           isActive: true,
-          username: address.replace('@mail.com', '').toUpperCase()
+          username: address.replace('@mail.com', '').toUpperCase(),
         },
       });
       const networkType = process.env.NETWORKTYPE == '152' ? symbol.NetworkType.TEST_NET : symbol.NetworkType.MAIN_NET;
-      const encryptedMessage = symbol.EncryptedMessage.create(password, symbol.PublicAccount.createFromPublicKey(publicKey, networkType), process.env.ADMIN_PRIVATEKEY)
+      const encryptedMessage = symbol.EncryptedMessage.create(
+        password,
+        symbol.PublicAccount.createFromPublicKey(publicKey, networkType),
+        process.env.ADMIN_PRIVATEKEY
+      );
       const encryptedPayload = encryptedMessage.payload;
-      return [encryptedPayload, process.env.ADMIN_PUBLICKEY]
+      return [encryptedPayload, process.env.ADMIN_PUBLICKEY];
     } catch (err) {
-      ctx.badRequest("Account does not exist", { moreDetails: err });
+      ctx.badRequest('Account does not exist', { moreDetails: err });
     }
   },
   async getAdminPublicKey(ctx, next) {
     try {
       return process.env.ADMIN_PUBLICKEY;
     } catch (err) {
-      ctx.badRequest("Pubkey does not exist", { moreDetails: err });
+      ctx.badRequest('Pubkey does not exist', { moreDetails: err });
     }
   },
 };
