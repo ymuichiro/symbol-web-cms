@@ -52,6 +52,18 @@
           "localized": false
         }
       }
+    },
+    "type": {
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      },
+      "type": "enumeration",
+      "enum": [
+        "general",
+        "post-mortem"
+      ]
     }
   }
 }
