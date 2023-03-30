@@ -43,7 +43,7 @@
     "type1": {
       "pluginOptions": {
         "i18n": {
-          "localized": true
+          "localized": false
         }
       },
       "type": "enumeration",
@@ -51,19 +51,21 @@
         "node",
         "general",
         "programing"
-      ]
+      ],
+      "default": "general"
     },
     "type2": {
       "pluginOptions": {
         "i18n": {
-          "localized": true
+          "localized": false
         }
       },
       "type": "enumeration",
       "enum": [
         "symbol",
         "nem"
-      ]
+      ],
+      "default": "symbol"
     }
   }
 }

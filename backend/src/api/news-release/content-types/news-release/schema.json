@@ -56,14 +56,15 @@
     "type": {
       "pluginOptions": {
         "i18n": {
-          "localized": true
+          "localized": false
         }
       },
       "type": "enumeration",
       "enum": [
         "general",
         "post-mortem"
-      ]
+      ],
+      "default": "general"
     }
   }
 }
