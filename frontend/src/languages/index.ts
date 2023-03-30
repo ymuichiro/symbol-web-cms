@@ -24,7 +24,7 @@ export const languages = [
     label: '中文簡体',
   },
   {
-    code: 'zh-Hant-TW',
+    code: 'zh-hant-tw',
     label: '中文繁体',
   },
 ];
@@ -42,7 +42,7 @@ export function languageSwitchToStrapi(locale: string): string {
       return 'ko';
     case 'zh':
       return 'zh';
-    case 'zh-Hant-TW':
+    case 'zh-hant-tw':
       return 'zh-Hant-TW';
     case 'all':
       return 'all';
@@ -65,7 +65,7 @@ export function languageSwitchToFrontend(locale: string): string {
     case 'zh':
       return 'zh';
     case 'zh-Hant-TW':
-      return 'zh-Hant-TW';
+      return 'zh-hant-tw';
     case 'all':
       return 'all';
     default:
@@ -83,7 +83,7 @@ export const langSelecter = (locale?: string): lang => {
       return ko;
     case 'zh':
       return zh;
-    case 'zh-Hant-TW':
+    case 'zh-hant-tw':
       return zhHantTw;
     default:
       return en;
