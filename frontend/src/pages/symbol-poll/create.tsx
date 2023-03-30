@@ -43,10 +43,12 @@ const CreateSymbolPoll: NextPage<Props> = ({}) => {
   const [hash, setHash] = useState<string>("");
   const [warningText, setWarningText] = useState<string>("");
   const [currentUTCDate, setCurrentUTCDate] = useState<Date>(new Date());
+  const [sevenDaysLaterUTCDate, setSevenDaysLaterUTCDate] = useState<Date>(new Date());
   const [symbolService, setSymbolService] = useState<SymbolService>();
   
   useEffect(() => {
     setCurrentUTCDate(new Date(Date.now() + new Date().getTimezoneOffset() * 60 * 1000));
+    setSevenDaysLaterUTCDate(new Date(new Date(Date.now() + new Date().getTimezoneOffset() * 60 * 1000).setDate(new Date(Date.now() + new Date().getTimezoneOffset() * 60 * 1000).getDate() + 7)));
     const initializeSymbolService = async () => {
       const service = new SymbolService();
       await service.init();
@@ -80,6 +82,9 @@ const CreateSymbolPoll: NextPage<Props> = ({}) => {
 
   const handleFormSubmit = async () => {
     try {
+      if(openDate > sevenDaysLaterUTCDate || openDate < currentUTCDate) {
+        throw new Error("Poll can be opened only between 7 days from now and now.");
+      }
       options.forEach(option=>{
         option.name
       })
@@ -208,6 +213,7 @@ const CreateSymbolPoll: NextPage<Props> = ({}) => {
                     value={openDate}
                     onChange={handleOpenDateChange}
                     minDateTime={currentUTCDate}
+                    maxDateTime={sevenDaysLaterUTCDate}
                     sx={{ width: "100%", maxWidth: "300px" }}
                   />
                 </LocalizationProvider>
