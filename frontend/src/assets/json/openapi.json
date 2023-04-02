@@ -1333,7 +1333,13 @@
       }
     }
   },
-  "servers": [{ "url": "https://symbolnode.blockchain-authn.app:3001/", "description": "MAINNET" }],
+  "servers": [
+    { "url": "https://mikun-testnet.tk:3001/", "description": "TESTNET" },
+    { "url": "https://mikun-testnet2.tk:3001/", "description": "TESTNET" },
+    { "url": "https://2.dusan.gq:3001/", "description": "TESTNET" },
+    { "url": "https://symbolnode.blockchain-authn.app:3001/", "description": "MAINNET" },
+    { "url": "https://node.symbol-community.com:3001/", "description": "MAINNET" }
+  ],
   "components": {
     "parameters": {
       "address": {
