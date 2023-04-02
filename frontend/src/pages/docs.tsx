@@ -209,7 +209,7 @@ const Documents: NextPage<Props> = ({ i18n, documentReleases, initLocale }) => {
             </CardContent>
           </Card>
           {/* Rest API お試しセクション */}
-          <Grid container spacing={1} style={{ minHeight: matches ? undefined : '500px', marginTop: '5rem' }}>
+          <Grid container spacing={4} style={{ minHeight: matches ? undefined : '500px', marginTop: '5rem' }}>
             <Grid item xs={12} sm={12} md={6}>
               <div
                 style={{
@@ -220,12 +220,20 @@ const Documents: NextPage<Props> = ({ i18n, documentReleases, initLocale }) => {
                   height: '100%',
                 }}
               >
-                <SubTitle style={{ marginTop: 0 }}>Try Symbol Rest API</SubTitle>
+                <SubTitle style={{ marginTop: 0 }}>Try Symbol APIs</SubTitle>
                 <Button
+                  fullWidth
                   onClick={() => router.push(NAVIGATIONS.SUPPORT_REST)}
-                  style={{ maxWidth: '500px', marginTop: '3rem', marginBottom: '3rem' }}
+                  style={{ maxWidth: '500px', marginTop: '3rem', marginBottom: '1rem' }}
                 >
                   go rest api playground
+                </Button>
+                <Button
+                  fullWidth
+                  onClick={() => router.push('/static/playground.html', undefined, { locale: false })}
+                  style={{ maxWidth: '500px', marginBottom: '3rem' }}
+                >
+                  go sdk playground
                 </Button>
               </div>
             </Grid>

@@ -31,7 +31,15 @@ function Rest({ spec, i18n }: Props): JSX.Element {
       <div style={{ marginBottom: '5vh' }}>
         <Container maxWidth='lg'>
           <MainBackground />
-          <div style={{ backgroundColor: 'white', maxWidth: '100%', borderRadius: '8px' }}>
+          <div
+            style={{
+              backgroundColor: 'white',
+              maxWidth: '100%',
+              borderRadius: '8px',
+              marginTop: '5rem',
+              paddingTop: '0.5rem',
+            }}
+          >
             <SwaggerUI spec={spec} />
           </div>
         </Container>

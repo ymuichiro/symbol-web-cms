@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Symbol Playground</title>
+    <script src="https://embed.runkit.com"></script>
+    <style>
+      body {
+        background-color: rgb(43, 43, 43);
+        color: rgb(255, 255, 255);
+        margin: 0px;
+        padding: 0px;
+      }
+
+      h1 {
+        text-align: left;
+        font-size: 2em;
+        margin-top: 0px;
+        margin-bottom: 0px;
+      }
+
+      h3 {
+        font-size: 1em;
+        text-align: left;
+        margin-top: 0px;
+      }
+
+      a {
+        border: none;
+        border-radius: 5px;
+        padding: 7px 20px 7px 20px;
+        background: linear-gradient(333deg, #0013e2, #8800ff);
+        color: white;
+        font-weight: bold;
+        font-size: 0.8em;
+        text-decoration: none;
+        margin-bottom: 1rem;
+        width: 100%;
+      }
+
+      button {
+        border: none;
+        border-radius: 5px;
+        padding: 10px 20px 10px 20px;
+        background: linear-gradient(333deg, #0013e2, #8800ff);
+        color: white;
+        font-weight: bold;
+        font-size: 0.8em;
+      }
+
+      .container {
+        margin-top: 50px;
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        width: 100vw;
+        gap: 30px;
+      }
+
+      .title {
+        width: 70%;
+        min-width: 600px;
+        display: flex;
+      }
+
+      .title_text {
+        flex-grow: 1;
+      }
+
+      .title_link {
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+      }
+
+      .editor {
+        width: 70%;
+        min-width: 600px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="title">
+        <div class="title_text">
+          <h1>Symbol Playground</h1>
+          <h3>for symbol-sdk</h3>
+        </div>
+        <div class="title_link">
+          <a href="https://learn.en.symbol-community.com/" rel="noopener" target="_blank">Go documents</a>
+          <a href="https://symbol-community.com/" rel="noopener" target="_blank">Go Community Site</a>
+        </div>
+      </div>
+      <div style="width: 100%">
+        <hr />
+      </div>
+      <div class="editor">
+        <div style="min-height: 300px">
+          <div id="my-element"></div>
+        </div>
+        <div class="editor_toolbar" style="margin-top: 3em; justify-content: flex-end">
+          <button id="save">save</button>
+          <button id="download">download</button>
+        </div>
+      </div>
+    </div>
+    <script src="./playground.js" type="module"></script>
+  </body>
+</html>
