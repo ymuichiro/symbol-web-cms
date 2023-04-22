@@ -16,6 +16,7 @@
   "scripts": {
     "start": "run-p start:*",
     "build": "run-s build:*",
+    "dev": "run-p dev:*",
     "postinstall": "run-p install:*",
     "clean": "run-s clean:* && rimraf node_modules",
     "clean:frontend": "rimraf frontend/node_modules && rimraf frontend/dist",
@@ -28,6 +29,8 @@
     "start:backend": "npm run develop --prefix backend",
     "build:frontend": "npm run build --prefix frontend",
     "build:backend": "npm run build --prefix backend",
+    "dev:frontend": "npm run dev --prefix frontend",
+    "dev:backend": "npm run develop --prefix backend",
     "lint": "npm frontend lint --prefix"
   },
   "devDependencies": {

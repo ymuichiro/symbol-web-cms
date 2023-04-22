@@ -7,7 +7,7 @@ const withPWA = require('next-pwa')({
 
 const nextConfig = withPWA({
   i18n: {
-    locales: ['en', 'ja', 'ko', 'zh', 'zh-Hant-TW'],
+    locales: ['en', 'ja', 'ko', 'zh', 'zh-hant-tw'],
     defaultLocale: 'en',
   },
   images: {

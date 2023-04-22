@@ -5,7 +5,7 @@
 */
 import LinkButton from '@/components/atom/LinkButton';
 import MainBackground from '@/components/atom/MainBackground';
-import { PageTitle, SectionTitle } from '@/components/atom/Titles';
+import { PageTitle, SectionTitle, SubTitle } from '@/components/atom/Titles';
 import Footer from '@/components/moleculs/Footer';
 import { findDocuments } from '@/services/StrapiService';
 import { DocumentFindResponse } from '@/types/StrapiModel';
@@ -35,6 +35,7 @@ import Image from 'next/image';
 import Header from '@/components/moleculs/Header';
 import Toolbar from '@mui/material/Toolbar';
 import { NAVIGATIONS } from '@/types/navigations';
+import ApiServerImage from '@/assets/icon/api-server.webp';
 
 interface Props {
   i18n: lang['docs'];
@@ -207,6 +208,45 @@ const Documents: NextPage<Props> = ({ i18n, documentReleases, initLocale }) => {
               </Grid>
             </CardContent>
           </Card>
+          {/* Rest API お試しセクション */}
+          <Grid container spacing={4} style={{ minHeight: matches ? undefined : '500px', marginTop: '5rem' }}>
+            <Grid item xs={12} sm={12} md={6}>
+              <div
+                style={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  height: '100%',
+                }}
+              >
+                <SubTitle style={{ marginTop: 0 }}>Try Symbol APIs</SubTitle>
+                <Button
+                  fullWidth
+                  onClick={() => router.push(NAVIGATIONS.SUPPORT_REST)}
+                  style={{ maxWidth: '500px', marginTop: '3rem', marginBottom: '1rem' }}
+                >
+                  go rest api playground
+                </Button>
+                <Button
+                  fullWidth
+                  onClick={() => router.push('/static/playground.html', undefined, { locale: false })}
+                  style={{ maxWidth: '500px', marginBottom: '3rem' }}
+                >
+                  go sdk playground
+                </Button>
+              </div>
+            </Grid>
+            <Grid
+              item
+              xs={12}
+              sm={12}
+              md={6}
+              style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}
+            >
+              <Image src={ApiServerImage} height={500} width={500} alt='symbol rest api document' />
+            </Grid>
+          </Grid>
           {/* 検索セクション */}
           <section style={{ marginTop: '10vh' }}>
             <Container maxWidth='md'>
