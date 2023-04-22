@@ -93,6 +93,20 @@ function getVotesByOption(votes, options) {
 }
 
 module.exports = {
+  async executeOpenPoll(poll) {
+    try {
+      const { id, hash, startHeight, options } = poll;
+      const result = await getResultPolls(hash, startHeight, options);
+      console.log(result);
+      const update = await strapi.entityService.update('api::poll.poll', id, {
+        data: {
+          result,
+        },
+      });
+    } catch (err) {
+      throw new Error(err.message);
+    }
+  },
   async setOpenPoll(ctx, next) {
     try {
       const { id, hash, startHeight, options, time } = ctx.request.body;
