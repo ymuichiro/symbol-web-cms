@@ -91,18 +91,13 @@ const CreateSymbolPoll: NextPage<Props> = ({}) => {
       const optionStrings = options
         .filter(option => option.name)
         .map(option => (option.name));
-      let concatenatedOptions = "";
-      for
-      (let i = 0; i < optionStrings.length; i++) {
-        concatenatedOptions += i === 0 ? optionStrings[i] : "," + optionStrings[i];
-      }
-      
+
       const pollData: PollData = {
         hash: undefined,
         startHeight: undefined,
         title,
         description,
-        options: concatenatedOptions,
+        options: optionStrings.join(","),
         publicKey: getActivePublicKey(),
         openPollDate: openDate,
       }
