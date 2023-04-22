@@ -40,12 +40,9 @@
     "react-syntax-highlighter": "^15.5.0",
     "remark-gfm": "^3.0.1",
     "slick-carousel": "^1.8.1",
-<<<<<<< HEAD
     "sss-module": "^1.0.4",
     "symbol-qr-library": "^0.14.2",
-=======
     "swagger-ui-react": "^4.18.2",
->>>>>>> main
     "symbol-sdk": "^2.0.4",
     "typescript": "^4.9.3"
   },
