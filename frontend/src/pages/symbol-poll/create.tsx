@@ -206,7 +206,7 @@ const CreateSymbolPoll: NextPage = ({}) => {
                     <div style={{ marginTop: '1rem' }}>
                       <LocalizationProvider dateAdapter={AdapterDateFns}>
                         <DateTimePicker
-                          label='Open poll date'
+                          label='Date of ending'
                           value={openDate}
                           onChange={handleOpenDateChange}
                           minDateTime={currentUTCDate}
