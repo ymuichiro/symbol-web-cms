@@ -6,4 +6,9 @@ export const NAVIGATIONS = {
   ABOUT: '/about',
   SUPPORT: '/support',
   SUPPORT_REST: '/support/rest',
+  SYMBOL_POLL: {
+    CREATE: '/symbol-poll/create',
+    INDEX: '/symbol-poll',
+    POLL: '/symbol-poll/poll',
+  },
 };
