@@ -1,25 +1,24 @@
 import MainBackground from '@/components/atom/MainBackground';
 import { PageTitle } from '@/components/atom/Titles';
-import Header from '@/components/moleculs/Header';
 import Footer from '@/components/moleculs/Footer';
+import Header from '@/components/moleculs/Header';
+import { SymbolService } from '@/services/symbolService';
+import Button from '@mui/material/Button';
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
-import { useTheme } from '@mui/material/styles';
-import Toolbar from '@mui/material/Toolbar';
-import FormLabel from '@mui/material/FormLabel';
-import useMediaQuery from '@mui/material/useMediaQuery';
-import { GetStaticProps, NextPage } from 'next/types';
+import IconButton from '@mui/material/IconButton';
+import InputAdornment from '@mui/material/InputAdornment';
 import TextField from '@mui/material/TextField';
-import Button from '@mui/material/Button';
-import { useState, useEffect } from 'react';
-import { IconButton } from '@mui/material';
-import DeleteIcon from '@mui/icons-material/Delete';
-import { LocalizationProvider, DateTimePicker } from '@mui/x-date-pickers';
-import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns'
+import Toolbar from '@mui/material/Toolbar';
+import Typography from '@mui/material/Typography';
+import { DateTimePicker, LocalizationProvider } from '@mui/x-date-pickers';
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
+import type { GetStaticProps, NextPage } from 'next/types';
+import { useEffect, useState } from 'react';
+import { MdDelete } from 'react-icons/md';
 import { getActivePublicKey } from 'sss-module';
-import { SymbolService } from '../../services/symbolService';
-
-interface Props {}
 
 interface PollData {
   hash: string | undefined;
@@ -31,21 +30,27 @@ interface PollData {
   startHeight: number | undefined;
 }
 
-const CreateSymbolPoll: NextPage<Props> = ({}) => {  
+const CreateSymbolPoll: NextPage = ({}) => {
   const [options, setOptions] = useState([{ name: '' }]);
-  const [title, setTitle] = useState<string>("");
-  const [description, setDescription] = useState<string>("");
+  const [title, setTitle] = useState<string>('');
+  const [description, setDescription] = useState<string>('');
   const [dateOfEnding, setDateOfEnding] = useState<Date>(new Date());
   const [showHash, setShowHash] = useState(false);
-  const [hash, setHash] = useState<string>("");
-  const [warningText, setWarningText] = useState<string>("");
+  const [hash, setHash] = useState<string>('');
+  const [warningText, setWarningText] = useState<string>('');
   const [currentUTCDate, setCurrentUTCDate] = useState<Date>(new Date());
   const [sevenDaysLaterUTCDate, setSevenDaysLaterUTCDate] = useState<Date>(new Date());
   const [symbolService, setSymbolService] = useState<SymbolService>();
-  
+
   useEffect(() => {
     setCurrentUTCDate(new Date(Date.now() + new Date().getTimezoneOffset() * 60 * 1000));
-    setSevenDaysLaterUTCDate(new Date(new Date(Date.now() + new Date().getTimezoneOffset() * 60 * 1000).setDate(new Date(Date.now() + new Date().getTimezoneOffset() * 60 * 1000).getDate() + 7)));
+    setSevenDaysLaterUTCDate(
+      new Date(
+        new Date(Date.now() + new Date().getTimezoneOffset() * 60 * 1000).setDate(
+          new Date(Date.now() + new Date().getTimezoneOffset() * 60 * 1000).getDate() + 7
+        )
+      )
+    );
     const initializeSymbolService = async () => {
       const service = new SymbolService();
       await service.init();
@@ -57,10 +62,10 @@ const CreateSymbolPoll: NextPage<Props> = ({}) => {
 
   const handleTitleChange = (title: string) => {
     setTitle(title);
-  }
+  };
   const handleDescriptionChange = (description: string) => {
     setDescription(description);
-  }
+  };
   const handleAddOption = () => {
     setOptions([...options, { name: '' }]);
   };
@@ -80,21 +85,19 @@ const CreateSymbolPoll: NextPage<Props> = ({}) => {
   const handleFormSubmit = async () => {
     try {
       if(dateOfEnding > sevenDaysLaterUTCDate || dateOfEnding < currentUTCDate) {
-        throw new Error("Poll can be opened only between 7 days from now and now.");
+        throw new Error('Poll can be opened only between 7 days from now and now.');
       }
-      options.forEach(option=>{
-        option.name
-      })
-      const optionStrings = options
-        .filter(option => option.name)
-        .map(option => (option.name));
+      options.forEach((option) => {
+        option.name;
+      });
+      const optionStrings = options.filter((option) => option.name).map((option) => option.name);
 
       const pollData: PollData = {
         hash: undefined,
         startHeight: undefined,
         title,
         description,
-        options: optionStrings.join(","),
+        options: optionStrings.join(','),
         publicKey: getActivePublicKey(),
         dateOfEnding: (new Date(dateOfEnding.getTime() - new Date().getTimezoneOffset() * 60 * 1000)).toISOString(),
       }
@@ -103,20 +106,19 @@ const CreateSymbolPoll: NextPage<Props> = ({}) => {
       const generatedHash = await symbolService.createPollTransaction(JSON.stringify(pollData));
       pollData.hash = generatedHash;
       pollData.startHeight = await symbolService.getCurrentHeight();
-      setHash(process.env.NEXT_PUBLIC_HOSTING_URL + "/ja/symbol-poll/poll?&hash=" + pollData.hash);
+      setHash(process.env.NEXT_PUBLIC_HOSTING_URL + '/ja/symbol-poll/poll?&hash=' + pollData.hash);
       setShowHash(true);
-      
+
       const postRequestOptions = {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ data: pollData })
+        body: JSON.stringify({ data: pollData }),
       };
-      const apiUrl = process.env.NEXT_PUBLIC_API_URL + "/api/polls";
-      
+      const apiUrl = process.env.NEXT_PUBLIC_API_URL + '/api/polls';
+
       const postPollResponse = await fetch(apiUrl, postRequestOptions);
       const responseJson = await postPollResponse.json();
-      console.log(responseJson.data);
-      const urlForCronJob = process.env.NEXT_PUBLIC_API_URL + "/api/set-open-poll";
+      const urlForCronJob = process.env.NEXT_PUBLIC_API_URL + '/api/set-open-poll';
       const responseData = responseJson.data;
       const pollAttributes = responseData.attributes;
       const targetDate = new Date(pollAttributes.dateOfEnding);
@@ -129,16 +131,16 @@ const CreateSymbolPoll: NextPage<Props> = ({}) => {
           id: responseData.id,
           hash: pollAttributes.hash,
           startHeight: pollAttributes.startHeight,
-          options: pollAttributes.options.split(","),
-          time: targetDate.getTime() - utcCurrentDate.getTime()
-        })
+          options: pollAttributes.options.split(','),
+          time: targetDate.getTime() - utcCurrentDate.getTime(),
+        }),
       };
-    
+
       await fetch(urlForCronJob, requestOptionsForCronJob);
     } catch (e: any) {
       setWarningText(e.message);
       console.error(e.message);
-    }    
+    }
   };
 
   const handleOpenDateChange = (newValue: Date | null) => {
@@ -151,82 +153,89 @@ const CreateSymbolPoll: NextPage<Props> = ({}) => {
       <Header />
       <Toolbar style={{ marginTop: '20px' }} />
       <div style={{ marginBottom: '5vh' }}>
-        <Container maxWidth='lg' style={{ height: '100%' }}>
+        <Container maxWidth='md' style={{ height: '100%' }}>
           {/* Header section */}
           <section>
             <MainBackground />
             <PageTitle>Create a New Poll</PageTitle>
-            <Grid container spacing={3}>
-              <Grid item xs={12}>
-                <TextField
-                  label='Title'
-                  onChange={event => handleTitleChange(event.target.value)}
-                  fullWidth />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  label='Description'
-                  onChange={event => handleDescriptionChange(event.target.value)}
-                  fullWidth multiline rows={4}/>
-              </Grid>
-            </Grid>
-            <Grid container spacing={2} style={{ marginTop: '10px', marginBottom: '10px' }} >
-              <FormLabel style={{ paddingLeft: '16px' }} >Options</FormLabel>
-                {options.map((option, index) => (
-                  <Grid item xs={12} md={12} key={index}>
-                    <Grid container spacing={2} alignItems="flex-end">
-                      <Grid item xs={3}>
-                        <TextField
-                          label={`Option ${index + 1} name`}
-                          value={option.name}
-                          fullWidth
-                          onChange={event => handleOptionChange(index, 'name', event.target.value)}
-                        />
-                      </Grid>
-                    <Grid item xs={1}>
-                      <IconButton
-                        onClick={() => handleRemoveOption(index)}
-                        disabled={options.length === 1}
-                      >
-                        <DeleteIcon />
-                      </IconButton>
-                    </Grid>
+            <Card style={{ backgroundColor: 'rgba(0, 0, 0, 0.5)' }}>
+              <CardContent style={{ marginTop: '2rem', marginBottom: '2rem' }}>
+                <Grid container spacing={2}>
+                  <Grid item xs={12}>
+                    <Typography>Info</Typography>
                   </Grid>
+                  <Grid item xs={12}>
+                    <TextField label='Title' onChange={(event) => handleTitleChange(event.target.value)} fullWidth />
+                  </Grid>
+                  <Grid item xs={12}>
+                    <TextField
+                      label='Description'
+                      onChange={(event) => handleDescriptionChange(event.target.value)}
+                      fullWidth
+                      multiline
+                      rows={4}
+                    />
+                  </Grid>
+                  <Grid item xs={12}>
+                    <Typography style={{ marginTop: '1rem' }}>Options</Typography>
+                  </Grid>
+                  {options.map((option, index) => (
+                    <Grid item xs={12} md={12} key={index}>
+                      <TextField
+                        label={`Option ${index + 1} name`}
+                        value={option.name}
+                        fullWidth
+                        onChange={(event) => handleOptionChange(index, 'name', event.target.value)}
+                        InputProps={{
+                          endAdornment: (
+                            <InputAdornment position='end'>
+                              <IconButton onClick={() => handleRemoveOption(index)} disabled={options.length === 1}>
+                                <MdDelete />
+                              </IconButton>
+                            </InputAdornment>
+                          ),
+                        }}
+                      />
+                    </Grid>
+                  ))}
+                  <Grid item xs={12}>
+                    <div style={{ width: '100%', display: 'flex', justifyContent: 'flex-end' }}>
+                      <Button onClick={handleAddOption}>Add Option</Button>
+                    </div>
+                  </Grid>
+                  <Grid item xs={12}>
+                    <div style={{ marginTop: '1rem' }}>
+                      <LocalizationProvider dateAdapter={AdapterDateFns}>
+                        <DateTimePicker
+                          label='Date of ending'
+                          value={dateOfEnding}
+                          onChange={handleOpenDateChange}
+                          minDateTime={currentUTCDate}
+                          maxDateTime={sevenDaysLaterUTCDate}
+                          sx={{ width: '100%' }}
+                        />
+                      </LocalizationProvider>
+                    </div>
+                  </Grid>
+                  <Grid item xs={12}>
+                    <div style={{ display: 'flex', justifyContent: 'center', width: '100%', marginTop: '2rem' }}>
+                      <Button fullWidth onClick={handleFormSubmit} style={{ maxWidth: '600px' }}>
+                        Submit
+                      </Button>
+                    </div>
+                  </Grid>
+                  <div style={{ color: '#FF0000', padding: '20px', fontSize: '20px' }}>{warningText}</div>
+                  <div
+                    id='hash'
+                    style={{ display: showHash ? 'block' : 'none', marginTop: '40px', marginBottom: '10px' }}
+                  >
+                    <Grid item xs={12}>
+                      <TextField label='Poll URL' variant='outlined' fullWidth value={hash} disabled />
+                    </Grid>
+                  </div>
                 </Grid>
-              ))}
-            </Grid>
-            <Grid item xs={12}>
-              <Button onClick={handleAddOption} style={{ marginRight: '10px' }}>Add Option</Button>
-            </Grid>
-            <Grid container spacing={3} style={{ marginTop: '20px', marginBottom: '10px' }} >
-              <Grid item xs={12}>
-                <LocalizationProvider dateAdapter={AdapterDateFns}>
-                  <DateTimePicker
-                    label="Date of ending"
-                    value={dateOfEnding}
-                    onChange={handleOpenDateChange}
-                    minDateTime={currentUTCDate}
-                    maxDateTime={sevenDaysLaterUTCDate}
-                    sx={{ width: "100%", maxWidth: "300px" }}
-                  />
-                </LocalizationProvider>
-              </Grid>
-            </Grid>
-            <Grid item xs={12} style={{ marginTop: '10px' }}>
-              <Button onClick={handleFormSubmit}>Submit</Button>
-            </Grid>
-            <div style={{ color: "#FF0000", padding: "20px", fontSize: "20px"}}>{warningText}</div>
-            <div id="hash" style={{ display: showHash ? "block" : "none", marginTop: '40px', marginBottom: '10px' }}>
-              <Grid item xs={12}>
-                <TextField
-                  label="Poll URL"
-                  variant="outlined"
-                  fullWidth
-                  value={hash}
-                  disabled
-                />
-              </Grid>
-            </div>
+              </CardContent>
+            </Card>
           </section>
           <section style={{ marginTop: '100px' }}>
             <Footer />
@@ -237,10 +246,10 @@ const CreateSymbolPoll: NextPage<Props> = ({}) => {
   );
 };
 
-const getStaticProps: GetStaticProps<Props> = async ({ locale, defaultLocale }) => {
+const getStaticProps: GetStaticProps = async ({ locale, defaultLocale }) => {
   return {
     props: {
-    locale: locale || defaultLocale || 'en',
+      locale: locale || defaultLocale || 'en',
     },
   };
 };

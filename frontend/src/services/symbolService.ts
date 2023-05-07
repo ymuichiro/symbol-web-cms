@@ -1,18 +1,13 @@
-import {
-  NetworkType,
-  Deadline,
-  Address,
-  TransferTransaction,
-  MosaicId,
-  Mosaic,
-  UInt64,
-  PlainMessage,
-  SignedTransaction,
-  RepositoryFactoryHttp,
-} from 'symbol-sdk';
 import { firstValueFrom } from 'rxjs';
-import { QRCodeGenerator, TransactionQR } from 'symbol-qr-library';
 import { requestSign, setTransaction } from 'sss-module';
+import { QRCodeGenerator, TransactionQR } from 'symbol-qr-library';
+import { RepositoryFactoryHttp } from 'symbol-sdk/dist/src/infrastructure/RepositoryFactoryHttp';
+import { UInt64 } from 'symbol-sdk/dist/src/model/UInt64';
+import { Address } from 'symbol-sdk/dist/src/model/account';
+import { PlainMessage } from 'symbol-sdk/dist/src/model/message/PlainMessage';
+import { Mosaic, MosaicId } from 'symbol-sdk/dist/src/model/mosaic';
+import { NetworkType } from 'symbol-sdk/dist/src/model/network';
+import { Deadline, SignedTransaction, TransferTransaction } from 'symbol-sdk/dist/src/model/transaction';
 
 interface Network {
   networkType: NetworkType;

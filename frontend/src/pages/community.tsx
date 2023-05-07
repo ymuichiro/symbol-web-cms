@@ -4,6 +4,7 @@
 
 */
 import IconCommunity from '@/assets/icon/community.svg';
+import IconPoll from '@/assets/icon/selection.svg';
 import MainBackground from '@/components/atom/MainBackground';
 import { PageTitle, SectionTitle } from '@/components/atom/Titles';
 import AvatarLinkList from '@/components/moleculs/AvatarLinkList';
@@ -15,6 +16,7 @@ import { findCommunityRelease, findSpaceRelease } from '@/services/StrapiService
 import { switchCommunityPlatformToLogo } from '@/services/UtilService';
 import { NAVIGATIONS } from '@/types/navigations';
 import { CommunityReleaseFindResponse, SpaceFindResponse } from '@/types/StrapiModel';
+import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
 import { useTheme } from '@mui/material/styles';
@@ -23,6 +25,7 @@ import Typography from '@mui/material/Typography';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import Head from 'next/head';
 import Image from 'next/image';
+import Link from 'next/link';
 import { GetServerSideProps, NextPage } from 'next/types';
 
 interface Props {
@@ -110,6 +113,26 @@ const Community: NextPage<Props> = ({ i18n, communityReleases, spaces, locale })
                 };
               })}
           />
+          {/* Symbol poll */}
+          <SectionTitle style={{ marginTop: '2rem' }}>Symbol Importance Poll</SectionTitle>
+          <Grid container spacing={3}>
+            <Grid item xs={12} sm={12} md={6}>
+              <div style={{ minHeight: '300px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                <Button
+                  LinkComponent={Link}
+                  href={NAVIGATIONS.SYMBOL_POLL.INDEX}
+                  style={{ paddingLeft: '3rem', paddingRight: '3rem' }}
+                >
+                  Go to poll page
+                </Button>
+              </div>
+            </Grid>
+            <Grid item xs={12} sm={12} md={6}>
+              <div style={{ display: 'flex', height: '100%', justifyContent: 'center', alignItems: 'center' }}>
+                <Image height={150} width={150} src={IconPoll} alt='poll icon' />
+              </div>
+            </Grid>
+          </Grid>
           {/* community release list */}
           <PageTitle>{i18n.section_title_release}</PageTitle>
           <Grid container spacing={5} style={{ marginTop: '5vh' }}>
