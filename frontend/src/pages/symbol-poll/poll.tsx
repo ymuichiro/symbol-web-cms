@@ -113,8 +113,7 @@ const SymbolPoll: NextPage<Props> = ({}) => {
 
   const handleSubmit = async () => {
     try {
-      console.log(hash);
-      const url = "http://localhost:1337/api/polls?filters[hash][$eq]=" + hash;
+      const url = process.env.NEXT_PUBLIC_API_URL + "/api/polls?filters[hash][$eq]=" + hash;
       const response = await (await fetch(url)).json();
       handleClick();
       if(response.data[0] == undefined) throw new Error("hash is invalid");
