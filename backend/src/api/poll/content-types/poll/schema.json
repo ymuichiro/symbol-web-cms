@@ -24,9 +24,6 @@
     "publicKey": {
       "type": "string"
     },
-    "openPollDate": {
-      "type": "datetime"
-    },
     "result": {
       "type": "json"
     },
@@ -35,6 +32,9 @@
     },
     "startHeight": {
       "type": "integer"
+    },
+    "dateOfEnding": {
+      "type": "string"
     }
   }
 }

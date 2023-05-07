@@ -47,7 +47,7 @@ const SymbolPoll: NextPage<Props> = ({}) => {
 
   const [pollDescription, setPollDescription] = useState<string>("");
   const [pollOptions, setPollOptions] = useState([{ name: '' }]);
-  const [openPollDate, setOpenPollDate] = useState<string>("");
+  const [dateOfEnding, setDateOfEnding] = useState<string>("");
   const [selectedOption, setSelectedOption] = useState<string>("未選択");
   const [warningText, setWarningText] = useState<string>("");
   const [symbolService, setSymbolService] = useState<SymbolService>();
@@ -115,7 +115,7 @@ const SymbolPoll: NextPage<Props> = ({}) => {
       .then((response)=> response.json())
         .then((responseJson) => {
           handleClick();
-          setOpenPollDate(responseJson.data[0].attributes.openPollDate)
+          setDateOfEnding(new Date(responseJson.data[0].attributes.dateOfEnding).toUTCString())
           setPollTitle(responseJson.data[0].attributes.title)
           setPollDescription(responseJson.data[0].attributes.description)
           const arr = (responseJson.data[0].attributes.options as string).split(',');
@@ -196,8 +196,8 @@ const SymbolPoll: NextPage<Props> = ({}) => {
               <Grid container spacing={3} style={{ marginTop: '20px', marginBottom: '10px' }} >
                 <Grid item xs={12}>
                   <TextField
-                    label="Open poll date"
-                    value={openPollDate}
+                    label="Date of ending"
+                    value={dateOfEnding}
                     disabled
                     sx={{ width: "100%", maxWidth: "300px" }}
                   />
