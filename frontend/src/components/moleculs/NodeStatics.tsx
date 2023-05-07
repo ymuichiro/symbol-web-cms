@@ -1,18 +1,17 @@
 import Grid from '@mui/material/Grid';
-import { Line } from 'react-chartjs-2';
+import Typography from '@mui/material/Typography';
 import {
-  Chart as ChartJS,
   CategoryScale,
+  Chart as ChartJS,
+  Legend,
+  LineElement,
   LinearScale,
   PointElement,
-  LineElement,
   Title,
   Tooltip,
-  Legend,
 } from 'chart.js';
 import { useEffect, useState } from 'react';
-import Typography from '@mui/material/Typography';
-import { SubTitle } from '../atom/Titles';
+import { Line } from 'react-chartjs-2';
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 ChartJS.defaults.color = '#e0e0e0';
@@ -57,6 +56,11 @@ function StaticsChart(props: { title: string; staticData: StaticData | null }): 
       <Line
         options={{
           responsive: true,
+          elements: {
+            point: {
+              radius: 0,
+            },
+          },
           plugins: {
             title: {
               display: false,
@@ -87,7 +91,7 @@ export default function NodeStatics(): JSX.Element {
 
   useEffect(() => {
     // curupo = https://twitter.com/curupo
-    fetch('https://curupo.jp/nemstats/api/chart_data', { method: 'GET' })
+    fetch('https://curupo.jp/nemstats/api/chart_data?days=360', { method: 'GET' })
       .then((e: Response) => e.json())
       .then((e: NodeStaticsResponse) => {
         setSymbolNodeStatics(formatToGraphData(e.xym_nodes));

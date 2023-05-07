@@ -1,44 +1,21 @@
+import IconSelection from '@/assets/icon/selection.svg';
+import LinkButton from '@/components/atom/LinkButton';
 import MainBackground from '@/components/atom/MainBackground';
 import { PageTitle, SubTitle } from '@/components/atom/Titles';
+import Footer from '@/components/moleculs/Footer';
 import Header from '@/components/moleculs/Header';
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
-import { useTheme } from '@mui/material/styles';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
+import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
-import { GetStaticProps, NextPage } from 'next/types';
 import Image from 'next/image';
-import IconSelection from '@/assets/icon/selection.svg';
-import LinkButton from '@/components/atom/LinkButton';
-import Footer from '@/components/moleculs/Footer';
-import { useEffect } from 'react';
-import { Address } from 'symbol-sdk/dist/src/model/account/Address';
-import { NetworkType } from 'symbol-sdk/dist/src/model/network/NetworkType';
+import { GetStaticProps, NextPage } from 'next/types';
 
-interface Props {}
-
-// これは だいさんの NODE 一覧APIから都度とってくるがいいかも
-const NODE = 'https://symbolnode.blockchain-authn.app:3001/';
-
-const SymbolPollHome: NextPage<Props> = ({}) => {
+const SymbolPollHome: NextPage = ({}) => {
   const theme = useTheme();
   const matches = useMediaQuery(theme.breakpoints.between('xs', 'md'));
-  const xssMatches = useMediaQuery('@media screen and (min-width:400px)');
-
-  useEffect(() => {
-    // 取り急ぎ confirmed な tx を引いてくるサンプル
-    const address = Address.createFromPublicKey(
-      'C1D4385CB20FD8D1E93F95DE7E64B22302E0978B1D1585DAA361C4CB02D241FC',
-      NetworkType.MAIN_NET
-    );
-    console.log(address);
-    fetch(`${NODE}transactions/confirmed?address:${address.plain()}`, {
-      method: 'GET',
-    })
-      .then((e) => e.json())
-      .then((e) => console.log(e));
-  }, []);
 
   return (
     <>
@@ -55,8 +32,7 @@ const SymbolPollHome: NextPage<Props> = ({}) => {
                 <div style={{ display: 'flex', height: '100%', flexDirection: 'column', justifyContent: 'center' }}>
                   <PageTitle style={{ textAlign: matches ? 'center' : 'left' }}>Symbol Importance Poll</PageTitle>
                   <Typography variant='body1' style={{ textAlign: matches ? 'center' : 'left' }}>
-                    description description description description description description description description
-                    description
+                    Let&apos;s all show our will. Let&apos;s make our own choices.
                   </Typography>
                 </div>
               </Grid>
@@ -136,7 +112,7 @@ const SymbolPollHome: NextPage<Props> = ({}) => {
   );
 };
 
-const getStaticProps: GetStaticProps<Props> = async ({ locale, defaultLocale }) => {
+const getStaticProps: GetStaticProps = async ({ locale, defaultLocale }) => {
   return {
     props: {
       locale: locale || defaultLocale || 'en',
