@@ -31,9 +31,7 @@ interface PollData {
   startHeight: number | undefined;
 }
 
-const CreateSymbolPoll: NextPage<Props> = ({}) => {
-  const theme = useTheme();
-  
+const CreateSymbolPoll: NextPage<Props> = ({}) => {  
   const [options, setOptions] = useState([{ name: '' }]);
   const [title, setTitle] = useState<string>("");
   const [description, setDescription] = useState<string>("");
