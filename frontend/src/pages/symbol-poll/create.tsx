@@ -121,9 +121,12 @@ const CreateSymbolPoll: NextPage = ({}) => {
       const urlForCronJob = process.env.NEXT_PUBLIC_API_URL + '/api/set-open-poll';
       const responseData = responseJson.data;
       const pollAttributes = responseData.attributes;
+      
       const targetDate = new Date(pollAttributes.dateOfEnding);
+      const utcTime = targetDate.toISOString();
+      const timestamp = new Date(utcTime).getTime() + new Date().getTimezoneOffset() * 60 * 1000;
       const utcCurrentDate = new Date(Date.now() + new Date().getTimezoneOffset() * 60 * 1000);
-  
+    
       const requestOptionsForCronJob = {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -132,7 +135,7 @@ const CreateSymbolPoll: NextPage = ({}) => {
           hash: pollAttributes.hash,
           startHeight: pollAttributes.startHeight,
           options: pollAttributes.options.split(','),
-          time: targetDate.getTime() - utcCurrentDate.getTime(),
+          time: timestamp - utcCurrentDate.getTime(),
         }),
       };
 
