@@ -26,7 +26,7 @@ interface PollData {
   description: string | undefined;
   options: string | undefined;
   publicKey: string | undefined;
-  openPollDate: Date | undefined;
+  dateOfEnding: string | undefined;
   startHeight: number | undefined;
 }
 
@@ -34,7 +34,7 @@ const CreateSymbolPoll: NextPage = ({}) => {
   const [options, setOptions] = useState([{ name: '' }]);
   const [title, setTitle] = useState<string>('');
   const [description, setDescription] = useState<string>('');
-  const [openDate, setOpenDate] = useState<Date>(new Date());
+  const [dateOfEnding, setDateOfEnding] = useState<Date>(new Date());
   const [showHash, setShowHash] = useState(false);
   const [hash, setHash] = useState<string>('');
   const [warningText, setWarningText] = useState<string>('');
@@ -84,7 +84,7 @@ const CreateSymbolPoll: NextPage = ({}) => {
 
   const handleFormSubmit = async () => {
     try {
-      if (openDate > sevenDaysLaterUTCDate || openDate < currentUTCDate) {
+      if(dateOfEnding > sevenDaysLaterUTCDate || dateOfEnding < currentUTCDate) {
         throw new Error('Poll can be opened only between 7 days from now and now.');
       }
       options.forEach((option) => {
@@ -99,9 +99,10 @@ const CreateSymbolPoll: NextPage = ({}) => {
         description,
         options: optionStrings.join(','),
         publicKey: getActivePublicKey(),
-        openPollDate: openDate,
-      };
-      if (symbolService === undefined) throw new Error('symbolService is undefined');
+        dateOfEnding: (new Date(dateOfEnding.getTime() - new Date().getTimezoneOffset() * 60 * 1000)).toISOString(),
+      }
+      
+      if (symbolService === undefined) throw new Error("symbolService is undefined");
       const generatedHash = await symbolService.createPollTransaction(JSON.stringify(pollData));
       pollData.hash = generatedHash;
       pollData.startHeight = await symbolService.getCurrentHeight();
@@ -120,9 +121,9 @@ const CreateSymbolPoll: NextPage = ({}) => {
       const urlForCronJob = process.env.NEXT_PUBLIC_API_URL + '/api/set-open-poll';
       const responseData = responseJson.data;
       const pollAttributes = responseData.attributes;
-      const targetDate = new Date(pollAttributes.openPollDate);
+      const targetDate = new Date(pollAttributes.dateOfEnding);
       const utcCurrentDate = new Date(Date.now() + new Date().getTimezoneOffset() * 60 * 1000);
-
+  
       const requestOptionsForCronJob = {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -144,8 +145,8 @@ const CreateSymbolPoll: NextPage = ({}) => {
 
   const handleOpenDateChange = (newValue: Date | null) => {
     if (newValue === null) return;
-    setOpenDate(newValue);
-  };
+    setDateOfEnding(newValue);
+  }
 
   return (
     <>
@@ -207,7 +208,7 @@ const CreateSymbolPoll: NextPage = ({}) => {
                       <LocalizationProvider dateAdapter={AdapterDateFns}>
                         <DateTimePicker
                           label='Date of ending'
-                          value={openDate}
+                          value={dateOfEnding}
                           onChange={handleOpenDateChange}
                           minDateTime={currentUTCDate}
                           maxDateTime={sevenDaysLaterUTCDate}

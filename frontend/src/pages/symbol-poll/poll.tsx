@@ -18,6 +18,7 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel';
 import { VoteType, SymbolService } from '../../services/symbolService';
+import { tr } from 'date-fns/locale';
 
 const DEFAULT_QR_CODE_IMAGE = '/assets/img/symbol-logo-default-cover.webp';
 
@@ -47,10 +48,12 @@ const SymbolPoll: NextPage<Props> = ({}) => {
 
   const [pollDescription, setPollDescription] = useState<string>("");
   const [pollOptions, setPollOptions] = useState([{ name: '' }]);
-  const [openPollDate, setOpenPollDate] = useState<string>("");
+  const [dateOfEnding, setDateOfEnding] = useState<string>("");
   const [selectedOption, setSelectedOption] = useState<string>("未選択");
   const [warningText, setWarningText] = useState<string>("");
   const [symbolService, setSymbolService] = useState<SymbolService>();
+
+  const [canCreateTransaction, setCanCreateTransaction] = useState(false);
 
   useEffect(() => {
     const { hash } = router.query;
@@ -108,25 +111,28 @@ const SymbolPoll: NextPage<Props> = ({}) => {
     }
   }
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     try {
       const url = process.env.NEXT_PUBLIC_API_URL + "/api/polls?filters[hash][$eq]=" + hash;
-      fetch(url)
-      .then((response)=> response.json())
-        .then((responseJson) => {
-          handleClick();
-          setOpenPollDate(responseJson.data[0].attributes.openPollDate)
-          setPollTitle(responseJson.data[0].attributes.title)
-          setPollDescription(responseJson.data[0].attributes.description)
-          const arr = (responseJson.data[0].attributes.options as string).split(',');
-          const pollOptions = [];
-          for(let i = 0; i < arr.length; i++){
-            pollOptions.push({name: arr[i]});
-          }
-          setPollOptions(pollOptions);
-        })
+      const response = await (await fetch(url)).json();
+      handleClick();
+      if(response.data[0] == undefined) throw new Error("hash is invalid");
+      const dateOfEnding = new Date(response.data[0].attributes.dateOfEnding).toUTCString();
+      const currentUtc = new Date().toUTCString();
+      if(dateOfEnding < currentUtc) throw new Error("poll is already closed");
+      setDateOfEnding(dateOfEnding)
+      setPollTitle(response.data[0].attributes.title)
+      setPollDescription(response.data[0].attributes.description)
+      const arr = (response.data[0].attributes.options as string).split(',');
+      const pollOptions = [];
+      for(let i = 0; i < arr.length; i++){
+        pollOptions.push({name: arr[i]});
+      }
+      setPollOptions(pollOptions);
+      setCanCreateTransaction(false);
     } catch(e: any) {
       setWarningText(e.message);
+      setCanCreateTransaction(true);
       console.error(e.message);
     }
   }
@@ -196,8 +202,8 @@ const SymbolPoll: NextPage<Props> = ({}) => {
               <Grid container spacing={3} style={{ marginTop: '20px', marginBottom: '10px' }} >
                 <Grid item xs={12}>
                   <TextField
-                    label="Open poll date"
-                    value={openPollDate}
+                    label="Date of ending"
+                    value={dateOfEnding}
                     disabled
                     sx={{ width: "100%", maxWidth: "300px" }}
                   />
@@ -215,7 +221,10 @@ const SymbolPoll: NextPage<Props> = ({}) => {
                   <FormControlLabel value="SSS" control={<Radio />} label="SSS" />
                   <FormControlLabel value="QR" control={<Radio />} label="QR CODE" />
                 </RadioGroup>
-                <Button onClick={createTransaction}>Create Transaction</Button>
+                <Button 
+                  onClick={createTransaction} 
+                  disabled={canCreateTransaction}
+                >Create Transaction</Button>
               </FormControl>
               <div style={{ color: "#FF0000", padding: "20px", fontSize: "20px"}}>{warningText}</div>
               <div>
