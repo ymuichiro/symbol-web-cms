@@ -255,7 +255,7 @@ const SymbolPoll: NextPage<Props> = ({}) => {
               </div>
               <div
                 id='uri'
-                style={{ display: showURI ? 'block' : 'none', marginTop: '40px', marginBottom: '10px' }}
+                style={{ display: showURI ? 'block' : 'none', marginBottom: '10px' }}
               >
                 <Grid item xs={12}>
                   <TextField label='Transaction URI' variant='outlined' fullWidth value={uri} disabled />
