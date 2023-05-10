@@ -125,6 +125,8 @@ export class SymbolService {
       } catch (error: any) {
         throw new Error(error.message);
       }
+    } else if (type === VoteType.URI) {
+      return 'web+symbol://transaction?data=' + transferTransaction.serialize();
     }
     throw new Error('Invalid vote type');
   }
@@ -133,6 +135,7 @@ export class SymbolService {
 export enum VoteType {
   SSS,
   QR,
+  URI,
 }
 
 interface Vote {

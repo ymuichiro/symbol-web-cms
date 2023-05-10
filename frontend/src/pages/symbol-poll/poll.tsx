@@ -40,6 +40,8 @@ const SymbolPoll: NextPage<Props> = ({}) => {
 
   const [pollTitle, setPollTitle] = useState<string>("");
   const [voteType, setVoteType] = useState<string>("SSS");
+  const [uri, setURI] = useState<string>("");
+  const [showURI, setShowURI] = useState<boolean>(false);
   const [qrCodeImage, setQrCodeImage] = useState<string>(DEFAULT_QR_CODE_IMAGE);
   const [showQrCode, setShowQrCode] = useState<boolean>(false);
   const handleVoteTypeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -95,12 +97,26 @@ const SymbolPoll: NextPage<Props> = ({}) => {
     try {
       if(!validate()) return;
       if(hash != null) {
-        const type = voteType == "SSS" ? VoteType.SSS : VoteType.QR;
+        let type: VoteType = VoteType.SSS;
+        switch(voteType) {
+          case "SSS":
+            type = VoteType.SSS;
+            break;
+          case "QR":
+            type = VoteType.QR;
+            break;
+          case "URI":
+            type = VoteType.URI;
+            break;
+        };
         if(symbolService === undefined) throw new Error("symbolService is undefined");
         const result = await symbolService.voteTransaction(pollTitle, hash, selectedOption, type);
         if(type == VoteType.QR) {
           setQrCodeImage(result);
           setShowQrCode(true);
+        } else if(type == VoteType.URI) {
+          setURI(result);
+          setShowURI(true);
         }
       } else {
         throw new Error("hash is null");
@@ -220,6 +236,7 @@ const SymbolPoll: NextPage<Props> = ({}) => {
                 >
                   <FormControlLabel value="SSS" control={<Radio />} label="SSS" />
                   <FormControlLabel value="QR" control={<Radio />} label="QR CODE" />
+                  <FormControlLabel value="URI" control={<Radio />} label="Transaction URI" />
                 </RadioGroup>
                 <Button 
                   onClick={createTransaction} 
@@ -235,6 +252,14 @@ const SymbolPoll: NextPage<Props> = ({}) => {
                   height= {300}
                   alt="qrcode">
                 </Image>
+              </div>
+              <div
+                id='uri'
+                style={{ display: showURI ? 'block' : 'none', marginTop: '40px', marginBottom: '10px' }}
+              >
+                <Grid item xs={12}>
+                  <TextField label='Transaction URI' variant='outlined' fullWidth value={uri} disabled />
+                </Grid>
               </div>
             </div>
           </section>
