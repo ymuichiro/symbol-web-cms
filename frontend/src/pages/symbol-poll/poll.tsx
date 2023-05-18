@@ -18,7 +18,6 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel';
 import { VoteType, SymbolService } from '../../services/symbolService';
-import { tr } from 'date-fns/locale';
 
 const DEFAULT_QR_CODE_IMAGE = '/assets/img/symbol-logo-default-cover.webp';
 
@@ -53,17 +52,37 @@ const SymbolPoll: NextPage<Props> = ({}) => {
   const [dateOfEnding, setDateOfEnding] = useState<string>("");
   const [selectedOption, setSelectedOption] = useState<string>("未選択");
   const [warningText, setWarningText] = useState<string>("");
+  const [announcedHash, setAnnouncedHash] = useState<string>("");
+  const [isAnnounced, setIsAnnounced] = useState<boolean>(false);
   const [symbolService, setSymbolService] = useState<SymbolService>();
 
   const [canCreateTransaction, setCanCreateTransaction] = useState(false);
 
   useEffect(() => {
     const { hash } = router.query;
-    if (typeof hash === 'string') {
-      if(hash.length == 64) {
+    if (typeof hash === 'string')
+      if(hash.length == 64)
         setHash(hash);
-      }
-    }
+    const { option } = router.query;
+    if (typeof option === 'string')
+      selectOption(option);
+    const { signed_payload } = router.query;
+    if (typeof signed_payload === 'string')
+      if(symbolService == undefined) {
+        const service = new SymbolService();
+        service.init().then(() => {
+          setSymbolService(service);
+          service.announceTransactionFromAlice(signed_payload).then((hash) => {
+            setAnnouncedHash(hash);
+            setIsAnnounced(true);
+          });
+        });
+      } else {
+        symbolService.announceTransactionFromAlice(signed_payload).then((hash) => {
+          setAnnouncedHash(hash);
+          setIsAnnounced(true);
+        });
+      };
   }, [router.query]);
 
   useEffect(() => {
@@ -73,6 +92,7 @@ const SymbolPoll: NextPage<Props> = ({}) => {
   }, [hash]);
 
   useEffect(() => {
+    if(symbolService != undefined) return;
     const initSymbolService = async () => {
       const service = new SymbolService();
       await service.init();
@@ -94,6 +114,9 @@ const SymbolPoll: NextPage<Props> = ({}) => {
   }
 
   const createTransaction = async () => {
+    setWarningText("");
+    setShowQrCode(false);
+    setShowURI(false);
     try {
       if(!validate()) return;
       if(hash != null) {
@@ -107,6 +130,9 @@ const SymbolPoll: NextPage<Props> = ({}) => {
             break;
           case "URI":
             type = VoteType.URI;
+            break;
+          case "ALICE":
+            type = VoteType.ALICE;
             break;
         };
         if(symbolService === undefined) throw new Error("symbolService is undefined");
@@ -228,6 +254,9 @@ const SymbolPoll: NextPage<Props> = ({}) => {
               <div style={{ marginTop: '40px', border: '1px solid', padding: '20px', marginBottom: '20px'}}>
                 あなたの投票は<span style={{ fontSize: "30px"}}> {selectedOption} </span>です。署名タイプを選択しボタンをクリックして投票トランザクションを作成してください。<br></br>
               </div>
+              <div style={{ marginTop: '10px', padding: '20px', marginBottom: '20px', display: isAnnounced ? 'block' : 'none'}}>
+                アナウンスが完了しました。 TranasctionHash: {announcedHash}<br></br>
+              </div>
               <FormControl>
                 <RadioGroup
                   row
@@ -237,6 +266,7 @@ const SymbolPoll: NextPage<Props> = ({}) => {
                   <FormControlLabel value="SSS" control={<Radio />} label="SSS" />
                   <FormControlLabel value="QR" control={<Radio />} label="QR CODE" />
                   <FormControlLabel value="URI" control={<Radio />} label="Transaction URI" />
+                  <FormControlLabel value="ALICE" control={<Radio />} label="Sign with aLice" />
                 </RadioGroup>
                 <Button 
                   onClick={createTransaction} 

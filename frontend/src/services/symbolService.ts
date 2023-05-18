@@ -7,7 +7,9 @@ import { Address } from 'symbol-sdk/dist/src/model/account';
 import { PlainMessage } from 'symbol-sdk/dist/src/model/message/PlainMessage';
 import { Mosaic, MosaicId } from 'symbol-sdk/dist/src/model/mosaic';
 import { NetworkType } from 'symbol-sdk/dist/src/model/network';
-import { Deadline, SignedTransaction, TransferTransaction } from 'symbol-sdk/dist/src/model/transaction';
+import { Deadline, SignedTransaction, TransferTransaction, Transaction } from 'symbol-sdk/dist/src/model/transaction';
+import { TransactionMapping } from 'symbol-sdk/dist/src/core/utils';
+import { Convert } from 'symbol-sdk/dist/src/core/format';
 
 interface Network {
   networkType: NetworkType;
@@ -65,6 +67,16 @@ export class SymbolService {
 
     setTransaction(transferTransaction);
     const signedTransaction = await requestSign();
+    await this.announce(signedTransaction);
+    return signedTransaction.hash;
+  }
+
+  public async announceTransactionFromAlice(payload: string): Promise<string> {
+    const hash = Transaction.createTransactionHash(payload, [
+      ...Array.from(Convert.hexToUint8(this.network.generationHashSeed)),
+    ]);
+    const signed = TransactionMapping.createFromPayload(payload);
+    const signedTransaction = new SignedTransaction(payload, hash, signed.signer?.publicKey!, signed.type, signed.type);
     await this.announce(signedTransaction);
     return signedTransaction.hash;
   }
@@ -127,6 +139,11 @@ export class SymbolService {
       }
     } else if (type === VoteType.URI) {
       return 'web+symbol://transaction?data=' + transferTransaction.serialize();
+    } else if (type === VoteType.ALICE) {
+      window.location.href = `alice://sign?data=${transferTransaction.serialize()}&type=request_sign_transaction&callback=${
+        process.env.NEXT_PUBLIC_API_URL
+      }/symbol-poll/poll?&hash=${hash}&option=${option}`;
+      return 'success';
     }
     throw new Error('Invalid vote type');
   }
@@ -136,6 +153,7 @@ export enum VoteType {
   SSS,
   QR,
   URI,
+  ALICE,
 }
 
 interface Vote {
