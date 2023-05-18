@@ -18,7 +18,6 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel';
 import { VoteType, SymbolService } from '../../services/symbolService';
-import { tr } from 'date-fns/locale';
 
 const DEFAULT_QR_CODE_IMAGE = '/assets/img/symbol-logo-default-cover.webp';
 
@@ -40,6 +39,8 @@ const SymbolPoll: NextPage<Props> = ({}) => {
 
   const [pollTitle, setPollTitle] = useState<string>("");
   const [voteType, setVoteType] = useState<string>("SSS");
+  const [uri, setURI] = useState<string>("");
+  const [showURI, setShowURI] = useState<boolean>(false);
   const [qrCodeImage, setQrCodeImage] = useState<string>(DEFAULT_QR_CODE_IMAGE);
   const [showQrCode, setShowQrCode] = useState<boolean>(false);
   const handleVoteTypeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -51,17 +52,37 @@ const SymbolPoll: NextPage<Props> = ({}) => {
   const [dateOfEnding, setDateOfEnding] = useState<string>("");
   const [selectedOption, setSelectedOption] = useState<string>("未選択");
   const [warningText, setWarningText] = useState<string>("");
+  const [announcedHash, setAnnouncedHash] = useState<string>("");
+  const [isAnnounced, setIsAnnounced] = useState<boolean>(false);
   const [symbolService, setSymbolService] = useState<SymbolService>();
 
   const [canCreateTransaction, setCanCreateTransaction] = useState(false);
 
   useEffect(() => {
     const { hash } = router.query;
-    if (typeof hash === 'string') {
-      if(hash.length == 64) {
+    if (typeof hash === 'string')
+      if(hash.length == 64)
         setHash(hash);
-      }
-    }
+    const { option } = router.query;
+    if (typeof option === 'string')
+      selectOption(option);
+    const { signed_payload } = router.query;
+    if (typeof signed_payload === 'string')
+      if(symbolService == undefined) {
+        const service = new SymbolService();
+        service.init().then(() => {
+          setSymbolService(service);
+          service.announceTransactionFromAlice(signed_payload).then((hash) => {
+            setAnnouncedHash(hash);
+            setIsAnnounced(true);
+          });
+        });
+      } else {
+        symbolService.announceTransactionFromAlice(signed_payload).then((hash) => {
+          setAnnouncedHash(hash);
+          setIsAnnounced(true);
+        });
+      };
   }, [router.query]);
 
   useEffect(() => {
@@ -71,6 +92,7 @@ const SymbolPoll: NextPage<Props> = ({}) => {
   }, [hash]);
 
   useEffect(() => {
+    if(symbolService != undefined) return;
     const initSymbolService = async () => {
       const service = new SymbolService();
       await service.init();
@@ -92,15 +114,35 @@ const SymbolPoll: NextPage<Props> = ({}) => {
   }
 
   const createTransaction = async () => {
+    setWarningText("");
+    setShowQrCode(false);
+    setShowURI(false);
     try {
       if(!validate()) return;
       if(hash != null) {
-        const type = voteType == "SSS" ? VoteType.SSS : VoteType.QR;
+        let type: VoteType = VoteType.SSS;
+        switch(voteType) {
+          case "SSS":
+            type = VoteType.SSS;
+            break;
+          case "QR":
+            type = VoteType.QR;
+            break;
+          case "URI":
+            type = VoteType.URI;
+            break;
+          case "ALICE":
+            type = VoteType.ALICE;
+            break;
+        };
         if(symbolService === undefined) throw new Error("symbolService is undefined");
         const result = await symbolService.voteTransaction(pollTitle, hash, selectedOption, type);
         if(type == VoteType.QR) {
           setQrCodeImage(result);
           setShowQrCode(true);
+        } else if(type == VoteType.URI) {
+          setURI(result);
+          setShowURI(true);
         }
       } else {
         throw new Error("hash is null");
@@ -117,10 +159,10 @@ const SymbolPoll: NextPage<Props> = ({}) => {
       const response = await (await fetch(url)).json();
       handleClick();
       if(response.data[0] == undefined) throw new Error("hash is invalid");
-      const dateOfEnding = new Date(response.data[0].attributes.dateOfEnding).toUTCString();
-      const currentUtc = new Date().toUTCString();
+      const dateOfEnding = new Date(response.data[0].attributes.dateOfEnding);
+      const currentUtc = new Date();
       if(dateOfEnding < currentUtc) throw new Error("poll is already closed");
-      setDateOfEnding(dateOfEnding)
+      setDateOfEnding(dateOfEnding.toUTCString())
       setPollTitle(response.data[0].attributes.title)
       setPollDescription(response.data[0].attributes.description)
       const arr = (response.data[0].attributes.options as string).split(',');
@@ -212,6 +254,9 @@ const SymbolPoll: NextPage<Props> = ({}) => {
               <div style={{ marginTop: '40px', border: '1px solid', padding: '20px', marginBottom: '20px'}}>
                 あなたの投票は<span style={{ fontSize: "30px"}}> {selectedOption} </span>です。署名タイプを選択しボタンをクリックして投票トランザクションを作成してください。<br></br>
               </div>
+              <div style={{ marginTop: '10px', padding: '20px', marginBottom: '20px', display: isAnnounced ? 'block' : 'none'}}>
+                アナウンスが完了しました。 TranasctionHash: {announcedHash}<br></br>
+              </div>
               <FormControl>
                 <RadioGroup
                   row
@@ -220,6 +265,8 @@ const SymbolPoll: NextPage<Props> = ({}) => {
                 >
                   <FormControlLabel value="SSS" control={<Radio />} label="SSS" />
                   <FormControlLabel value="QR" control={<Radio />} label="QR CODE" />
+                  <FormControlLabel value="URI" control={<Radio />} label="Transaction URI" />
+                  <FormControlLabel value="ALICE" control={<Radio />} label="Sign with aLice" />
                 </RadioGroup>
                 <Button 
                   onClick={createTransaction} 
@@ -235,6 +282,14 @@ const SymbolPoll: NextPage<Props> = ({}) => {
                   height= {300}
                   alt="qrcode">
                 </Image>
+              </div>
+              <div
+                id='uri'
+                style={{ display: showURI ? 'block' : 'none', marginBottom: '10px' }}
+              >
+                <Grid item xs={12}>
+                  <TextField label='Transaction URI' variant='outlined' fullWidth value={uri} disabled />
+                </Grid>
               </div>
             </div>
           </section>
