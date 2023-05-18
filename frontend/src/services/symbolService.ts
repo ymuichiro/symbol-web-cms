@@ -140,9 +140,11 @@ export class SymbolService {
     } else if (type === VoteType.URI) {
       return 'web+symbol://transaction?data=' + transferTransaction.serialize();
     } else if (type === VoteType.ALICE) {
-      window.location.href = `alice://sign?data=${transferTransaction.serialize()}&type=request_sign_transaction&callback=${
-        process.env.NEXT_PUBLIC_API_URL
+      const url = `alice://sign?data=${transferTransaction.serialize()}&type=request_sign_transaction&callback=${
+        process.env.NEXT_PUBLIC_HOSTING_URL
       }/symbol-poll/poll?&hash=${hash}&option=${option}`;
+      console.log(url);
+      window.location.href = url;
       return 'success';
     }
     throw new Error('Invalid vote type');
