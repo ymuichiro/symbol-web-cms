@@ -140,10 +140,10 @@ export class SymbolService {
     } else if (type === VoteType.URI) {
       return 'web+symbol://transaction?data=' + transferTransaction.serialize();
     } else if (type === VoteType.ALICE) {
-      const url = `alice://sign?data=${transferTransaction.serialize()}&type=request_sign_transaction&callback=${
-        process.env.NEXT_PUBLIC_HOSTING_URL
-      }/symbol-poll/poll?&hash=${hash}&option=${option}`;
-      console.log(url);
+      const callback = `${process.env.NEXT_PUBLIC_HOSTING_URL}/symbol-poll/poll?&hash=${hash}&option=${option}`;
+      const url = `alice://sign?data=${transferTransaction.serialize()}&type=request_sign_transaction&callback=${Convert.uint8ToHex(
+        callback
+      )}`;
       window.location.href = url;
       return 'success';
     }
