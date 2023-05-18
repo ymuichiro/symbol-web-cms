@@ -60,7 +60,7 @@ export class SymbolService {
     const transferTransaction = TransferTransaction.create(
       deadline,
       nemesisAddress,
-      [new Mosaic(new MosaicId(this.network.currencyMosaicId), UInt64.fromUint(0))],
+      [],
       PlainMessage.create(message),
       this.network.networkType
     ).setMaxFee(100);
@@ -111,7 +111,7 @@ export class SymbolService {
     const transferTransaction = TransferTransaction.create(
       deadline,
       nemesisAddress,
-      [new Mosaic(new MosaicId(this.network.currencyMosaicId), UInt64.fromUint(0))],
+      [],
       PlainMessage.create(message),
       this.network.networkType
     ).setMaxFee(100);
