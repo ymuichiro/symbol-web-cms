@@ -228,14 +228,9 @@ const CreateSymbolPoll: NextPage = ({}) => {
                     </div>
                   </Grid>
                   <div style={{ color: '#FF0000', padding: '20px', fontSize: '20px' }}>{warningText}</div>
-                  <div
-                    id='hash'
-                    style={{ display: showHash ? 'block' : 'none', marginTop: '40px', marginBottom: '10px' }}
-                  >
-                    <Grid item xs={12}>
-                      <TextField label='Poll URL' variant='outlined' fullWidth value={hash} disabled />
-                    </Grid>
-                  </div>
+                  <Grid item xs={12} style={{display: showHash ? 'block' : 'none'}} id='hash'>
+                    <TextField label='Poll URL' variant='outlined' fullWidth value={hash} disabled />
+                  </Grid>
                 </Grid>
               </CardContent>
             </Card>

@@ -133,10 +133,10 @@ const SymbolPoll: NextPage<Props> = ({}) => {
       const response = await (await fetch(url)).json();
       handleClick();
       if(response.data[0] == undefined) throw new Error("hash is invalid");
-      const dateOfEnding = new Date(response.data[0].attributes.dateOfEnding).toUTCString();
-      const currentUtc = new Date().toUTCString();
+      const dateOfEnding = new Date(response.data[0].attributes.dateOfEnding);
+      const currentUtc = new Date();
       if(dateOfEnding < currentUtc) throw new Error("poll is already closed");
-      setDateOfEnding(dateOfEnding)
+      setDateOfEnding(dateOfEnding.toUTCString())
       setPollTitle(response.data[0].attributes.title)
       setPollDescription(response.data[0].attributes.description)
       const arr = (response.data[0].attributes.options as string).split(',');
