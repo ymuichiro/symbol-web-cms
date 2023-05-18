@@ -141,9 +141,7 @@ export class SymbolService {
       return 'web+symbol://transaction?data=' + transferTransaction.serialize();
     } else if (type === VoteType.ALICE) {
       const callback = `${process.env.NEXT_PUBLIC_HOSTING_URL}/symbol-poll/poll?&hash=${hash}&option=${option}`;
-      console.log(callback);
-      console.log(Convert.utf8ToHex(callback));
-      const url = `alice://sign?data=${transferTransaction.serialize()}&type=request_sign_transaction&callback=${Convert.uint8ToHex(
+      const url = `alice://sign?data=${transferTransaction.serialize()}&type=request_sign_transaction&callback=${Convert.utf8ToHex(
         callback
       )}`;
       window.location.href = url;
