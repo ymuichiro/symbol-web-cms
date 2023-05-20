@@ -1,3 +1,4 @@
+import { PollResult } from '@/pages/symbol-poll/poll';
 import { SymbolService } from '@/services/symbolService';
 import Paper from '@mui/material/Paper';
 import Table from '@mui/material/Table';
@@ -23,7 +24,7 @@ const columns: readonly Column[] = [
 ];
 
 type Props = {
-  data: object;
+  data: PollResult[] | null;
 };
 
 export interface VoteResult {
@@ -39,7 +40,7 @@ export const ResultTable = ({ data }: Props) => {
 
   useEffect(() => {
     let voteResult: VoteResult[] = [];
-    (data as Array<object>).forEach((item: any) => {
+    data?.forEach((item: any) => {
       const result = {
         option: item.option,
         votes: SymbolService.uint64toNumber([item.totalAmount.lower, item.totalAmount.higher]),

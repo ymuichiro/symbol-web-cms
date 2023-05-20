@@ -15,16 +15,51 @@ import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
 import TextField from '@mui/material/TextField';
 import Toolbar from '@mui/material/Toolbar';
-import { useTheme } from '@mui/material/styles';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { GetStaticProps, NextPage } from 'next/types';
 import { useEffect, useState } from 'react';
 
+interface PollResponse {
+  data: {
+    id: number;
+    attributes: {
+      title: string;
+      description: string;
+      options: string;
+      publicKey: string;
+      result: PollResult[] | null;
+      hash: string;
+      startHeight: number;
+      createdAt: string;
+      updatedAt: string;
+      publishedAt: string;
+      specificMosaicId: string | null;
+      dateOfEnding: string;
+    };
+  }[];
+  meta: {
+    pagination: {
+      page: number;
+      pageSize: number;
+      pageCount: number;
+      total: number;
+    };
+  };
+}
+
+export interface PollResult {
+  option: string;
+  totalImpotance: {
+    lower: number;
+    higher: number;
+  };
+  count: number;
+}
+
 interface Props {}
 
 const SymbolPoll: NextPage<Props> = ({}) => {
-  const theme = useTheme();
   const router = useRouter();
 
   const [hash, setHash] = useState<string | null>(null);
@@ -59,8 +94,7 @@ const SymbolPoll: NextPage<Props> = ({}) => {
   const [symbolService, setSymbolService] = useState<SymbolService>();
   const [isPollFinished, setIsPollFinished] = useState<boolean>(false);
   const [canCreateTransaction, setCanCreateTransaction] = useState(false);
-
-  const [voteResults, setVoteResults] = useState<object>([]);
+  const [voteResults, setVoteResults] = useState<PollResult[] | null>(null);
 
   useEffect(() => {
     const { hash } = router.query;
@@ -164,7 +198,7 @@ const SymbolPoll: NextPage<Props> = ({}) => {
   const handleSubmit = async () => {
     try {
       const url = process.env.NEXT_PUBLIC_API_URL + '/api/polls?filters[hash][$eq]=' + hash;
-      const response = await (await fetch(url)).json();
+      const response: PollResponse = await (await fetch(url)).json();
       handleClick();
       if (response.data[0] == undefined) throw new Error('hash is invalid');
       const dateOfEnding = new Date(response.data[0].attributes.dateOfEnding);
