@@ -1,13 +1,12 @@
+import DEFAULT_CAVER_IMAGE from '@/assets/logo/symbol-default-cover-logo.svg';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Divider from '@mui/material/Divider';
-import { useTheme } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
+import { useTheme } from '@mui/material/styles';
 import Link from 'next/link';
 import { CSSProperties } from 'react';
-
-const DEFAULT_CAVER_IMAGE = '/assets/img/symbol-logo-default-cover.webp';
 
 interface Args {
   image?: string;
