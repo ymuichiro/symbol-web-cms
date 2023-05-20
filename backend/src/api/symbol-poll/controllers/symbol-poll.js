@@ -91,7 +91,10 @@ async function getResultPolls(hash, startHeight, options, specificMosaicId) {
     }, [])
     .reverse();
 
-  const filteredVotes = getVotesByOption(uniqueVotes, options);
+  // インポータンス投票の場合は、最後の投票のみを集計する
+  // オプション毎の投票数を集計する
+  const filteredVotes = getVotesByOption(specificMosaicId == null ? uniqueVotes : votes, options);
+
   let result = [];
   for (let j = 0; j < options.length; j++) {
     let resultVote = {
