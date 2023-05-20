@@ -180,6 +180,10 @@ export class SymbolService {
     });
     return false;
   }
+
+  static uint64toNumber(uint64: number[]): number {
+    return new UInt64(uint64).compact();
+  }
 }
 
 export enum VoteType {
