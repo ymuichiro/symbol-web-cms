@@ -1,5 +1,5 @@
 import { firstValueFrom } from 'rxjs';
-import { requestSign, setTransaction } from 'sss-module';
+import { requestSign, setTransaction, getActivePublicKey } from 'sss-module';
 import { QRCodeGenerator, TransactionQR } from 'symbol-qr-library';
 import { RepositoryFactoryHttp } from 'symbol-sdk/dist/src/infrastructure/RepositoryFactoryHttp';
 import { UInt64 } from 'symbol-sdk/dist/src/model/UInt64';
@@ -97,7 +97,14 @@ export class SymbolService {
     return chainInfo.height.compact();
   }
 
-  public async voteTransaction(title: string, hash: string, option: string, type: VoteType): Promise<string> {
+  public async voteTransaction(
+    title: string,
+    hash: string,
+    option: string,
+    type: VoteType,
+    specificMosaicId: string,
+    specificMosaicAmount: number
+  ): Promise<string> {
     const deadline = Deadline.create(this.network.epochAdjustment);
     const nemesisAddress = Address.createFromPublicKey(this.network.nemesisSignerPublicKey, this.network.networkType);
     const vote: Vote = {
@@ -108,10 +115,14 @@ export class SymbolService {
     const message = JSON.stringify({
       data: vote,
     });
+
+    // TODO: add mosaic
+    let mosaic =
+      specificMosaicId == '' ? [] : [new Mosaic(new MosaicId(specificMosaicId), UInt64.fromUint(specificMosaicAmount))];
     const transferTransaction = TransferTransaction.create(
       deadline,
       nemesisAddress,
-      [],
+      mosaic,
       PlainMessage.create(message),
       this.network.networkType
     ).setMaxFee(100);
@@ -148,6 +159,26 @@ export class SymbolService {
       return 'success';
     }
     throw new Error('Invalid vote type');
+  }
+
+  public async getMosaics(): Promise<string[]> {
+    const accRepo = this.repo.createAccountRepository();
+    const accInfo = await firstValueFrom(
+      accRepo.getAccountInfo(Address.createFromPublicKey(getActivePublicKey(), this.network.networkType))
+    );
+    let mosaics: string[] = [];
+    accInfo.mosaics.map((mosaic) => {
+      mosaics.push(mosaic.id.toHex());
+    });
+    return mosaics;
+  }
+
+  public async hasMosaic(mosaicId: string): Promise<boolean> {
+    const mosaics = await this.getMosaics();
+    mosaics.forEach((mosaic) => {
+      if (mosaic === mosaicId) return true;
+    });
+    return false;
   }
 }
 

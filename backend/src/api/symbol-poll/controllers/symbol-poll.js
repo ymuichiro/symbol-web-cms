@@ -16,46 +16,72 @@ async function getNetworkProperties() {
   };
 }
 
-async function getResultPolls(hash, startHeight, options) {
+async function getResultPolls(hash, startHeight, options, specificMosaicId) {
   const { identifier, epochAdjustment, generationHashSeed, nemesisSignerPublicKey } = await getNetworkProperties();
   const networkType = identifier == 'mainnet' ? symbol.NetworkType.MAIN_NET : symbol.NetworkType.TEST_NET;
   const txRepo = repo.createTransactionRepository();
   const accRepo = repo.createAccountRepository();
-  let isFinished = false;
+
   let count = 1;
   const votes = [];
-  while (!isFinished) {
+  while (true) {
     const criteria = {
       group: symbol.TransactionGroup.Confirmed,
       fromHeight: symbol.UInt64.fromUint(startHeight),
+      type: [symbol.TransactionType.TRANSFER],
       recipientAddress: symbol.Address.createFromPublicKey(nemesisSignerPublicKey, networkType),
       pageNumber: count,
       order: symbol.Order.Asc,
     };
     const txs = await firstValueFrom(txRepo.search(criteria));
     count++;
-    if (txs.data.length == 0) isFinished = true;
-    for (let i = 0; i < txs.data.length; i++) {
-      if (txs.data[i].type != symbol.TransactionType.TRANSFER) continue;
-      try {
-        const d = JSON.parse(txs.data[i].message.payload);
-        const vote = d.data;
-        if (vote.hash != hash) continue;
-        const signer = txs.data[i].signer;
-        if (signer == undefined) continue;
-        const address = symbol.Address.createFromPublicKey(signer.publicKey, networkType);
-        const accInfo = await firstValueFrom(accRepo.getAccountInfo(address));
-        const voteData = {
-          publicKey: signer.publicKey,
-          vote,
-          importance: accInfo.importance,
-        };
-        votes.push(voteData);
-      } catch {
-        continue;
+
+    // ここで、txs.data.lengthが0の場合は、もうトランザクションがないので、ループを抜ける
+    if (txs.data.length == 0) break;
+
+    if (specificMosaicId != null) {
+      for (let i = 0; i < txs.data.length; i++) {
+        try {
+          // ここで、指定されたモザイクの量を取得する
+          const amount = txs.data[i].mosaics.find((tx) => tx.id.toHex() == specificMosaicId).amount;
+          // ここで、指定されたモザイクの量がない場合は、continueする
+          if (amount == undefined) continue;
+          culcVote(txs.data[i], amount);
+        } catch {
+          continue;
+        }
+      }
+    } else {
+      for (let i = 0; i < txs.data.length; i++) {
+        try {
+          const address = symbol.Address.createFromPublicKey(txs.data[i].signer.publicKey, networkType);
+          const accInfo = await firstValueFrom(accRepo.getAccountInfo(address));
+          culcVote(txs.data[i], accInfo.importance);
+        } catch {
+          continue;
+        }
       }
     }
   }
+
+  // ここで、voteの中身を集計する
+  function culcVote(data, numUInt64) {
+    const d = JSON.parse(data.message.payload);
+    if (d.data == undefined) return;
+    const vote = d.data;
+    const signer = data.signer;
+    if (vote.hash != hash) return;
+    if (signer == undefined) return;
+
+    const voteData = {
+      publicKey: signer.publicKey,
+      vote,
+      amount: numUInt64,
+    };
+    // ここで、votesにvoteDataをpushする
+    votes.push(voteData);
+  }
+
   const uniqueVotes = votes
     .reduceRight((acc, vote) => {
       if (!acc.some((v) => v.publicKey === vote.publicKey)) {
@@ -70,11 +96,11 @@ async function getResultPolls(hash, startHeight, options) {
   for (let j = 0; j < options.length; j++) {
     let resultVote = {
       option: options[j],
-      totalImpotance: symbol.UInt64.fromUint(0),
+      totalAmount: symbol.UInt64.fromUint(0),
       count: 0,
     };
     for (let l = 0; l < filteredVotes[options[j]].length; l++) {
-      resultVote.totalImpotance = resultVote.totalImpotance.add(filteredVotes[options[j]][l].importance);
+      resultVote.totalAmount = resultVote.totalAmount.add(filteredVotes[options[j]][l].amount);
       resultVote.count++;
     }
     result.push(resultVote);
@@ -95,8 +121,8 @@ function getVotesByOption(votes, options) {
 module.exports = {
   async executeOpenPoll(poll) {
     try {
-      const { id, hash, startHeight, options } = poll;
-      const result = await getResultPolls(hash, startHeight, options);
+      const { id, hash, startHeight, options, specificMosaicId } = poll;
+      const result = await getResultPolls(hash, startHeight, options, specificMosaicId);
       console.log(result);
       const update = await strapi.entityService.update('api::poll.poll', id, {
         data: {
@@ -109,10 +135,10 @@ module.exports = {
   },
   async setOpenPoll(ctx, next) {
     try {
-      const { id, hash, startHeight, options, time } = ctx.request.body;
+      const { id, hash, startHeight, options, time, specificMosaicId } = ctx.request.body;
       console.log(time);
       setTimeout(async () => {
-        const result = await getResultPolls(hash, startHeight, options);
+        const result = await getResultPolls(hash, startHeight, options, specificMosaicId);
         console.log(result);
         const update = await strapi.entityService.update('api::poll.poll', id, {
           data: {
