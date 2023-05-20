@@ -50,6 +50,8 @@ const SymbolPoll: NextPage<Props> = ({}) => {
   const [pollDescription, setPollDescription] = useState<string>("");
   const [pollOptions, setPollOptions] = useState([{ name: '' }]);
   const [dateOfEnding, setDateOfEnding] = useState<string>("");
+  const [specificMosaicId, setSpecificMosaicId] = useState<string>("");
+  const [specificMosaicAmount, setSpecificMosaicAmount] = useState<number>(0);
   const [selectedOption, setSelectedOption] = useState<string>("未選択");
   const [warningText, setWarningText] = useState<string>("");
   const [announcedHash, setAnnouncedHash] = useState<string>("");
@@ -136,7 +138,7 @@ const SymbolPoll: NextPage<Props> = ({}) => {
             break;
         };
         if(symbolService === undefined) throw new Error("symbolService is undefined");
-        const result = await symbolService.voteTransaction(pollTitle, hash, selectedOption, type);
+        const result = await symbolService.voteTransaction(pollTitle, hash, selectedOption, type, specificMosaicId, specificMosaicAmount);
         if(type == VoteType.QR) {
           setQrCodeImage(result);
           setShowQrCode(true);
@@ -162,9 +164,13 @@ const SymbolPoll: NextPage<Props> = ({}) => {
       const dateOfEnding = new Date(response.data[0].attributes.dateOfEnding);
       const currentUtc = new Date();
       if(dateOfEnding < currentUtc) throw new Error("poll is already closed");
-      setDateOfEnding(dateOfEnding.toUTCString())
-      setPollTitle(response.data[0].attributes.title)
-      setPollDescription(response.data[0].attributes.description)
+      setDateOfEnding(dateOfEnding.toUTCString());
+      setPollTitle(response.data[0].attributes.title);
+      setPollDescription(response.data[0].attributes.description);
+      if(response.data[0].attributes.specificMosaicId != null){
+        const sm = response.data[0].attributes.specificMosaicId;
+        setSpecificMosaicId(sm);
+      }
       const arr = (response.data[0].attributes.options as string).split(',');
       const pollOptions = [];
       for(let i = 0; i < arr.length; i++){
@@ -241,7 +247,26 @@ const SymbolPoll: NextPage<Props> = ({}) => {
                   </Grid>
                 ))}
               </Grid>
+              {/* モザイク投票の場合 */}
               <Grid container spacing={3} style={{ marginTop: '20px', marginBottom: '10px' }} >
+                <Grid item xs={12} style={{ display: specificMosaicId != "" ? "block" : "none" }}>
+                  <TextField
+                    label="Specific MosaicId"
+                    value={specificMosaicId}
+                    disabled
+                    sx={{ width: "100%", maxWidth: "300px" }}
+                  />
+                  <div style={{marginTop: '1rem'}}>※この投票では指定モザイクでの総数がカウントされインポータンスは考慮されません。以下から投票数を入力してください。入力値よりも少ない所持数の場合はトランザクションがアナウンスできません。</div>
+                </Grid>
+                <Grid item xs={12} style={{ display: specificMosaicId != "" ? "block" : "none" }}>
+                  <TextField
+                    label="Specific Mosaic Amount"
+                    value={specificMosaicAmount}
+                    onChange={(e) => setSpecificMosaicAmount(Number(e.target.value))}
+                    type='number'
+                    sx={{ width: "100%", maxWidth: "300px" }}
+                  />
+                </Grid>
                 <Grid item xs={12}>
                   <TextField
                     label="Date of ending"
