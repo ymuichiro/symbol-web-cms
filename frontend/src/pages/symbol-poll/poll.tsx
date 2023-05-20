@@ -18,7 +18,7 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel';
 import { VoteType, SymbolService } from '../../services/symbolService';
-
+import { ResultTable } from './result'
 const DEFAULT_QR_CODE_IMAGE = '/assets/img/symbol-logo-default-cover.webp';
 
 interface Props {}
@@ -57,8 +57,10 @@ const SymbolPoll: NextPage<Props> = ({}) => {
   const [announcedHash, setAnnouncedHash] = useState<string>("");
   const [isAnnounced, setIsAnnounced] = useState<boolean>(false);
   const [symbolService, setSymbolService] = useState<SymbolService>();
-
+  const [isPollFinished, setIsPollFinished] = useState<boolean>(false);
   const [canCreateTransaction, setCanCreateTransaction] = useState(false);
+
+  const [voteResults, setVoteResults] = useState<object>([]);
 
   useEffect(() => {
     const { hash } = router.query;
@@ -163,7 +165,10 @@ const SymbolPoll: NextPage<Props> = ({}) => {
       if(response.data[0] == undefined) throw new Error("hash is invalid");
       const dateOfEnding = new Date(response.data[0].attributes.dateOfEnding);
       const currentUtc = new Date();
-      if(dateOfEnding < currentUtc) throw new Error("poll is already closed");
+      if(dateOfEnding < currentUtc) setIsPollFinished(true);
+
+      setVoteResults(response.data[0].attributes.result)
+      
       setDateOfEnding(dateOfEnding.toUTCString());
       setPollTitle(response.data[0].attributes.title);
       setPollDescription(response.data[0].attributes.description);
@@ -241,7 +246,7 @@ const SymbolPoll: NextPage<Props> = ({}) => {
                         />
                       </Grid>
                       <Grid item xs={2} style={{ marginTop: '10px' }}>
-                        <Button onClick={() => selectOption(option.name)}>Select</Button>
+                        <Button onClick={() => selectOption(option.name)} style={{ display: !isPollFinished ? "block" : "none" }}>Select</Button>
                       </Grid>
                     </Grid>
                   </Grid>
@@ -256,9 +261,9 @@ const SymbolPoll: NextPage<Props> = ({}) => {
                     disabled
                     sx={{ width: "100%", maxWidth: "300px" }}
                   />
-                  <div style={{marginTop: '1rem'}}>※この投票では指定モザイクでの総数がカウントされインポータンスは考慮されません。以下から投票数を入力してください。入力値よりも少ない所持数の場合はトランザクションがアナウンスできません。</div>
+                  <div style={{marginTop: '1rem', display: !isPollFinished ? "block" : "none"}}>※この投票では指定モザイクでの総数がカウントされインポータンスは考慮されません。以下から投票数を入力してください。入力値よりも少ない所持数の場合はトランザクションがアナウンスできません。</div>
                 </Grid>
-                <Grid item xs={12} style={{ display: specificMosaicId != "" ? "block" : "none" }}>
+                <Grid item xs={12} style={{ display: specificMosaicId != "" && !isPollFinished ? "block" : "none" }}>
                   <TextField
                     label="Specific Mosaic Amount"
                     value={specificMosaicAmount}
@@ -276,45 +281,51 @@ const SymbolPoll: NextPage<Props> = ({}) => {
                   />
                 </Grid>
               </Grid>
-              <div style={{ marginTop: '40px', border: '1px solid', padding: '20px', marginBottom: '20px'}}>
-                あなたの投票は<span style={{ fontSize: "30px"}}> {selectedOption} </span>です。署名タイプを選択しボタンをクリックして投票トランザクションを作成してください。<br></br>
-              </div>
-              <div style={{ marginTop: '10px', padding: '20px', marginBottom: '20px', display: isAnnounced ? 'block' : 'none'}}>
-                アナウンスが完了しました。 TranasctionHash: {announcedHash}<br></br>
-              </div>
-              <FormControl>
-                <RadioGroup
-                  row
-                  value={voteType.toString()}
-                  onChange={handleVoteTypeChange}
+              <Grid item xs={12} style={{display: isPollFinished ? 'block' : 'none', marginTop: '20px'}}>
+                <div style={{ marginBottom: '10px', marginTop: '0px', paddingLeft: '5px', fontWeight: 'bold' }}>Result</div>
+                <ResultTable data={voteResults} />
+              </Grid>
+              <div style={{display: !isPollFinished ? 'block' : 'none'}}>
+                <div style={{ marginTop: '40px', border: '1px solid', padding: '20px', marginBottom: '20px'}}>
+                  あなたの投票は<span style={{ fontSize: "30px"}}> {selectedOption} </span>です。署名タイプを選択しボタンをクリックして投票トランザクションを作成してください。<br></br>
+                </div>
+                <div style={{ marginTop: '10px', padding: '20px', marginBottom: '20px', display: isAnnounced ? 'block' : 'none'}}>
+                  アナウンスが完了しました。 TranasctionHash: {announcedHash}<br></br>
+                </div>
+                <FormControl>
+                  <RadioGroup
+                    row
+                    value={voteType.toString()}
+                    onChange={handleVoteTypeChange}
+                  >
+                    <FormControlLabel value="SSS" control={<Radio />} label="SSS" />
+                    <FormControlLabel value="QR" control={<Radio />} label="QR CODE" />
+                    <FormControlLabel value="URI" control={<Radio />} label="Transaction URI" />
+                    <FormControlLabel value="ALICE" control={<Radio />} label="Sign with aLice" />
+                  </RadioGroup>
+                  <Button 
+                    onClick={createTransaction} 
+                    disabled={canCreateTransaction}
+                  >Create Transaction</Button>
+                </FormControl>
+                <div style={{ color: "#FF0000", padding: "20px", fontSize: "20px"}}>{warningText}</div>
+                <div>
+                  <Image
+                    style={{display: showQrCode ? "block" : "none", marginTop: "20px"}}
+                    src={qrCodeImage}
+                    width={300}
+                    height= {300}
+                    alt="qrcode">
+                  </Image>
+                </div>
+                <div
+                  id='uri'
+                  style={{ display: showURI ? 'block' : 'none', marginBottom: '10px' }}
                 >
-                  <FormControlLabel value="SSS" control={<Radio />} label="SSS" />
-                  <FormControlLabel value="QR" control={<Radio />} label="QR CODE" />
-                  <FormControlLabel value="URI" control={<Radio />} label="Transaction URI" />
-                  <FormControlLabel value="ALICE" control={<Radio />} label="Sign with aLice" />
-                </RadioGroup>
-                <Button 
-                  onClick={createTransaction} 
-                  disabled={canCreateTransaction}
-                >Create Transaction</Button>
-              </FormControl>
-              <div style={{ color: "#FF0000", padding: "20px", fontSize: "20px"}}>{warningText}</div>
-              <div>
-                <Image
-                  style={{display: showQrCode ? "block" : "none", marginTop: "20px"}}
-                  src={qrCodeImage}
-                  width={300}
-                  height= {300}
-                  alt="qrcode">
-                </Image>
-              </div>
-              <div
-                id='uri'
-                style={{ display: showURI ? 'block' : 'none', marginBottom: '10px' }}
-              >
-                <Grid item xs={12}>
-                  <TextField label='Transaction URI' variant='outlined' fullWidth value={uri} disabled />
-                </Grid>
+                  <Grid item xs={12}>
+                    <TextField label='Transaction URI' variant='outlined' fullWidth value={uri} disabled />
+                  </Grid>
+                </div>
               </div>
             </div>
           </section>
