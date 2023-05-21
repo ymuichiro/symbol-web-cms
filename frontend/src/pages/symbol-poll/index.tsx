@@ -98,7 +98,7 @@ const SymbolPollHome: NextPage = ({}) => {
                     fontWeight: 'bold',
                   }}
                 >
-                  go to create page
+                  go to poll page
                 </LinkButton>
               </Grid>
             </Grid>
