@@ -7,9 +7,16 @@ import Button from '@mui/material/Button';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Container from '@mui/material/Container';
+import FormControl from '@mui/material/FormControl';
+import FormControlLabel from '@mui/material/FormControlLabel';
 import Grid from '@mui/material/Grid';
 import IconButton from '@mui/material/IconButton';
 import InputAdornment from '@mui/material/InputAdornment';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import Radio from '@mui/material/Radio';
+import RadioGroup from '@mui/material/RadioGroup';
+import Select, { SelectChangeEvent } from '@mui/material/Select';
 import TextField from '@mui/material/TextField';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
@@ -19,13 +26,6 @@ import type { GetStaticProps, NextPage } from 'next/types';
 import { useEffect, useState } from 'react';
 import { MdDelete } from 'react-icons/md';
 import { getActivePublicKey } from 'sss-module';
-import FormControl from '@mui/material/FormControl';
-import Radio from '@mui/material/Radio';
-import RadioGroup from '@mui/material/RadioGroup';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import Select, { SelectChangeEvent } from '@mui/material/Select';
 
 interface PollData {
   hash: string | undefined;
@@ -49,16 +49,16 @@ const CreateSymbolPoll: NextPage = ({}) => {
   const [currentUTCDate, setCurrentUTCDate] = useState<Date>(new Date());
   const [sevenDaysLaterUTCDate, setSevenDaysLaterUTCDate] = useState<Date>(new Date());
   const [symbolService, setSymbolService] = useState<SymbolService>();
-  const [onSpecificMosaic, setOnSpecificMosaic] = useState<string>("OFF");
-  const [specificMosaicId, setSpecificMosaicId] = useState<string>("");
+  const [onSpecificMosaic, setOnSpecificMosaic] = useState<string>('OFF');
+  const [specificMosaicId, setSpecificMosaicId] = useState<string>('');
   const handleOnSpecificMosaicChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setOnSpecificMosaic((event.target as HTMLInputElement).value)
+    setOnSpecificMosaic((event.target as HTMLInputElement).value);
   };
-  const [ showSpecificMosaicList, setShowSpecificMosaicList ] = useState<boolean>(false);
-  const [ mosaicIds, setMosaicIds] = useState<string[]>(['a', 'b', 'c']);
+  const [showSpecificMosaicList, setShowSpecificMosaicList] = useState<boolean>(false);
+  const [mosaicIds, setMosaicIds] = useState<string[]>(['a', 'b', 'c']);
 
   useEffect(() => {
-    if(onSpecificMosaic === "ON") {
+    if (onSpecificMosaic === 'ON') {
       setShowSpecificMosaicList(true);
     } else {
       setShowSpecificMosaicList(false);
@@ -66,25 +66,27 @@ const CreateSymbolPoll: NextPage = ({}) => {
   }, [onSpecificMosaic]);
 
   useEffect(() => {
-    setCurrentUTCDate(new Date(Date.now() + new Date().getTimezoneOffset() * 60 * 1000));
-    setSevenDaysLaterUTCDate(
-      new Date(
-        new Date(Date.now() + new Date().getTimezoneOffset() * 60 * 1000).setDate(
-          new Date(Date.now() + new Date().getTimezoneOffset() * 60 * 1000).getDate() + 7
+    if ((window as any).SSS && (window as any).SSS.activePublicKey) {
+      setCurrentUTCDate(new Date(Date.now() + new Date().getTimezoneOffset() * 60 * 1000));
+      setSevenDaysLaterUTCDate(
+        new Date(
+          new Date(Date.now() + new Date().getTimezoneOffset() * 60 * 1000).setDate(
+            new Date(Date.now() + new Date().getTimezoneOffset() * 60 * 1000).getDate() + 7
+          )
         )
-      )
-    );
-    const initializeSymbolService = async () => {
-      const service = new SymbolService();
-      await service.init();
-      const mosaicIds = await service.getMosaics();
-      setSpecificMosaicId(mosaicIds[0]);
-      setMosaicIds(mosaicIds);
-      setSymbolService(service);
-    };
-    setTimeout(() => {
-      initializeSymbolService();
-    }, 2000);
+      );
+      const initializeSymbolService = async () => {
+        const service = new SymbolService();
+        await service.init();
+        const mosaicIds = await service.getMosaics();
+        setSpecificMosaicId(mosaicIds[0]);
+        setMosaicIds(mosaicIds);
+        setSymbolService(service);
+      };
+      setTimeout(() => {
+        initializeSymbolService();
+      }, 2000);
+    }
   }, []);
 
   const handleTitleChange = (title: string) => {
@@ -116,7 +118,7 @@ const CreateSymbolPoll: NextPage = ({}) => {
 
   const handleFormSubmit = async () => {
     try {
-      if(dateOfEnding > sevenDaysLaterUTCDate || dateOfEnding < currentUTCDate) {
+      if (dateOfEnding > sevenDaysLaterUTCDate || dateOfEnding < currentUTCDate) {
         throw new Error('Poll can be opened only between 7 days from now and now.');
       }
       options.forEach((option) => {
@@ -131,11 +133,11 @@ const CreateSymbolPoll: NextPage = ({}) => {
         description,
         options: optionStrings.join(','),
         publicKey: getActivePublicKey(),
-        dateOfEnding: (new Date(dateOfEnding.getTime() - new Date().getTimezoneOffset() * 60 * 1000)).toISOString(),
-        specificMosaicId: onSpecificMosaic === "ON" ? specificMosaicId : undefined,
-      }
-      
-      if (symbolService === undefined) throw new Error("symbolService is undefined");
+        dateOfEnding: new Date(dateOfEnding.getTime() - new Date().getTimezoneOffset() * 60 * 1000).toISOString(),
+        specificMosaicId: onSpecificMosaic === 'ON' ? specificMosaicId : undefined,
+      };
+
+      if (symbolService === undefined) throw new Error('symbolService is undefined');
       const generatedHash = await symbolService.createPollTransaction(JSON.stringify(pollData));
       pollData.hash = generatedHash;
       pollData.startHeight = await symbolService.getCurrentHeight();
@@ -154,12 +156,12 @@ const CreateSymbolPoll: NextPage = ({}) => {
       const urlForCronJob = process.env.NEXT_PUBLIC_API_URL + '/api/set-open-poll';
       const responseData = responseJson.data;
       const pollAttributes = responseData.attributes;
-      
+
       const targetDate = new Date(pollAttributes.dateOfEnding);
       const utcTime = targetDate.toISOString();
       const timestamp = new Date(utcTime).getTime() + new Date().getTimezoneOffset() * 60 * 1000;
       const utcCurrentDate = new Date(Date.now() + new Date().getTimezoneOffset() * 60 * 1000);
-    
+
       const requestOptionsForCronJob = {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -183,7 +185,7 @@ const CreateSymbolPoll: NextPage = ({}) => {
   const handleOpenDateChange = (newValue: Date | null) => {
     if (newValue === null) return;
     setDateOfEnding(newValue);
-  }
+  };
 
   return (
     <>
@@ -258,32 +260,32 @@ const CreateSymbolPoll: NextPage = ({}) => {
                     <Typography style={{ marginTop: '1rem' }}>モザイク投票</Typography>
                     <div style={{ marginTop: '1rem' }}>
                       <FormControl>
-                        <RadioGroup
-                          row
-                          value={onSpecificMosaic.toString()}
-                          onChange={handleOnSpecificMosaicChange}
-                        >
-                          <FormControlLabel value="ON" control={<Radio />} label="ON" />
-                          <FormControlLabel value="OFF" control={<Radio />} label="OFF" />
+                        <RadioGroup row value={onSpecificMosaic.toString()} onChange={handleOnSpecificMosaicChange}>
+                          <FormControlLabel value='ON' control={<Radio />} label='ON' />
+                          <FormControlLabel value='OFF' control={<Radio />} label='OFF' />
                         </RadioGroup>
                       </FormControl>
                     </div>
                   </Grid>
-                  <Grid item xs={12} style={{display: showSpecificMosaicList ? "block" : "none"}}>
+                  <Grid item xs={12} style={{ display: showSpecificMosaicList ? 'block' : 'none' }}>
                     <FormControl fullWidth>
-                      <InputLabel id="mosaicId">Mosaic ID</InputLabel>
+                      <InputLabel id='mosaicId'>Mosaic ID</InputLabel>
                       <Select
-                        label="MosaiID"
-                        style={{width: '100%'}}
+                        label='MosaiID'
+                        style={{ width: '100%' }}
                         value={specificMosaicId}
                         onChange={handleMosiacIdChange}
                       >
                         {mosaicIds.map((id, index) => (
-                          <MenuItem value={id} key={index}>{id}</MenuItem>
+                          <MenuItem value={id} key={index}>
+                            {id}
+                          </MenuItem>
                         ))}
                       </Select>
                     </FormControl>
-                    <div style={{marginTop: '1rem'}}>※モザイク投票機能をONにすると指定モザイクでの集計を行います。インポータンスは考慮されません。</div>
+                    <div style={{ marginTop: '1rem' }}>
+                      ※モザイク投票機能をONにすると指定モザイクでの集計を行います。インポータンスは考慮されません。
+                    </div>
                   </Grid>
                   <Grid item xs={12}>
                     <div style={{ display: 'flex', justifyContent: 'center', width: '100%', marginTop: '2rem' }}>
@@ -293,7 +295,7 @@ const CreateSymbolPoll: NextPage = ({}) => {
                     </div>
                   </Grid>
                   <div style={{ color: '#FF0000', padding: '20px', fontSize: '20px' }}>{warningText}</div>
-                  <Grid item xs={12} style={{display: showHash ? 'block' : 'none'}} id='hash'>
+                  <Grid item xs={12} style={{ display: showHash ? 'block' : 'none' }} id='hash'>
                     <TextField label='Poll URL' variant='outlined' fullWidth value={hash} disabled />
                   </Grid>
                 </Grid>

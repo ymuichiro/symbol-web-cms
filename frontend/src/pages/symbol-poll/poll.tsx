@@ -6,6 +6,8 @@ import Header from '@/components/moleculs/Header';
 import { ResultTable } from '@/components/moleculs/result';
 import { SymbolService, VoteType } from '@/services/symbolService';
 import Button from '@mui/material/Button';
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
 import Container from '@mui/material/Container';
 import FormControl from '@mui/material/FormControl';
 import FormControlLabel from '@mui/material/FormControlLabel';
@@ -15,6 +17,7 @@ import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
 import TextField from '@mui/material/TextField';
 import Toolbar from '@mui/material/Toolbar';
+import Typography from '@mui/material/Typography';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { GetStaticProps, NextPage } from 'next/types';
@@ -233,129 +236,157 @@ const SymbolPoll: NextPage<Props> = ({}) => {
       <Header />
       <Toolbar style={{ marginTop: '20px' }} />
       <div style={{ marginBottom: '5vh' }}>
-        <Container maxWidth='lg' style={{ height: '100%' }}>
-          {/* ヘッダーセクション */}
+        <Container maxWidth='md'>
           <section>
             <MainBackground />
             <PageTitle>Join a Poll</PageTitle>
-            <Grid container spacing={3}>
-              <Grid item xs={10}>
-                <TextField label='Hash' variant='outlined' fullWidth value={hash ?? ''} onChange={handleHashChange} />
-              </Grid>
-              <Grid item xs={2} style={{ marginTop: '10px' }}>
-                <Button onClick={handleSubmit}>Submit</Button>
-              </Grid>
-            </Grid>
-            <div id='pollData' style={{ display: showPollData ? 'block' : 'none' }}>
-              <Grid container spacing={3} style={{ marginTop: '10px' }}>
-                <Grid item xs={12}>
-                  <TextField label='Title' value={pollTitle} disabled fullWidth />
-                </Grid>
-                <Grid item xs={12}>
-                  <TextField label='Description' value={pollDescription} disabled fullWidth multiline rows={4} />
-                </Grid>
-              </Grid>
-              <Grid container spacing={2} style={{ marginTop: '10px', marginBottom: '10px' }}>
-                <FormLabel style={{ paddingLeft: '16px' }}>options</FormLabel>
-                {pollOptions.map((option, index) => (
-                  <Grid item xs={12} md={12} key={index}>
-                    <Grid container spacing={2} alignItems='flex-end'>
-                      <Grid item xs={3}>
-                        <TextField label={`Option ${index + 1} name`} value={option.name} fullWidth disabled />
-                      </Grid>
-                      <Grid item xs={2} style={{ marginTop: '10px' }}>
-                        <Button
-                          onClick={() => selectOption(option.name)}
-                          style={{ display: !isPollFinished ? 'block' : 'none' }}
-                        >
-                          Select
-                        </Button>
-                      </Grid>
-                    </Grid>
-                  </Grid>
-                ))}
-              </Grid>
-              {/* モザイク投票の場合 */}
-              <Grid container spacing={3} style={{ marginTop: '20px', marginBottom: '10px' }}>
-                <Grid item xs={12} style={{ display: specificMosaicId != '' ? 'block' : 'none' }}>
-                  <TextField
-                    label='Specific MosaicId'
-                    value={specificMosaicId}
-                    disabled
-                    sx={{ width: '100%', maxWidth: '300px' }}
-                  />
-                  <div style={{ marginTop: '1rem', display: !isPollFinished ? 'block' : 'none' }}>
-                    ※この投票では指定モザイクでの総数がカウントされインポータンスは考慮されません。以下から投票数を入力してください。入力値よりも少ない所持数の場合はトランザクションがアナウンスできません。
+            <Card style={{ backgroundColor: 'rgba(0, 0, 0, 0.5)' }}>
+              <CardContent style={{ marginTop: '2rem', marginBottom: '2rem' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                  <div style={{ flexGrow: 1 }}>
+                    <TextField
+                      label='Hash'
+                      variant='outlined'
+                      fullWidth
+                      value={hash ?? ''}
+                      onChange={handleHashChange}
+                    />
                   </div>
-                </Grid>
-                <Grid item xs={12} style={{ display: specificMosaicId != '' && !isPollFinished ? 'block' : 'none' }}>
-                  <TextField
-                    label='Specific Mosaic Amount'
-                    value={specificMosaicAmount}
-                    onChange={(e) => setSpecificMosaicAmount(Number(e.target.value))}
-                    type='number'
-                    sx={{ width: '100%', maxWidth: '300px' }}
-                  />
-                </Grid>
-                <Grid item xs={12}>
-                  <TextField
-                    label='Date of ending'
-                    value={dateOfEnding}
-                    disabled
-                    sx={{ width: '100%', maxWidth: '300px' }}
-                  />
-                </Grid>
-              </Grid>
-              <Grid item xs={12} style={{ display: isPollFinished ? 'block' : 'none', marginTop: '20px' }}>
-                <div style={{ marginBottom: '10px', marginTop: '0px', paddingLeft: '5px', fontWeight: 'bold' }}>
-                  Result
+                  <Button onClick={handleSubmit} size='large'>
+                    Submit
+                  </Button>
                 </div>
-                <ResultTable data={voteResults} />
-              </Grid>
-              <div style={{ display: !isPollFinished ? 'block' : 'none' }}>
-                <div style={{ marginTop: '40px', border: '1px solid', padding: '20px', marginBottom: '20px' }}>
-                  あなたの投票は<span style={{ fontSize: '30px' }}> {selectedOption} </span>
-                  です。署名タイプを選択しボタンをクリックして投票トランザクションを作成してください。<br></br>
-                </div>
+
                 <div
+                  id='pollData'
                   style={{
-                    marginTop: '10px',
-                    padding: '20px',
-                    marginBottom: '20px',
-                    display: isAnnounced ? 'block' : 'none',
+                    display: showPollData ? 'flex' : 'none',
+                    width: '100%',
+                    flexDirection: 'column',
+                    gap: '30px',
+                    marginTop: '30px',
                   }}
                 >
-                  アナウンスが完了しました。 TranasctionHash: {announcedHash}
-                  <br></br>
-                </div>
-                <FormControl>
-                  <RadioGroup row value={voteType.toString()} onChange={handleVoteTypeChange}>
-                    <FormControlLabel value='SSS' control={<Radio />} label='SSS' />
-                    <FormControlLabel value='QR' control={<Radio />} label='QR CODE' />
-                    <FormControlLabel value='URI' control={<Radio />} label='Transaction URI' />
-                    <FormControlLabel value='ALICE' control={<Radio />} label='Sign with aLice' />
-                  </RadioGroup>
-                  <Button onClick={createTransaction} disabled={canCreateTransaction}>
-                    Create Transaction
-                  </Button>
-                </FormControl>
-                <div style={{ color: '#FF0000', padding: '20px', fontSize: '20px' }}>{warningText}</div>
-                <div>
-                  <Image
-                    style={{ display: showQrCode ? 'block' : 'none', marginTop: '20px' }}
-                    src={qrCodeImage}
-                    width={300}
-                    height={300}
-                    alt='qrcode'
-                  ></Image>
-                </div>
-                <div id='uri' style={{ display: showURI ? 'block' : 'none', marginBottom: '10px' }}>
-                  <Grid item xs={12}>
-                    <TextField label='Transaction URI' variant='outlined' fullWidth value={uri} disabled />
+                  <TextField label='Title' value={pollTitle} disabled fullWidth />
+                  <TextField label='Description' value={pollDescription} disabled fullWidth multiline rows={4} />
+                  <div>
+                    <FormLabel>options</FormLabel>
+                    {pollOptions.map((option, index) => (
+                      <div
+                        key={index}
+                        style={{
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: isPollFinished ? '0px' : '10px',
+                          marginTop: '15px',
+                        }}
+                      >
+                        <div style={{ flexGrow: 1 }}>
+                          <TextField label={`Option ${index + 1} name`} value={option.name} fullWidth disabled />
+                        </div>
+                        <div>
+                          <Button
+                            onClick={() => selectOption(option.name)}
+                            fullWidth
+                            style={{ display: !isPollFinished ? 'block' : 'none' }}
+                            size='large'
+                          >
+                            Select
+                          </Button>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+
+                  {/* モザイク投票の場合 */}
+                  <Grid container spacing={3} style={{ marginTop: '20px', marginBottom: '10px' }}>
+                    <Grid item xs={6} style={{ display: specificMosaicId !== '' ? undefined : 'none' }}>
+                      <TextField label='Specific MosaicId' value={specificMosaicId} disabled fullWidth />
+                    </Grid>
+                    <Grid
+                      item
+                      xs={6}
+                      style={{ display: specificMosaicId !== '' && !isPollFinished ? undefined : 'none' }}
+                    >
+                      <TextField
+                        label='Specific Mosaic Amount'
+                        value={specificMosaicAmount}
+                        onChange={(e) => setSpecificMosaicAmount(Number(e.target.value))}
+                        type='number'
+                        fullWidth
+                      />
+                    </Grid>
                   </Grid>
+                  <Typography
+                    color='textSecondary'
+                    variant='body2'
+                    style={{
+                      marginTop: '1rem',
+                      display: !isPollFinished ? 'block' : 'none',
+                    }}
+                  >
+                    ※&nbsp;この投票では指定モザイクでの総数がカウントされインポータンスは考慮されません。以下から投票数を入力してください。入力値よりも少ない所持数の場合はトランザクションがアナウンスできません。
+                  </Typography>
+
+                  <TextField
+                    label='Date of ending'
+                    fullWidth
+                    value={new Date(dateOfEnding).toLocaleString()}
+                    disabled
+                  />
+
+                  <Grid item xs={12} style={{ display: isPollFinished ? 'block' : 'none', marginTop: '20px' }}>
+                    <div style={{ marginBottom: '10px', marginTop: '0px', paddingLeft: '5px', fontWeight: 'bold' }}>
+                      Result
+                    </div>
+                    <ResultTable data={voteResults} />
+                  </Grid>
+                  <div style={{ display: !isPollFinished ? 'block' : 'none' }}>
+                    <div style={{ marginTop: '40px', border: '1px solid', padding: '20px', marginBottom: '20px' }}>
+                      あなたの投票は<span style={{ fontSize: '30px' }}> {selectedOption} </span>
+                      です。署名タイプを選択しボタンをクリックして投票トランザクションを作成してください。<br></br>
+                    </div>
+                    <div
+                      style={{
+                        marginTop: '10px',
+                        padding: '20px',
+                        marginBottom: '20px',
+                        display: isAnnounced ? 'block' : 'none',
+                      }}
+                    >
+                      アナウンスが完了しました。 TranasctionHash: {announcedHash}
+                      <br></br>
+                    </div>
+                    <FormControl>
+                      <RadioGroup row value={voteType.toString()} onChange={handleVoteTypeChange}>
+                        <FormControlLabel value='SSS' control={<Radio />} label='SSS' />
+                        <FormControlLabel value='QR' control={<Radio />} label='QR CODE' />
+                        <FormControlLabel value='URI' control={<Radio />} label='Transaction URI' />
+                        <FormControlLabel value='ALICE' control={<Radio />} label='Sign with aLice' />
+                      </RadioGroup>
+                      <Button onClick={createTransaction} disabled={canCreateTransaction}>
+                        Create Transaction
+                      </Button>
+                    </FormControl>
+                    <div style={{ color: '#FF0000', padding: '20px', fontSize: '20px' }}>{warningText}</div>
+                    <div>
+                      <Image
+                        style={{ display: showQrCode ? 'block' : 'none', marginTop: '20px' }}
+                        src={qrCodeImage}
+                        width={300}
+                        height={300}
+                        alt='qrcode'
+                      ></Image>
+                    </div>
+                    <div id='uri' style={{ display: showURI ? 'block' : 'none', marginBottom: '10px' }}>
+                      <Grid item xs={12}>
+                        <TextField label='Transaction URI' variant='outlined' fullWidth value={uri} disabled />
+                      </Grid>
+                    </div>
+                  </div>
                 </div>
-              </div>
-            </div>
+              </CardContent>
+            </Card>
           </section>
           <section style={{ marginTop: '100px' }}>
             <Footer />

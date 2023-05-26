@@ -1,11 +1,13 @@
+import Header from '@/components/moleculs/Header';
 import ArticleTemplate from '@/components/template/Article';
+import { lang, langSelecter } from '@/languages';
+import { findOneNewsRelease } from '@/services/StrapiService';
+import { removeMarkdownTagFromText } from '@/services/UtilService';
 import { NewsReleaseFindOneResponse } from '@/types/StrapiModel';
+import Toolbar from '@mui/material/Toolbar';
+
 import Head from 'next/head';
 import { GetServerSideProps, NextPage } from 'next/types';
-import { findOneNewsRelease } from '@/services/StrapiService';
-import Toolbar from '@mui/material/Toolbar';
-import Header from '@/components/moleculs/Header';
-import { lang, langSelecter } from '@/languages';
 
 interface ArticleIdByLanguage {
   lang: string;
@@ -29,10 +31,10 @@ const NewsArticle: NextPage<Props> = ({ i18n, article, articleIdByLanguage, loca
     <>
       <Head>
         <title>{`${i18n.meta_page_title}: ${article?.attributes.title ?? 'News'}`}</title>
-        <meta name='description' content={article?.attributes.body.slice(0, 200)} />
+        <meta name='description' content={removeMarkdownTagFromText(article?.attributes.body).slice(0, 200)} />
         <meta name='twitter:card' content='summary_large_image' />
         <meta name='twitter:title' content={article.attributes.title} />
-        <meta name='twitter:description' content={article?.attributes.body.slice(0, 200)} />
+        <meta name='twitter:description' content={removeMarkdownTagFromText(article?.attributes.body).slice(0, 200)} />
         <meta
           name='twitter:image'
           content={

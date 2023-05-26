@@ -1,12 +1,13 @@
+import Header from '@/components/moleculs/Header';
 import ArticleTemplate from '@/components/template/Article';
+import { lang, langSelecter } from '@/languages';
+import { findOneDocuments } from '@/services/StrapiService';
+import { removeMarkdownTagFromText } from '@/services/UtilService';
 import { DocumentFindOneResponse } from '@/types/StrapiModel';
+import { NAVIGATIONS } from '@/types/navigations';
+import Toolbar from '@mui/material/Toolbar';
 import Head from 'next/head';
 import { GetServerSideProps, NextPage } from 'next/types';
-import { findOneDocuments } from '@/services/StrapiService';
-import Toolbar from '@mui/material/Toolbar';
-import Header from '@/components/moleculs/Header';
-import { NAVIGATIONS } from '@/types/navigations';
-import { lang, langSelecter } from '@/languages';
 
 interface ArticleIdByLanguage {
   lang: string;
@@ -30,11 +31,11 @@ const DocumsntArticle: NextPage<Props> = ({ i18n, article, articleIdByLanguage, 
     <>
       <Head>
         <title>{`${i18n.meta_page_title}: ${article?.attributes.title ?? 'Documents'}`}</title>
-        <meta name='description' content={article?.attributes.body.slice(0, 200) || ''} />
+        <meta name='description' content={removeMarkdownTagFromText(article?.attributes.body).slice(0, 200)} />
         <meta name='twitter:card' content='summary_large_image' />
         <meta name='twitter:image' content={`${process.env.NEXT_PUBLIC_HOSTING_URL || ''}/twitter-card.png`} />
         <meta name='twitter:title' content={article.attributes.title} />
-        <meta name='twitter:description' content={article?.attributes.body.slice(0, 200) || ''} />
+        <meta name='twitter:description' content={removeMarkdownTagFromText(article?.attributes.body).slice(0, 200)} />
       </Head>
       <Header articleIdByLanguage={articleIdByLanguage} />
       <Toolbar style={{ marginTop: '20px' }} />

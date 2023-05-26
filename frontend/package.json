@@ -11,7 +11,8 @@
     "test": "tsc --noEmit && eslint './src/**/*.{ts, tsx, js, jsx, json}' && prettier --write src"
   },
   "engines": {
-    "node": "16.x"
+    "node": "18.x",
+    "yarn": "DO NOT USE YARN"
   },
   "dependencies": {
     "@date-io/date-fns": "^2.16.0",
@@ -25,6 +26,7 @@
     "axios": "^1.2.6",
     "chart.js": "^4.2.1",
     "date-fns": "^2.29.3",
+    "markdown-to-text": "^0.1.1",
     "next": "13.1.2",
     "next-pwa": "^5.6.0",
     "next-swagger-doc": "^0.3.6",
