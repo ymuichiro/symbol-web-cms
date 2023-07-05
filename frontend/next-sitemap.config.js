@@ -36,6 +36,7 @@ module.exports = {
     await config.transform(config, '/zh-hant-tw/docs'),
     await config.transform(config, '/zh-hant-tw/support/rest'),
     await config.transform(config, '/static/playground.html'),
+    await config.transform(config, '/events/tomatina'),
   ],
   robotsTxtOptions: {
     additionalSitemaps: [`${process.env.NEXT_PUBLIC_HOSTING_URL}/server-sitemap.xml`],

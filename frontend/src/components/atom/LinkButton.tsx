@@ -1,4 +1,5 @@
 import Button from '@mui/material/Button';
+import { SxProps, Theme } from '@mui/material/styles';
 import Link from 'next/link';
 import { CSSProperties, FC, ReactNode } from 'react';
 
@@ -10,6 +11,8 @@ interface LinkButtonArgs {
   children?: ReactNode;
   style?: CSSProperties;
   ariaLabel?: string;
+  sx?: SxProps<Theme>;
+  variant?: 'text' | 'outlined' | 'contained';
 }
 
 const LinkButton: FC<LinkButtonArgs> = (props: LinkButtonArgs) => {
@@ -20,11 +23,12 @@ const LinkButton: FC<LinkButtonArgs> = (props: LinkButtonArgs) => {
         size={props.size}
         fullWidth={props.fullWidth}
         style={props.style}
-        variant='contained'
+        variant={props.variant || 'contained'}
         LinkComponent={Link}
         href={props.href}
         rel='noopener noreferrer'
         target='_blank'
+        sx={props.sx}
       >
         {props.children}
       </Button>
@@ -35,9 +39,10 @@ const LinkButton: FC<LinkButtonArgs> = (props: LinkButtonArgs) => {
         size={props.size}
         fullWidth={props.fullWidth}
         style={props.style}
-        variant='contained'
+        variant={props.variant || 'contained'}
         LinkComponent={Link}
         href={props.href}
+        sx={props.sx}
       >
         {props.children}
       </Button>
