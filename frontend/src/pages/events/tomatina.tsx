@@ -1,3 +1,4 @@
+import TomatinaTwitterHeader from '@/assets/background/symbol-tomatina-header.webp';
 import TomatoFaceImage from '@/assets/background/tomato-face.png';
 import TomatoImage from '@/assets/background/tomato.png';
 import LinkButton from '@/components/atom/LinkButton';
@@ -30,6 +31,8 @@ const Home: NextPage<Props> = ({ i18n }) => {
         <meta name='description' content={'Symbol トマティーナのイベントページです'} />
         <meta name='twitter:title' content={'Symbol トマティーナ'} />
         <meta name='twitter:description' content={'Symbol トマティーナのイベントページです'} />
+        <meta name='twitter:card' content='summary_large_image' />
+        <meta name='twitter:image' content={`${process.env.NEXT_PUBLIC_HOSTING_URL}${TomatinaTwitterHeader.src}`} />
       </Head>
       <Header />
       <Toolbar style={{ marginTop: '20px' }} />
@@ -97,6 +100,31 @@ const Home: NextPage<Props> = ({ i18n }) => {
           </Grid>
         </Grid>
         <div style={{ height: '5svh' }} />
+        <Typography variant='h4' fontWeight={'bold'} textAlign={'center'} gutterBottom>
+          以前の開催の様子
+        </Typography>
+        <Grid container spacing={3} alignItems={'center'} style={{ minHeight: '50svh' }}>
+          <Grid item xs={12} md={4}>
+            <Typography variant='body1' style={{ marginBottom: '1rem' }}>
+              オンラインでトマトをぶつけあうゲームをプレイしたり、RPGゲーム等が公開されました。
+              トマトを投げると実際にトランザクションが作成され、ブロックチェーン上に結果が記録されるブロックチェーンゲームです。
+            </Typography>
+          </Grid>
+          <Grid item xs={12} md={8}>
+            <div style={{ width: '100%', textAlign: 'center', marginTop: '5svh', marginBottom: '5svh' }}>
+              <iframe
+                width='560'
+                height='315'
+                src='https://www.youtube.com/embed/mebNYjgFMms'
+                title='YouTube video player'
+                allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share'
+                allowFullScreen={true}
+                style={{ border: 0 }}
+              ></iframe>
+            </div>
+          </Grid>
+        </Grid>
+        <div style={{ height: '5svh' }} />
         <Typography variant='h4' fontWeight={'bold'} gutterBottom>
           ゲーム楽しもう
         </Typography>
@@ -130,10 +158,10 @@ const Home: NextPage<Props> = ({ i18n }) => {
             <Grid item xs={12} md={6}>
               <List style={{ flexGrow: 1 }} disablePadding>
                 <ListItem>
-                  <ListItemText primary='開催日時' secondary='2023年MM月DD日' />
+                  <ListItemText primary='開催日時' secondary='毎年８月最終水曜日' />
                 </ListItem>
                 <ListItem>
-                  <ListItemText primary='開催場所' secondary='Twitter' />
+                  <ListItemText primary='開催場所' secondary='Twitter等' />
                 </ListItem>
               </List>
             </Grid>
@@ -143,14 +171,14 @@ const Home: NextPage<Props> = ({ i18n }) => {
                   <ListItemText
                     primary='問い合わせ'
                     secondary={
-                      <Link href={'https://example.com'} style={{ color: 'white' }}>
-                        https://sample.com
+                      <Link href={'https://discord.gg/TT2tvxFfN4'} style={{ color: 'white' }}>
+                        Symbol/NEM Marketing
                       </Link>
                     }
                   />
                 </ListItem>
                 <ListItem>
-                  <ListItemText primary='Tomato Mosaic ID' secondary='xxxxxxxxxxxxx' />
+                  <ListItemText primary='Tomato Mosaic ID' secondary='各自自由に発行' />
                 </ListItem>
               </List>
             </Grid>
