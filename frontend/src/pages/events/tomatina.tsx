@@ -1,4 +1,4 @@
-import TomatinaTwitterHeader from '@/assets/background/symbol-tomatina-header.webp';
+import TomatinaTwitterHeader from '@/assets/background/symbol-tomatina-header.png';
 import TomatoFaceImage from '@/assets/background/tomato-face.png';
 import TomatoImage from '@/assets/background/tomato.png';
 import LinkButton from '@/components/atom/LinkButton';
