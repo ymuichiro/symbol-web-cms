@@ -119,7 +119,7 @@ const Home: NextPage<Props> = ({ i18n }) => {
                 title='YouTube video player'
                 allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share'
                 allowFullScreen={true}
-                style={{ border: 0 }}
+                style={{ border: 0, maxWidth: '100%' }}
               ></iframe>
             </div>
           </Grid>
