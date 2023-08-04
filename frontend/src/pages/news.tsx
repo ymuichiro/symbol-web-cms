@@ -21,7 +21,7 @@ import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import Head from 'next/head';
 import Image from 'next/image';
-import { GetServerSideProps, NextPage } from 'next/types';
+import { GetStaticProps, NextPage } from 'next/types';
 
 interface Props {
   i18n: lang['news'];
@@ -88,12 +88,7 @@ const News: NextPage<Props> = ({ i18n, newsReleases, locale }) => {
   );
 };
 
-const getServerSideProps: GetServerSideProps<Props> = async ({ locale, defaultLocale, req }) => {
-  // logs
-  const ip = req.headers['x-forwarded-for'];
-  const userAgent = req.headers['user-agent'];
-  console.log('access log', { ip, userAgent, headers: req.headers });
-
+const getStaticProps: GetStaticProps<Props> = async ({ locale, defaultLocale }) => {
   const articles = await findNewsRelease(locale, { isIncludeMedia: true });
   return {
     props: {
@@ -104,5 +99,22 @@ const getServerSideProps: GetServerSideProps<Props> = async ({ locale, defaultLo
   };
 };
 
-export { getServerSideProps };
+// const getServerSideProps: GetServerSideProps<Props> = async ({ locale, defaultLocale, req }) => {
+//   // logs
+//   const ip = req.headers['x-forwarded-for'];
+//   const userAgent = req.headers['user-agent'];
+//   console.log('access log', { ip, userAgent });
+
+//   const articles = await findNewsRelease(locale, { isIncludeMedia: true });
+//   return {
+//     props: {
+//       locale: locale || defaultLocale || 'en',
+//       i18n: langSelecter(locale).news,
+//       newsReleases: articles.data,
+//     },
+//   };
+// };
+
+// export { getServerSideProps };
+export { getStaticProps };
 export default News;
