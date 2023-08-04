@@ -3,25 +3,25 @@
   Symbol関連の情報のうち、公的な情報の取り扱いページ（インデックス側のページ）
 
 */
+import news from '@/assets/icon/news.svg';
 import MainBackground from '@/components/atom/MainBackground';
 import { PageTitle } from '@/components/atom/Titles';
 import Footer from '@/components/moleculs/Footer';
+import Header from '@/components/moleculs/Header';
 import MediaCard from '@/components/moleculs/MediaCard';
 import { lang, langSelecter } from '@/languages';
 import { findNewsRelease } from '@/services/StrapiService';
 import { NewsReleaseFindResponse } from '@/types/StrapiModel';
+import { NAVIGATIONS } from '@/types/navigations';
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
-import { useTheme } from '@mui/material/styles';
+import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
+import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import Head from 'next/head';
-import { GetServerSideProps, NextPage } from 'next/types';
 import Image from 'next/image';
-import news from '@/assets/icon/news.svg';
-import Toolbar from '@mui/material/Toolbar';
-import Header from '@/components/moleculs/Header';
-import { NAVIGATIONS } from '@/types/navigations';
+import { GetServerSideProps, NextPage } from 'next/types';
 
 interface Props {
   i18n: lang['news'];
@@ -88,7 +88,12 @@ const News: NextPage<Props> = ({ i18n, newsReleases, locale }) => {
   );
 };
 
-const getServerSideProps: GetServerSideProps<Props> = async ({ locale, defaultLocale }) => {
+const getServerSideProps: GetServerSideProps<Props> = async ({ locale, defaultLocale, req }) => {
+  // logs
+  const ip = req.headers['x-forwarded-for'];
+  const userAgent = req.headers['user-agent'];
+  console.log('access log', { ip, userAgent, headers: req.headers });
+
   const articles = await findNewsRelease(locale, { isIncludeMedia: true });
   return {
     props: {
